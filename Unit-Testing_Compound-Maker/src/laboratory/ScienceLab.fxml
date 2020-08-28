@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="laboratory.ScienceLabController">
+  <children>
+    <SplitPane dividerPositions="0.12490974729241877, 0.5342960288808665" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+      <items>
+            <TabPane maxWidth="-Infinity" minWidth="-Infinity" prefHeight="882.0" prefWidth="169.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="View">
+                  <content>
+                    <AnchorPane maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="820.0" prefWidth="180.0">
+                           <children>
+                              <Pane layoutX="25.0" layoutY="268.0" prefHeight="538.0" prefWidth="120.0">
+                                 <children>
+                                    <ComboBox fx:id="elementComboBox" layoutX="1.0" layoutY="28.0" onAction="#tvDisplayCompounds_WithElement" prefHeight="26.0" prefWidth="115.0" promptText="Element" />
+                                    <ComboBox fx:id="stateComboBox" layoutX="1.0" layoutY="112.0" onAction="#tvDisplayCompounds_WithElementInState" prefHeight="26.0" prefWidth="115.0" promptText="State" />
+                                    <Label layoutX="10.0" layoutY="74.0" text="Compounds with&#10;elements in state" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="11.0" />
+                                       </font>
+                                    </Label>
+                                    <ComboBox fx:id="groupComboBox" layoutX="1.0" layoutY="205.0" onAction="#tvDisplayCompounds_WithElementInGroup" prefHeight="26.0" prefWidth="115.0" promptText="Group" />
+                                    <Label layoutX="1.0" layoutY="6.0" text=" Compounds contain">
+                                       <font>
+                                          <Font size="11.0" />
+                                       </font>
+                                    </Label>
+                                    <ComboBox fx:id="doublesComboBoxA" layoutX="3.0" layoutY="306.0" prefHeight="26.0" prefWidth="115.0" promptText="Mass Min" />
+                                    <ComboBox fx:id="doublesComboBoxB" layoutX="3.0" layoutY="340.0" prefHeight="26.0" prefWidth="115.0" promptText="Mass Max" />
+                                    <Label layoutX="2.0" layoutY="285.0" text="Compounds in range" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="11.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="9.0" layoutY="167.0" text="Compounds with&#10;elements in group" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="11.0" />
+                                       </font>
+                                    </Label>
+                                    <Button fx:id="btnCompoundsInRange" layoutX="26.0" layoutY="378.0" mnemonicParsing="false" onAction="#tvDisplayCompounds_InMassRange" prefHeight="26.0" prefWidth="65.0" text="Display">
+                                       <font>
+                                          <Font size="12.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                              </Pane>
+                              <ComboBox fx:id="allCompoundsComboBoxA" layoutX="27.0" layoutY="124.0" prefHeight="26.0" prefWidth="115.0" promptText="Cmpd 1" />
+                              <ComboBox fx:id="allCompoundsComboBoxB" layoutX="27.0" layoutY="156.0" prefHeight="26.0" prefWidth="115.0" promptText="Cmpd 2" />
+                              <Label layoutX="26.0" layoutY="104.0" text="Elements in common">
+                                 <font>
+                                    <Font size="11.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="btnFindCommonElements" layoutX="52.0" layoutY="203.0" mnemonicParsing="false" onAction="#displayCommonElements" prefHeight="26.0" prefWidth="65.0" text="Display">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font></Button>
+                              <SplitMenuButton layoutX="16.0" layoutY="14.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="141.0" text="Elements">
+                                <items>
+                                    <MenuItem fx:id="miDisplayElements" mnemonicParsing="false" onAction="#tvDisplayElements" onMenuValidation="#tvDisplayElements" text="All Elements" />
+                                    <MenuItem fx:id="miDisplaySolidElements" mnemonicParsing="false" onAction="#tvDisplaySolidElements" text="solid elements" />
+                                    <MenuItem fx:id="miDisplayLiquidElements" mnemonicParsing="false" onAction="#tvDisplayLiquidElements" text="liquid elements" />
+                                    <MenuItem fx:id="miDisplayGasElement" mnemonicParsing="false" onAction="#tvDisplayGasElements" text="gas elements" />
+                                    <MenuItem fx:id="miDisplayUnknownElements" mnemonicParsing="false" onAction="#tvDisplayUnknownElements" text="unknown elements" />
+                                </items>
+                              </SplitMenuButton>
+                              <SplitMenuButton layoutX="16.0" layoutY="51.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="141.0" text="Compounds">
+                                <items>
+                                    <MenuItem fx:id="miDisplayCompoundsByName" mnemonicParsing="false" onAction="#tvDisplayCompounds_ByName" text="By Name" />
+                                    <MenuItem fx:id="miDisplayCompoundsByFormula" mnemonicParsing="false" onAction="#tvDisplayCompounds_ByFormula" text="By Formula" />
+                                    <MenuItem fx:id="miDisplayCompoundsByHillFormula" mnemonicParsing="false" onAction="#tvDisplayCompounds_ByHillFormula" text="By HillFormula" />
+                                    <MenuItem fx:id="miDisplayCompoundsByMolecularMass" mnemonicParsing="false" onAction="#tvDisplayCompounds_ByMass" onMenuValidation="#tvDisplayCompounds_ByMass" text="By Mass" />
+                                </items>
+                              </SplitMenuButton>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab text="Edit">
+                  <content>
+                    <AnchorPane maxWidth="-Infinity" minHeight="0.0" minWidth="-Infinity" prefHeight="848.0" prefWidth="155.0">
+                           <children>
+                              <Button fx:id="btnCombineCompounds" layoutX="58.0" layoutY="472.0" mnemonicParsing="false" onAction="#combine2Compounds" text="Merge">
+                                 <font>
+                                    <Font size="11.0" />
+                                 </font></Button>
+                              <ComboBox fx:id="allCompoundsComboBoxD" layoutX="26.0" layoutY="438.0" prefHeight="26.0" prefWidth="115.0" promptText="Cmpd 2" />
+                              <ComboBox fx:id="allCompoundsComboBoxC" layoutX="26.0" layoutY="404.0" prefHeight="26.0" prefWidth="115.0" promptText="Cmpd 1" />
+                              <Label layoutX="21.0" layoutY="322.0" text="Combine Compounds&#10;to create a new one" textAlignment="CENTER">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="combinedName" layoutX="28.0" layoutY="364.0" prefHeight="26.0" prefWidth="115.0" promptText="Name" />
+                              <Label layoutX="47.0" layoutY="14.0" text="Edit&#10;Compounds" textAlignment="CENTER" />
+                              <TextField fx:id="editCompound" layoutX="28.0" layoutY="72.0" prefHeight="26.0" prefWidth="115.0" promptText="Edit Name" />
+                              <Button fx:id="btnAddElementToEditCompound" layoutX="99.0" layoutY="114.0" mnemonicParsing="false" onAction="#addElementToEditCompound" prefHeight="55.0" prefWidth="61.0" text="+">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Button>
+                              <ComboBox fx:id="elementComboBox3" layoutX="12.0" layoutY="114.0" prefHeight="17.0" prefWidth="86.0" promptText="Elements" />
+                              <ComboBox fx:id="intComboBox2" layoutX="12.0" layoutY="141.0" prefHeight="24.0" prefWidth="86.0" promptText="#" />
+                              <Button fx:id="btnAddEditedCompound" layoutX="26.0" layoutY="180.0" mnemonicParsing="false" onAction="#addEditedCompound" text="Make Changes" />
+                              <Label layoutX="23.0" layoutY="217.0" text="Be sure a compound is&#10;selected from table on&#10;right before clicking&#10;&quot;Make Changes&quot;" textAlignment="CENTER">
+                                 <font>
+                                    <Font size="11.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                  <Tab text="File">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <SplitMenuButton layoutX="26.0" layoutY="14.0" mnemonicParsing="false" text="Read/Write">
+                                <items>
+                                  <MenuItem fx:id="miReadCompounds" mnemonicParsing="false" onAction="#readListOfCompounds" text="Import from ListOfCompounds.txt" />
+                                  <MenuItem fx:id="miWriteCompounds" mnemonicParsing="false" onAction="#writeListOfCompounds" text="Export to ListOfCompounds.txt" />
+                                </items>
+                              </SplitMenuButton>
+                           </children></AnchorPane>
+                    </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+        <ScrollPane>
+          <content>
+            <AnchorPane id="Content" minHeight="-1.0" minWidth="-Infinity" prefHeight="889.0" prefWidth="600.0">
+              <children>
+                <Label alignment="CENTER" layoutX="30.0" layoutY="3.0" style="&#10;" text=" Compounds" textAlignment="CENTER" wrapText="false">
+                           <font>
+                      <Font size="19.0" fx:id="x1" />
+                           </font></Label>
+                        <TableView fx:id="compoundTableView" layoutY="79.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1253.0" style="-fx-background-color: #;" AnchorPane.bottomAnchor="-54.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-653.0" AnchorPane.topAnchor="79.0" />
+                        <TextField fx:id="addCompound" layoutX="14.0" layoutY="33.0" prefHeight="37.0" prefWidth="120.0" promptText="New Compound" />
+                        <ComboBox fx:id="elementComboBox2" layoutX="146.0" layoutY="33.0" prefHeight="37.0" prefWidth="114.0" promptText="Elements" />
+                        <ComboBox fx:id="intComboBox" layoutX="268.0" layoutY="33.0" prefHeight="37.0" prefWidth="68.0" promptText="#" />
+                        <Button fx:id="btnAddElementToCompound" layoutX="344.0" layoutY="33.0" mnemonicParsing="false" onAction="#addElementToNewCompound" prefHeight="37.0" prefWidth="32.0" text="+">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="btnCreateCompound" layoutX="382.0" layoutY="33.0" mnemonicParsing="false" onAction="#addNewCompound" prefHeight="37.0" prefWidth="112.0" style="-fx-border-color: green; -fx-border-style: dotted;" text="Add Compound">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="btnRemoveCompound" layoutX="380.0" layoutY="4.0" mnemonicParsing="false" onAction="#removeCompound" style="-fx-border-color: red; -fx-border-style: dotted;" text="Remove Compound">
+                           <font>
+                              <Font size="11.0" />
+                           </font>
+                        </Button>
+              </children>
+            </AnchorPane>
+          </content>
+        </ScrollPane>
+            <ScrollPane layoutX="10.0" layoutY="10.0" prefHeight="-1.0" prefWidth="-1.0" style="-fx-background-color: #9f9f9f;">
+               <content>
+                  <AnchorPane id="Content" maxWidth="-Infinity" minHeight="-1.0" prefHeight="893.0" prefWidth="600.0">
+                     <children>
+                        <Label alignment="CENTER" layoutX="14.0" layoutY="2.0" prefHeight="25.0" prefWidth="355.0" style="&#10;" text="Periodic Table of the Elements" textAlignment="CENTER" wrapText="false">
+                           <font>
+                              <Font size="20.0" fx:id="x11" />
+                           </font>
+                        </Label>
+                        <TableView fx:id="elementTableView" layoutX="-1.0" layoutY="78.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="900.0" prefWidth="1500.0">
+                           <columns>
+                   
+                           </columns>
+                           <effect>
+                              <Blend />
+                           </effect>
+                        </TableView>
+                        <Label fx:id="elementsLabel" layoutX="15.0" layoutY="43.0" prefHeight="25.0" prefWidth="577.0" text="Elements" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </ScrollPane>
+      </items>
+    </SplitPane>
+    <HBox id="HBox" alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="1306.0" spacing="5.0" VBox.vgrow="NEVER">
+      <children>
+        <Label fx:id="leftStatus" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="17.0" prefWidth="670.0" text="Left status" HBox.hgrow="ALWAYS" />
+        <Pane prefHeight="15.0" prefWidth="967.0" HBox.hgrow="ALWAYS" />
+        <Label fx:id="rightStatus" alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="17.0" prefWidth="650.0" text="Right status" textAlignment="RIGHT" HBox.hgrow="NEVER" />
+      </children>
+      <padding>
+        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+      </padding>
+    </HBox>
+  </children>
+</VBox>

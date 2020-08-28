@@ -1,0 +1,56 @@
+Ammonia
+NH3
+Ammonium
+NH4
+Ammonium Chloride
+NH4Cl
+Ammonium Fluoride
+NH4F
+Calcium Bromide
+CaBr2
+Chloride
+Cl
+Cobalt sulfate
+CoSO4
+Ferrous Sulfate
+FeSO4
+Fluoride
+F
+Glucose
+C6H12O6
+Hill Formula Test
+Ts24Cm6H5C10
+Hydrogen Peroxide
+H2O2
+Iron
+Fe
+Mercury(I) Chloride
+Hg2Cl2
+Methamphetamine
+C10H15N
+Potassium Bromate
+KBrO3
+Silanol
+SiH4O
+Silicon Dioxide
+SiO2
+Silver Bromide
+AgBr
+Sulfate
+SO4
+Sulfur trioxide
+SO3
+Titanium Nitride
+TiN
+Titanium isopropoxide
+C12H28O4Ti
+Tungsten(VI) Fluoride
+WF6
+Uranium Hexafluoride
+UF6
+Water
+H2O
+Xenon Oxytetrafluoride
+XeOF4
+Ytterbium(III) Bromide
+YbBr3
