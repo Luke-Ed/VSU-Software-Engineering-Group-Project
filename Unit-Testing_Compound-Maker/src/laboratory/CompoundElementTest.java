@@ -15,19 +15,4 @@ class CompoundElementTest {
     void testComputeMolecularMass() {
         assert(true);
     }
-
-    @Test
-    void testCompoundNameComparator() {
-        assert(true);
-    }
-
-    @Test
-    void testFormulaComparator() {
-        assert(true);
-    }
-
-    @Test
-    void testMolecularMassComparator() {
-        assert(true);
-    }
 }

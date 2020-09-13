@@ -75,11 +75,6 @@ public class PeriodicTable{
     return liquidElements;
   }
 
-
-
-
-
-
   public ObservableList<Element> getGasElements() {
     ObservableList<Element> gasElements = FXCollections.observableArrayList();
 
@@ -91,11 +86,6 @@ public class PeriodicTable{
     Collections.sort(gasElements,new MassCompare());
     return gasElements;
   }
-
-
-
-
-
 
   public ObservableList<Element> getUnknownElements() {
     ObservableList<Element> unknownElements =  FXCollections.observableArrayList();
