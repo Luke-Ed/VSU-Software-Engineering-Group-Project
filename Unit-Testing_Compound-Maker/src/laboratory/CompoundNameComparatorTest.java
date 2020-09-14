@@ -36,12 +36,48 @@ class CompoundNameComparatorTest {
     @Test
     @DisplayName("Test Compound Name Less Than")
     void testCompare_CompoundNameLessThan() {
+        ArrayList<Element> elements1 = new ArrayList<Element>();
+        ArrayList<Element> elements2 = new ArrayList<Element>();
 
+        Element hydro1 = new Element(1, "Hydrogen", "H", 1.0079, 3, 8, 3);
+        Element nitro = new Element(7, "Nitrogen", "N", 14.0067, 3, 8, 1);
+        elements1.add(hydro1);
+        elements1.add(nitro);
+
+        Element hydro2 = new Element(1, "Hydrogen", "H", 1.0079, 3, 8, 2);
+        Element oxyg = new Element(8, "Oxygen", "O", 15.9994, 3, 8, 1);
+        elements2.add(hydro2);
+        elements2.add(oxyg);
+
+        CompoundElement compound1 = new CompoundElement("NH3", elements1);
+        CompoundElement compound2 = new CompoundElement("Water", elements2);
+
+        CompoundNameComparator cnc = new CompoundNameComparator();
+
+        assertTrue(cnc.compare(compound1, compound2) < 0);
     }
 
     @Test
     @DisplayName("Test Compound Name Equal To")
     void testCompare_CompoundNameEqualTo() {
+        ArrayList<Element> elements1 = new ArrayList<Element>();
+        ArrayList<Element> elements2 = new ArrayList<Element>();
 
+        Element hydro1 = new Element(1, "Hydrogen", "H", 1.0079, 3, 8, 2);
+        Element oxyg1 = new Element(8, "Oxygen", "O", 15.9994, 3, 8, 1);
+        elements1.add(hydro1);
+        elements1.add(oxyg1);
+
+        Element hydro2 = new Element(1, "Hydrogen", "H", 1.0079, 3, 8, 2);
+        Element oxyg2 = new Element(8, "Oxygen", "O", 15.9994, 3, 8, 1);
+        elements2.add(hydro2);
+        elements2.add(oxyg2);
+
+        CompoundElement compound1 = new CompoundElement("Water", elements1);
+        CompoundElement compound2 = new CompoundElement("Water", elements2);
+
+        CompoundNameComparator cnc = new CompoundNameComparator();
+
+        assertTrue(cnc.compare(compound1, compound2) == 0);
     }
 }
