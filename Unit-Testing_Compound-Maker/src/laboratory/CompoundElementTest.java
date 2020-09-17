@@ -15,7 +15,7 @@ class CompoundElementTest {
         // ArrayList to hold the elements for the Water compound
         ArrayList<Element> elements = new ArrayList<>();
 
-        // Create and add Hydrogen and Nitrogen to elements (Water)
+        // Create and add Hydrogen and Oxygen to elements (Water)
         Element hydrogen = new Element(1, "Hydrogen", "H", 1.0079, 3, 8, 2);
         Element oxygen = new Element(8, "Oxygen", "O", 15.9994, 3, 8, 1);
         elements.add(hydrogen);
@@ -27,7 +27,7 @@ class CompoundElementTest {
         // Create actual formula name
         String water_Formula = "H2O";
 
-        // Assert that the compound of 2 Hydrogen and 1 oxygen elements equals the water_Formula: H2O
+        // Assert that the compound of 2 Hydrogen and 1 Oxygen elements equals the water_Formula: H2O
         assertEquals(water_Formula, compound.getFormula());
     }
 
@@ -49,7 +49,7 @@ class CompoundElementTest {
         // Create actual formula name
         String water_Formula = "H2O";
 
-        // Assert that the compound of 1 oxygen and 2 Hydrogen elements equals the water_Formula: H2O
+        // Assert that the compound of 1 Oxygen and 2 Hydrogen elements equals the water_Formula: H2O
         assertEquals(water_Formula, compound.getFormula());
     }
 
