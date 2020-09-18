@@ -17,7 +17,7 @@ class PeriodicTableTest {
   @Test
   @DisplayName("Test GetSolidElements()")
   // The expected behavior of the method is to return an ObservableList containing only elements with a solid state of matter.
-  void getSolidElements() {
+  void test_getSolidElements() {
     // Create a list which contains all elements, this will be filtered in the test code, and then sorted.
     ObservableList<Element> allElements = periodicTable.getAllElements();
 
@@ -47,7 +47,7 @@ class PeriodicTableTest {
   @Test
   @DisplayName("Test GetLiquidElements()")
     // The expected behavior of the method is to return an ObservableList containing only elements with a liquid state of matter.
-  void getLiquidElements() {
+  void test_getLiquidElements() {
     // Create a list which contains all elements, this will be filtered in the test code, and then sorted.
     ObservableList<Element> allElements = periodicTable.getAllElements();
 
@@ -77,12 +77,12 @@ class PeriodicTableTest {
   @Test
   @DisplayName("Test GetUnknownElements")
     // The expected behavior of the method is to return an ObservableList containing only elements with a unknown state of matter.
-  void getUnknownElements() {
+  void test_getUnknownElements() {
     // Create a list which contains all elements, this will be filtered in the test code, and then sorted.
     ObservableList<Element> allElements = periodicTable.getAllElements();
 
     // Create a list of solid elements from using the method to be tested.
-    ObservableList<Element> liquidElements = periodicTable.getUnknownElements();
+    ObservableList<Element> unknownElements = periodicTable.getUnknownElements();
 
     // Create an arrayList as you can't make an empty ObservableList.
     ArrayList<Element> expectedElementsArrayList = new ArrayList<>();
@@ -94,11 +94,11 @@ class PeriodicTableTest {
     ObservableList<Element> expectedElements = FXCollections.observableArrayList(expectedElementsArrayList);
 
     // Sort both lists using the same comparator, in order to make sure that elements are ordered correctly for comparison.
-    liquidElements.sort(new AtomicNumberComparator());
+    unknownElements.sort(new AtomicNumberComparator());
     expectedElements.sort(new AtomicNumberComparator());
 
     // Assert that the expectedElements list matches theSolidElements list.
-    assertEquals(expectedElements, liquidElements);
+    assertEquals(expectedElements, unknownElements);
 
     // Assert that the expectedElements list is not the same as allElements list.
     assertNotEquals(allElements, expectedElements);
