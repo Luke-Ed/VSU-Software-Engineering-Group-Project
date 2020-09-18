@@ -46,7 +46,7 @@ class PeriodicTableTest {
 
   @Test
   @DisplayName("Test GetLiquidElements()")
-    // The expected behavior of the method is to return an ObservableList containing only elements with a solid state of matter.
+    // The expected behavior of the method is to return an ObservableList containing only elements with a liquid state of matter.
   void getLiquidElements() {
     // Create a list which contains all elements, this will be filtered in the test code, and then sorted.
     ObservableList<Element> allElements = periodicTable.getAllElements();
@@ -76,6 +76,7 @@ class PeriodicTableTest {
 
   @Test
   @DisplayName("Test GetUnknownElements")
+    // The expected behavior of the method is to return an ObservableList containing only elements with a unknown state of matter.
   void getUnknownElements() {
     // Create a list which contains all elements, this will be filtered in the test code, and then sorted.
     ObservableList<Element> allElements = periodicTable.getAllElements();
