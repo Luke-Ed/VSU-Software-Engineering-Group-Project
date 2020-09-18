@@ -18,7 +18,8 @@ public class PeriodicTable{
     try {
       //Copy Elements from a file
       periodicTable = new ArrayList<Element>();
-      File elementText = new File("src/ListOfElements.txt");
+      //File elementText = new File("src/ListOfElements.txt");
+      File elementText = new File(this.getClass().getResource("/ListOfElements.txt").getFile());
       Scanner elementReader = new Scanner(elementText);
       while (elementReader.hasNext()) {
         //Getting values from file for creating a new element
