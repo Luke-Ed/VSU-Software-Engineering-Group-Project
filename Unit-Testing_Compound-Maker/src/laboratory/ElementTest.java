@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ElementTest{
 
   @Test
-  @DisplayName("Testing for positive difference in atomic numbers.")
+  @DisplayName("Test compareTo - Greater Than")
   void testCompareTo_positive_difference(){
     //Creating Elements to test.
     Element Fluorine = new Element(9, "Fluorine", "F", 18.9984, 3, 8);
@@ -18,7 +18,7 @@ class ElementTest{
   }
 
   @Test
-  @DisplayName("Testing for zero difference in atomic numbers.")
+  @DisplayName("Test compareTo - Equal To")
   void testCompareTo_zero_difference(){
     //Creating Elements to test.
     Element Molybdenum1 = new Element(42, "Molybdenum", "Mo", 95.94, 1, 5);
@@ -29,7 +29,7 @@ class ElementTest{
   }
 
   @Test
-  @DisplayName("Testing for negative difference in atomic numbers.")
+  @DisplayName("Test compareTo - Less Than")
   void testCompareTo_negative_difference(){
     //Creating Elements to test.
     Element Bromine = new Element(35, "Bromine", "Br", 79.904, 2, 8);
@@ -40,7 +40,7 @@ class ElementTest{
   }
 
   @Test
-  @DisplayName("Testing for a positive difference between element names.")
+  @DisplayName("Test ElementNameCompare compare - Greater Than")
   void testCompare_larger_element_name(){
     //Creating Elements to test.
     Element Osmium = new Element(76, "Osmium", "Os", 190.23, 1, 5);
@@ -54,7 +54,7 @@ class ElementTest{
   }
 
   @Test
-  @DisplayName("Testing for no difference between element names.")
+  @DisplayName("Test ElementNameCompare compare - Equal To")
   void testCompare_same_element_name(){
     //Creating Elements to test.
     Element Calcium1 = new Element(20, "Calcium", "Ca", 40.078, 1, 2);
@@ -68,7 +68,7 @@ class ElementTest{
   }
 
   @Test
-  @DisplayName("Testing for a negative difference between element names.")
+  @DisplayName("Test ElementNameCompare compare - Less Than")
   void testCompare_smaller_element_name(){
     //Creating Elements to test.
     Element Carbon = new Element(6, "Carbon", "C", 12.0107, 1, 8);
@@ -82,7 +82,7 @@ class ElementTest{
   }
 
   @Test
-  @DisplayName("Testing for a positive difference in atomic numbers.")
+  @DisplayName("Test AtomicNumberComparator compare - Greater Than")
   void testCompare_positive_difference(){
     //Creating Elements to test.
     Element Osmium = new Element(76, "Osmium", "Os", 190.23, 1, 5);
@@ -96,7 +96,7 @@ class ElementTest{
   }
 
   @Test
-  @DisplayName("Testing for no difference in atomic numbers.")
+  @DisplayName("Test AtomicNumberComparator compare - Equal To")
   void testCompare_zero_difference(){
     //Creating Elements to test.
     Element Calcium1 = new Element(20, "Calcium", "Ca", 40.078, 1, 2);
@@ -110,7 +110,7 @@ class ElementTest{
   }
 
   @Test
-  @DisplayName("Testing for a negative difference in atomic numbers.")
+  @DisplayName("Test AtomicNumberComparator compare - Less Than")
   void testCompare_negative_difference(){
     //Creating Elements to test.
     Element Carbon = new Element(6, "Carbon", "C", 12.0107, 1, 8);
@@ -124,7 +124,7 @@ class ElementTest{
   }
 
   @Test
-  @DisplayName("Testing for a positive difference in atomic mass.")
+  @DisplayName("Test MassCompare compare - Greater Than")
   void testCompare_larger_atomic_mass(){
     //Creating Elements to test.
     Element Osmium = new Element(76, "Osmium", "Os", 190.23, 1, 5);
@@ -138,7 +138,7 @@ class ElementTest{
   }
 
   @Test
-  @DisplayName("Testing for no difference in atomic mass.")
+  @DisplayName("Test MassCompare compare - Equal To")
   void testCompare_same_atomic_mass(){
     //Creating Elements to test.
     Element Calcium1 = new Element(20, "Calcium", "Ca", 40.078, 1, 2);
@@ -152,7 +152,7 @@ class ElementTest{
   }
 
   @Test
-  @DisplayName("Testing for a negative difference in atomic mass.")
+  @DisplayName("Test MassCompare compare - Less Than")
   void testCompare_smaller_atomic_mass(){
     //Creating Elements to test.
     Element Carbon = new Element(6, "Carbon", "C", 12.0107, 1, 8);
@@ -166,7 +166,7 @@ class ElementTest{
   }
 
   @Test
-  @DisplayName("Testing for a positive difference between element symbols.")
+  @DisplayName("Test SymbolCompare compare - Greater Than")
   void testCompare_larger_element_symbol(){
     //Creating Elements to test. (Elements with chemical symbols that differ from their element name were chosen.)
     Element Potassium = new Element(19, "Potassium", "K", 39.0983, 1, 1);
@@ -180,7 +180,7 @@ class ElementTest{
   }
 
   @Test
-  @DisplayName("Testing for no difference between element symbols.")
+  @DisplayName("Test SymbolCompare compare - Equal To")
   void testCompare_same_element_symbol(){
     //Creating Elements to test.
     Element Calcium1 = new Element(20, "Calcium", "Ca", 40.078, 1, 2);
@@ -194,7 +194,7 @@ class ElementTest{
   }
 
   @Test
-  @DisplayName("Testing for a negative difference between element symbols.")
+  @DisplayName("Test SymbolCompare compare - Less Than")
   void testCompare_smaller_element_symbol(){
     //Creating Elements to test. (Elements with chemical symbols that differ from their element name were chosen.)
     Element Potassium = new Element(19, "Potassium", "K", 39.0983, 1, 1);
