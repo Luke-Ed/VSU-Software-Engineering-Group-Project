@@ -26,7 +26,7 @@ class PeriodicTableTest {
   }
 
   @Test
-  @DisplayName("Test getElementBySymbol() - Pass Expected")
+  @DisplayName("Test getElementBySymbol()")
   void test_getElementBySymbol() {
     // Initialize comparison variables for comparison with those obtained from getElementBySymbol()
     Element element_N = new Element(0, "", "", 0.0, 1, 1);
@@ -57,7 +57,7 @@ class PeriodicTableTest {
   
 
   @Test
-  @DisplayName("Test getSolidElements() - Pass Expected")
+  @DisplayName("Test getSolidElements()")
     // The expected behavior of the method is to return an ObservableList containing only elements with a solid state of matter.
   void test_getSolidElements() {
     // Create a list of solid elements from using the method to be tested.
@@ -78,7 +78,7 @@ class PeriodicTableTest {
   }
 
   @Test
-  @DisplayName("Test getLiquidElements() - Pass Expected")
+  @DisplayName("Test getLiquidElements()")
     // The expected behavior of the method is to return an ObservableList containing only elements with a liquid state of matter.
   void test_getLiquidElements() {
     // Create a list of solid elements from using the method to be tested.
@@ -100,7 +100,7 @@ class PeriodicTableTest {
   }
 
   @Test
-  @DisplayName("test GetGasElements() - Pass Expected")
+  @DisplayName("test GetGasElements()")
   void test_getGasElements() {
     // Create an observable list to hold result from getGasElements
     ObservableList<Element> pt_GasElements = periodicTable.getGasElements();
@@ -123,7 +123,7 @@ class PeriodicTableTest {
   }
 
   @Test
-  @DisplayName("Test getUnknownElements() - Pass Expected")
+  @DisplayName("Test getUnknownElements()")
     // The expected behavior of the method is to return an ObservableList containing only elements with a unknown state of matter.
   void test_getUnknownElements() {
     // Create a list of solid elements from using the method to be tested.
