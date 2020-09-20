@@ -245,9 +245,11 @@ class CompoundElementTest {
   @Test
   @DisplayName("Test computeHillFormula() - Pass Expected")
   void test_computeHillFormula(){
+    // Create String versions of the Hill formulas for Ammonia and Water.
     String ammoniaHillFormula = "H3N";
     String waterHillFormula = "H2O";
 
+    // Verify that both versions match so that the Hill formula Comparator can be tested with these compounds.
     assertEquals(waterHillFormula, compound_Water_1.getHillFormula());
     assertEquals(ammoniaHillFormula, compound_Ammonia.getHillFormula());
   }
@@ -257,6 +259,7 @@ class CompoundElementTest {
   void test_HillCompareGreater(){
     HillFormulaComparator hFC = new HillFormulaComparator();
 
+    // Verify that Ammonia comes before water.
     assertTrue(hFC.compare(compound_Ammonia, compound_Water_1) > 0);
   }
 
@@ -265,6 +268,7 @@ class CompoundElementTest {
   void test_HillCompareLess(){
     HillFormulaComparator hFC = new HillFormulaComparator();
 
+    // Verify that water comes after ammonia
     assertTrue(hFC.compare(compound_Water_1, compound_Ammonia) < 0);
   }
 
@@ -273,6 +277,7 @@ class CompoundElementTest {
   void test_HillCompareEqual(){
     HillFormulaComparator hFC = new HillFormulaComparator();
 
+    // Verify that the two instances of water have the same hill formulas.
     assertTrue(hFC.compare(compound_Water_1, compound_Water_2) == 0);
   }
 
