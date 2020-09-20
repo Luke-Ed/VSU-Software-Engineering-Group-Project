@@ -14,17 +14,15 @@ public class ChemicalPlaygroundTest {
 
 
   @Test
-  @DisplayName("Test to create an element from a given formula")
-  void testCreateElementFromFomula(){
+  @DisplayName("Test createElementFromFormula()")
+  void testCreateElementFromFormula(){
     //creating a ChemicalPlayground object to call the createElementFromFormula method
     ChemicalPlayground cp = new ChemicalPlayground();
-    String compounds = cp.importCompoundsFromFile();
 
     //creating a String for the formula for water H2O
-    String formula = "H2O1";
+    String formula = "H2O";
 
     //making an array list with the createElementFromFormula method called elementsByFormula.
-    System.out.println(formula);
     ArrayList<Element> elementsByFormula = cp.createElementsFromFormula(formula);
 
     //Creating a second array list to compare to the first one but put the elements in one by one
@@ -47,7 +45,7 @@ public class ChemicalPlaygroundTest {
   }
 
   @Test
-  @DisplayName("Test getCompounds_WithinMassRange")
+  @DisplayName("Test getCompounds_WithinMassRange()")
   void testGetCompounds_WithinMassRange(){
     //Creating a ChemicalPlayground to use the getCompounds_WithinMassRange
     ChemicalPlayground cp = new ChemicalPlayground();
@@ -80,12 +78,10 @@ public class ChemicalPlaygroundTest {
 
     //assert that the expectedCompoundElements list is not the same as the allCompounds list.
     assertNotEquals(allCompounds,expectedCompoundElements);
-
-
   }
 
   @Test
-  @DisplayName("Test getCompoundsContainElement")
+  @DisplayName("Test getCompoundsContainElement()")
   void testGetCompoundsContainElement(){
     //Creating a ChemicalPlayground and an Element to use for the method getCompoundsContainElement.
     ChemicalPlayground cp = new ChemicalPlayground();
@@ -99,8 +95,14 @@ public class ChemicalPlaygroundTest {
     ArrayList<CompoundElement> expectedCompoundElementsArrayList = new ArrayList<>();
 
 
-    //Filter the allCompoundElements to who contain the element oxygen in it.
-    allCompoundElements.stream().filter(x -> x.getElements().contains(oxygen)).forEach(expectedCompoundElementsArrayList::add);
+    // Filter the allCompoundElements to who contain the element oxygen in it.
+    for (CompoundElement e: allCompoundElements) {
+      for (Element element: e.getElements()){
+        if (element.getName().equals("Oxygen")){
+          expectedCompoundElementsArrayList.add(e);
+        }
+      }
+    }
 
     //Take the ArrayList and make it into an ObservableList
     ObservableList<CompoundElement> expectedCompoundElements = FXCollections.observableArrayList(expectedCompoundElementsArrayList);
@@ -119,7 +121,7 @@ public class ChemicalPlaygroundTest {
   }
 
   @Test
-  @DisplayName("Test getCompoundsContainElement_WithGroup")
+  @DisplayName("Test getCompoundsContainElement_WithGroup()")
   void testGetCompoundsContainElement_WithGroup(){
     //Creating a ChemicalPlayground to use the getCompoundsContainElement_WithGroup
     ChemicalPlayground cp = new ChemicalPlayground();
@@ -162,20 +164,17 @@ public class ChemicalPlaygroundTest {
   }
 
   @Test
-  @DisplayName("Test getCompoundsContainElement_WithState")
+  @DisplayName("Test getCompoundsContainElement_WithState()")
   void testGetCompoundsContainElement_WithState(){
     //Creating a ChemicalPlayground to use the getCompoundsContainElement_WithState
     ChemicalPlayground cp = new ChemicalPlayground();
-
-    String gas = "Gas";
-    String liquid = "Liquid";
 
     //ObservableList with all the compound elements
     ObservableList<CompoundElement> allCompoundElements = cp.getAllCompounds_OrderedName();
 
     //ObservableList with all the compounds that have an element with the state gas in it.
-    ObservableList<CompoundElement> elementsWithStateGas = cp.getCompoundsContainElement_WithState(gas);
-    ObservableList<CompoundElement> elementsWithStateLiquid = cp.getCompoundsContainElement_WithState(liquid);
+    ObservableList<CompoundElement> elementsWithStateGas = cp.getCompoundsContainElement_WithState("Gas");
+    ObservableList<CompoundElement> elementsWithStateLiquid = cp.getCompoundsContainElement_WithState("Liquid");
 
     //ArrayList to put the elements with the state Gas into it.
     ArrayList<CompoundElement> expectedCompoundElementsArrayList = new ArrayList<>();
@@ -186,11 +185,15 @@ public class ChemicalPlaygroundTest {
     //Loop going through all the CompoundElements then the Elements to get the State and if it equals the state Gas then put it into the ArrayList
     for(CompoundElement ce: allCompoundElements){
       for(Element e : ce.getElements()){
-        if(e.getState().equals(gas)){
-          expectedCompoundElementsArrayList.add(ce);
+        if(e.getState().equals("Gas")){
+          if (!expectedCompoundElementsArrayList.contains(ce)){
+            expectedCompoundElementsArrayList.add(ce);
+          }
         }
-        if(e.getState().equals(liquid)){
-          elementsWithStateLiquid.add(ce);
+        if(e.getState().equals("Liquid")){
+          if (!expectedCompoundElementsArrayList.contains(ce)){
+            elementsWithStateLiquidArrayList.add(ce);
+          }
         }
       }
     }
@@ -221,15 +224,10 @@ public class ChemicalPlaygroundTest {
     //Assert to show that the allCompoundElements list is not equal to the expectedCompoundElements
     assertNotEquals(allCompoundElements,expectedCompoundElementsWithStateGas);
 
-
-
-
   }
 
-
-
   @Test
-  @DisplayName("Test getElementsInCommon")
+  @DisplayName("Test getElementsInCommon()")
   void testGetElementsInCommon(){
 
     //Creating a ChemicalPlayground to use the getCompoundsContainElement_WithState
@@ -252,7 +250,7 @@ public class ChemicalPlaygroundTest {
     elements_2.add(nitrogen_E2);
 
     //Create and add Silver and Bromine to elements_3 (Silver Bromide)
-    Element silver_E3 = new Element(47,"Silver", "Ag", 107.8682,1, 11,1);
+    Element silver_E3 = new Element(47,"Silver", "Ag", 107.8682,1, 5,1);
     Element bromine_E3 = new Element(35, "Bromine","Br", 79.904, 2,8,1);
     elements_3.add(silver_E3);
     elements_3.add(bromine_E3);
@@ -266,12 +264,8 @@ public class ChemicalPlaygroundTest {
     ObservableList<Element> compoundsWithElementInCommonHydrogen = cp.getElementsInCommon(compound_1,compound_2);
     ObservableList<Element> compoundWithNoElementsInCommon = cp.getElementsInCommon(compound_1,compound_3);
     
-    //Assert to see if compoundWithNoelementsInCommon is not equal to compoundsWithElementInCommonHydrogen.
+    //Assert to see if compoundWithNoElementsInCommon is not equal to compoundsWithElementInCommonHydrogen.
     assertNotEquals(compoundWithNoElementsInCommon,compoundsWithElementInCommonHydrogen);
-
-
-
-
   }
 
 

@@ -166,7 +166,7 @@ class ElementTest{
   }
 
   @Test
-  @DisplayName("Test SymbolCompare compare - Greater Than")
+  @DisplayName("Test SymbolCompare compare - Greater Than - Fail Expected")
   void testCompare_larger_element_symbol(){
     //Creating Elements to test. (Elements with chemical symbols that differ from their element name were chosen.)
     Element Potassium = new Element(19, "Potassium", "K", 39.0983, 1, 1);
@@ -180,7 +180,7 @@ class ElementTest{
   }
 
   @Test
-  @DisplayName("Test SymbolCompare compare - Equal To")
+  @DisplayName("Test SymbolCompare compare - Equal To - Fail Expected")
   void testCompare_same_element_symbol(){
     //Creating Elements to test.
     Element Calcium1 = new Element(20, "Calcium", "Ca", 40.078, 1, 2);

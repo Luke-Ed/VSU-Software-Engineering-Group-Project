@@ -113,8 +113,8 @@ class PeriodicTableTest {
     }
 
     // Sort both lists using the same comparator to ensure they are uniform
-    expectedElements.sort(new ElementNameCompare());
-    pt_GasElements.sort(new ElementNameCompare());
+    expectedElements.sort(new AtomicNumberComparator());
+    pt_GasElements.sort(new AtomicNumberComparator());
 
     // Assert that pt_AllElements is not empty
     // Assert that our expected elements list equals the gas elements list

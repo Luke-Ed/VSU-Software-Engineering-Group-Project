@@ -36,7 +36,8 @@ public class ChemicalPlayground {
   public String importCompoundsFromFile() {
     int counter = 0;
     try{
-      File compoundText = new File ("ListOfCompounds.txt");
+      //File compoundText = new File ("ListOfCompounds.txt");
+      File compoundText = new File(this.getClass().getResource("/ListOfCompounds.txt").getFile());
       Scanner compoundScanner = new Scanner (compoundText);
 
       while (compoundScanner.hasNextLine()) {
