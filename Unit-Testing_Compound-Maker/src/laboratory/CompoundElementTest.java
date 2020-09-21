@@ -184,7 +184,7 @@ class CompoundElementTest {
   }
 
   @Test
-  @DisplayName("Test computeFormula() - Unordered Elements")
+  @DisplayName("Test computeFormula() - Unordered Elements - Fail Expected")
   void testComputeFormula_UnorderedElements() {
     // ArrayList to hold the elements for the Water compound
     ArrayList<Element> elements = new ArrayList<>();
@@ -236,10 +236,7 @@ class CompoundElementTest {
 
     String sulfuricAcidHillFormula = "H204S";
 
-
-    // We are asserting this these values are not equals rather than having the test fail because it is not able to correctly compute
-    // the hill formula.
-
+    // This test is designed to fail as the hill formula is incorrectly computed for this compound, and likely others.
     assertEquals(sulfuricAcidHillFormula, sulfuricAcid.getHillFormula());
   }
   @Test

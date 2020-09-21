@@ -124,7 +124,7 @@ class PeriodicTableTest {
 
   @Test
   @DisplayName("Test getUnknownElements()")
-    // The expected behavior of the method is to return an ObservableList containing only elements with a unknown state of matter.
+    // The expected behavior of the method is to return an ObservableList containing only elements with an unknown state of matter.
   void test_getUnknownElements() {
     // Create a list of solid elements from using the method to be tested.
     ObservableList<Element> unknownElements = periodicTable.getUnknownElements();
