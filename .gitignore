@@ -27,4 +27,6 @@ hs_err_pid*
 /out/production/Team-1-Fall-20/
 
 # C# Project 
-Project-2-EMS/obj/
+/Project-2-EMS/obj/
+/Project-2-EMS/.vs
+/.vs
