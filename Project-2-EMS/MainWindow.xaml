@@ -6,7 +6,6 @@
         xmlns:local="clr-namespace:Project_2_EMS"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+  
+  <Grid/>
 </Window>
