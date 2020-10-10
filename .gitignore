@@ -25,3 +25,6 @@ hs_err_pid*
 # Bin Directory
 /bin/
 /out/production/Team-1-Fall-20/
+
+# C# Project 
+/obj/
