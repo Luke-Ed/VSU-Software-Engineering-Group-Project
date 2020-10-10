@@ -13,32 +13,39 @@ public class ChemicalPlaygroundTest {
   @Test
   @DisplayName("Test createElementFromFormula() - Fail Expected")
   void testCreateElementFromFormula(){
+    // Create the Periodic Table to grab elements from
+    PeriodicTable pt = new PeriodicTable();
+
     // Creating a ChemicalPlayground object to call the createElementFromFormula method
     ChemicalPlayground cp = new ChemicalPlayground();
-
-    // Creating a String for the formula for water H2O
-    String formula = "H2O";
-
-    // Making an array list with the createElementFromFormula method called elementsByFormula.
-    ArrayList<Element> elementsByFormula = cp.createElementsFromFormula(formula);
 
     // Creating a second array list to compare to the first one but put the elements in one by one
     ArrayList<Element> elementsByHand = new ArrayList<>();
 
     //Creating the elements to put into the array elementsByHand
-    Element hydrogen = new Element(1, "Hydrogen", "H", 1.0079, 3, 8, 2);
-    Element oxygen = new Element(8, "Oxygen", "O", 15.9994, 3, 8, 1);
+    Element hydrogen = pt.getElementBySymbol("H");
+    hydrogen.setNumAtoms(2);
+    Element oxygen = pt.getElementBySymbol("O");
     elementsByHand.add(hydrogen);
     elementsByHand.add(oxygen);
 
-    // Sorting both arrays to in order to compare them
+    // Creating a String for the formula for water H2O
+    CompoundElement water = new CompoundElement("Water", elementsByHand);
+
+    // Create the formula
+    String formula = water.getFormula();
+
+    // Making an array list with the createElementFromFormula method called elementsByFormula.
+    ArrayList<Element> elementsByFormula = cp.createElementsFromFormula(formula);
+
+    // Sorting both arrays in order to compare them
     ElementNameCompare elementNameCompare = new ElementNameCompare();
     elementsByFormula.sort(elementNameCompare);
     elementsByHand.sort(elementNameCompare);
 
     // Assert the both the arrays are equal, and that they both contain equal amounts of hydrogen and oxygen.
-    assertEquals(elementsByFormula,elementsByHand);
-
+    // This test fails because there is no equals method for elements so it is comparing them by their memory locations RS
+    assertEquals(elementsByFormula, elementsByHand);
   }
 
   @Test
@@ -208,45 +215,53 @@ public class ChemicalPlaygroundTest {
   }
 
   @Test
-  @DisplayName("Test getElementsInCommon() - Fail Expected")
+  @DisplayName("Test getElementsInCommon()")
   void testGetElementsInCommon(){
+    // Create periodic table to get elements
+    PeriodicTable pt = new PeriodicTable();
 
     //Creating a ChemicalPlayground to use the getCompoundsContainElement_WithState
     ChemicalPlayground cp = new ChemicalPlayground();
 
+    // Create ArrayLists to hold 3 groups of elements
     ArrayList<Element> elements_1 = new ArrayList<>();
     ArrayList<Element> elements_2 = new ArrayList<>();
     ArrayList<Element> elements_3 = new ArrayList<>();
 
-    // Create and add Hydrogen and Oxygen to elements_1 (Water)
-    Element hydrogen_E1 = new Element(1, "Hydrogen", "H", 1.0079, 3, 8, 2);
-    Element oxygen_E1 = new Element(8, "Oxygen", "O", 15.9994, 3, 8, 1);
-    elements_1.add(hydrogen_E1);
-    elements_1.add(oxygen_E1);
+    // Grab our elements from the periodic table (method tested in PeriodicTableTest)
+    Element hydrogen = pt.getElementBySymbol("H");
+    Element oxygen = pt.getElementBySymbol("O");
+    Element nitrogen = pt.getElementBySymbol("N");
+    Element silver = pt.getElementBySymbol("Ag");
+    Element bromine = pt.getElementBySymbol("Br");
 
-    // Create and add Hydrogen and Nitrogen to elements_2 (Ammonia)
-    Element hydrogen_E2 = new Element(1, "Hydrogen", "H", 1.0079, 3, 8, 3);
-    Element nitrogen_E2 = new Element(7, "Nitrogen", "N", 14.0067, 3, 8, 1);
-    elements_2.add(hydrogen_E2);
-    elements_2.add(nitrogen_E2);
+    // Add elements for Water
+    elements_1.add(hydrogen);
+    elements_1.add(oxygen);
 
-    //Create and add Silver and Bromine to elements_3 (Silver Bromide)
-    Element silver_E3 = new Element(47,"Silver", "Ag", 107.8682,1, 5,1);
-    Element bromine_E3 = new Element(35, "Bromine","Br", 79.904, 2,8,1);
-    elements_3.add(silver_E3);
-    elements_3.add(bromine_E3);
+    // Add elements for Ammonia
+    elements_2.add(hydrogen);
+    elements_2.add(nitrogen);
+
+    // Add elements for Silver Bromide
+    elements_3.add(silver);
+    elements_3.add(bromine);
 
     // Create compound_1 (Water) and compound_2 (Ammonia) and compound_3 (Silver Bromide)
     CompoundElement compound_1 = new CompoundElement("Water", elements_1);
     CompoundElement compound_2 = new CompoundElement("Ammonia", elements_2);
     CompoundElement compound_3 = new CompoundElement("Silver Bromide",elements_3);
 
-    //Make 2 ObservableList one where Hydrogen is the common element and the other where there is no element in common.
+    // Make 2 ObservableList one where Hydrogen is the common element and the other where there is no element in common.
     ObservableList<Element> compoundsWithElementInCommonHydrogen = cp.getElementsInCommon(compound_1,compound_2);
     ObservableList<Element> compoundWithNoElementsInCommon = cp.getElementsInCommon(compound_1,compound_3);
     
-    //Assert to see if compoundWithNoElementsInCommon is not equal to compoundsWithElementInCommonHydrogen.
-    assertNotEquals(compoundWithNoElementsInCommon,compoundsWithElementInCommonHydrogen);
+    // Assert that compoundsWithElementInCommonHydrogen contains hydrogen and nothing more
+    assertAll(() -> assertTrue(compoundsWithElementInCommonHydrogen.contains(hydrogen)),
+              () -> assertTrue(compoundsWithElementInCommonHydrogen.size() == 1));
+
+    // Assert that compoundWithNoElementsInCommon is empty
+    assertTrue(compoundWithNoElementsInCommon.isEmpty());
   }
 
 
