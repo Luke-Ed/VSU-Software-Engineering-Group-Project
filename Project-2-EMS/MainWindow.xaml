@@ -7,5 +7,17 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
   
-  <Grid/>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="10*"/>
+      <RowDefinition Height="80*"/>
+      <RowDefinition Height="10*"/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="10*"/>
+      <ColumnDefinition Width="80*"/>
+      <ColumnDefinition Width="10*"/>
+    </Grid.ColumnDefinitions>
+    <Button Content="Nurse View" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="1" Click="Button_Click"/>
+  </Grid>
 </Window>

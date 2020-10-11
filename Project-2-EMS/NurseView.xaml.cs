@@ -10,20 +10,15 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Project_2_EMS {
   /// <summary>
-  /// Interaction logic for MainWindow.xaml
+  /// Interaction logic for NurseView.xaml
   /// </summary>
-  public partial class MainWindow : Window {
-    public MainWindow() {
+  public partial class NurseView : Window {
+    public NurseView() {
       InitializeComponent();
-    }
-
-    private void Button_Click(object sender, RoutedEventArgs e) {
-      
     }
   }
 }
