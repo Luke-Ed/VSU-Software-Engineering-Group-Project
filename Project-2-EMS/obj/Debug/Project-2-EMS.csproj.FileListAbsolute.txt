@@ -13,3 +13,6 @@ C:\Users\Luke\source\repos\vsu-se\Team-1-Fall-20\Project-2-EMS\obj\Debug\Project
 C:\Users\Luke\source\repos\vsu-se\Team-1-Fall-20\Project-2-EMS\obj\Debug\Project-2-EMS.csproj.CoreCompileInputs.cache
 C:\Users\Luke\source\repos\vsu-se\Team-1-Fall-20\Project-2-EMS\obj\Debug\Project-2-EMS.exe
 C:\Users\Luke\source\repos\vsu-se\Team-1-Fall-20\Project-2-EMS\obj\Debug\Project-2-EMS.pdb
+C:\Users\Luke\source\repos\vsu-se\Team-1-Fall-20\Project-2-EMS\obj\Debug\NurseView.g.cs
+C:\Users\Luke\source\repos\vsu-se\Team-1-Fall-20\Project-2-EMS\obj\Debug\NurseView.baml
+C:\Users\Luke\source\repos\vsu-se\Team-1-Fall-20\Project-2-EMS\obj\Debug\App.baml

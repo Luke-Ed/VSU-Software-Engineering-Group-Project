@@ -4,6 +4,11 @@
              xmlns:local="clr-namespace:Project_2_EMS"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+      <Style TargetType="Label">
+        <Setter Property="Foreground" Value="#E1E4E8"></Setter>
+      </Style>
+      <Style TargetType="Grid">
+      <Setter Property="Background" Value="#24292E"></Setter>
+      </Style>
     </Application.Resources>
 </Application>
