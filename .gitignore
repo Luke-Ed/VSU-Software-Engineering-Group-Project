@@ -30,3 +30,11 @@ hs_err_pid*
 /Project-2-EMS/obj/
 /Project-2-EMS/.vs/
 /.vs/
+
+###############
+## Directories #
+################
+bin/
+obj/
+TestResults/
+.vs/
