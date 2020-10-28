@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,16 @@ namespace Project_2_EMS {
   /// </summary>
   public partial class NurseView : Window {
     public NurseView() {
-      InitializeComponent();
+      TextBlock outputTextBlock = OutputTextBlock;
+      String dbFileName = Environment.CurrentDirectory +"\\AppData\\EMR_DB.mdf";
+      
+      SqlConnectionStringBuilder sqlConnectionString = new SqlConnectionStringBuilder {
+        IntegratedSecurity = true,
+        AttachDBFilename = @dbFileName 
+      };
+      String connectionString = sqlConnectionString.ToString();
+      SqlConnection connection = new SqlConnection(connectionString);
+      connection.Open();
     }
   }
 }
