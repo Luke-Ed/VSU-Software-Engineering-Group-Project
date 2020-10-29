@@ -13,23 +13,22 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+using System.Configuration;
+
 namespace Project_2_EMS {
   /// <summary>
   /// Interaction logic for NurseView.xaml
   /// </summary>
   public partial class NurseView : Window {
     public NurseView() {
+      InitializeComponent();
       TextBlock outputTextBlock = OutputTextBlock;
-      String dbFile = Environment.CurrentDirectory + "\\AppData\\EMR_DB.mdf";
       
-      SqlConnectionStringBuilder sqlConnectionString = new SqlConnectionStringBuilder {
-        IntegratedSecurity = true,
-        AttachDBFilename = @dbFile,
-        //DataSource = (LocalDB)\\
-      };
-      String connectionString = sqlConnectionString.ToString();
+      String connectionString = ConfigurationManager.ConnectionStrings["MDR_ConnStr"].ConnectionString;
       SqlConnection connection = new SqlConnection(connectionString);
       connection.Open();
+
+      outputTextBlock.Text = "Success";
     }
   }
 }
