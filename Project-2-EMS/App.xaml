@@ -4,6 +4,23 @@
              xmlns:local="clr-namespace:Project_2_EMS"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+      <Style TargetType="Label">
+      <Setter Property="Foreground" Value="#a9b7c6"/>
+      <!-- One Color Suggestion: #E1E4E8  -->
+      </Style>
+      <Style TargetType="Grid">
+        <Setter Property="Background" Value="#424245"/>
+        <!-- One Color Suggestion: #24292E  -->
+      </Style>
+      <Style TargetType="Button">
+        <Setter Property="Background" Value="#85859c"/>
+        <Setter Property="Foreground" Value="#E1E4E8"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Style.Resources>
+          <Style TargetType="Border">
+            <Setter Property="CornerRadius" Value="5"/>
+          </Style>
+        </Style.Resources>
+      </Style>
     </Application.Resources>
 </Application>
