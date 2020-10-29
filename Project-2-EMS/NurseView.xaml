@@ -5,9 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Project_2_EMS"
         mc:Ignorable="d"
-        Title="NurseView" Height="450" Width="800">
+        Title="NurseView" Height="800" Width="1200" WindowStartupLocation="CenterScreen">
     <Grid>
-        <TextBlock />
-    <TextBlock HorizontalAlignment="Left" Margin="232,102,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="163" Width="264" Name="OutputTextBlock"/>
-  </Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="157*"/>
+            <ColumnDefinition Width="239*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.ColumnSpan="2" />
+        <TextBlock HorizontalAlignment="Left" Margin="232,102,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="163" Width="264" Name="OutputTextBlock" Grid.ColumnSpan="2"/>
+    </Grid>
 </Window>

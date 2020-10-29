@@ -25,10 +25,16 @@ namespace Project_2_EMS {
     private void NurseButton_Click(object sender, RoutedEventArgs e) {
       Window nurseWindow = new NurseView();
       nurseWindow.Show();
-      Hide();
+      Close();
     }
 
     private void PatientButton_Click(object sender, RoutedEventArgs e) {
+    }
+
+    private void ReceptionButton_Click(object sender, RoutedEventArgs e) {
+        Window receptionWindow = new ReceptionistView();
+        receptionWindow.Show();
+        Close();
     }
   }
 }
