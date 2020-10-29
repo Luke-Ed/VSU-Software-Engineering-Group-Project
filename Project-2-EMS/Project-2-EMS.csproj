@@ -120,6 +120,10 @@
     <Content Include="AppData\EMR_DB.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="AppData\EMR_DB_log.ldf">
+      <DependentUpon>EMR_DB.mdf</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="AppData\_log.ldf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>EMR_DB.mdf</DependentUpon>

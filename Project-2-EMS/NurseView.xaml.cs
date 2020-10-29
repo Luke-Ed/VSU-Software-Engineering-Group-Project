@@ -20,11 +20,12 @@ namespace Project_2_EMS {
   public partial class NurseView : Window {
     public NurseView() {
       TextBlock outputTextBlock = OutputTextBlock;
-      String dbFileName = Environment.CurrentDirectory +"\\AppData\\EMR_DB.mdf";
+      String dbFile = Environment.CurrentDirectory + "\\AppData\\EMR_DB.mdf";
       
       SqlConnectionStringBuilder sqlConnectionString = new SqlConnectionStringBuilder {
         IntegratedSecurity = true,
-        AttachDBFilename = @dbFileName 
+        AttachDBFilename = @dbFile,
+        //DataSource = (LocalDB)\\
       };
       String connectionString = sqlConnectionString.ToString();
       SqlConnection connection = new SqlConnection(connectionString);
