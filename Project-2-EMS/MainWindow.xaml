@@ -21,8 +21,9 @@
     </Grid.ColumnDefinitions>
     <Button Content="Nurse View" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="1" Click="NurseButton_Click"/>
     <Button Content="Receptionist View" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="auto" Grid.Row="1" Grid.Column="1" Click="ReceptionButton_Click"/>
-    <Label Grid.Row="1" Grid.Column="1" Content="Staff Login" HorizontalAlignment="Center" Margin="125,0,126,305" />
+    
+    <Label Grid.Row="1" Grid.Column="1" Content="Staff Login" HorizontalAlignment="Center"/>
     <Button Content="Patient View" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="2" Click="PatientButton_Click"/>
-    <Label Grid.Row="1" Grid.Column="2" Content="Patient Login" HorizontalAlignment="Center" Margin="119,0,119,305" />
+    <Label Grid.Row="1" Grid.Column="2" Content="Patient Login" HorizontalAlignment="Center" />
   </Grid>
 </Window>
