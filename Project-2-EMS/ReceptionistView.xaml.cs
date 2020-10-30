@@ -17,8 +17,7 @@ namespace Project_2_EMS
     /// <summary>
     /// Interaction logic for ReceptionistView.xaml
     /// </summary>
-    public partial class ReceptionistView : Window
-    {
+    public partial class ReceptionistView : Window {
         public ReceptionistView() {
             InitializeComponent();
         }
@@ -27,6 +26,37 @@ namespace Project_2_EMS
             Window login = new MainWindow();
             login.Show();
             Close();
+        }
+
+        private void CalendarButton_Click(object sender, RoutedEventArgs e) {
+            if (!CalendarPanel.IsVisible) {
+                GreetingGrid.Visibility = Visibility.Hidden;
+                CalendarPanel.Visibility = Visibility.Visible;
+                SigninPanel.Visibility = Visibility.Hidden;
+                BillingPanel.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void SigninButton_Click(object sender, RoutedEventArgs e) {
+            if (!SigninPanel.IsVisible) {
+                GreetingGrid.Visibility = Visibility.Hidden;
+                CalendarPanel.Visibility = Visibility.Hidden;
+                SigninPanel.Visibility = Visibility.Visible;
+                BillingPanel.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void BillingButton_Click(object sender, RoutedEventArgs e) {
+            if (!BillingPanel.IsVisible) {
+                GreetingGrid.Visibility = Visibility.Hidden;
+                CalendarPanel.Visibility = Visibility.Hidden;
+                SigninPanel.Visibility = Visibility.Hidden;
+                BillingPanel.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void CloseAppointmentDate_Click(object sender, RoutedEventArgs e) {
+            ApptDateViewer.Visibility = Visibility.Collapsed;
         }
     }
 }

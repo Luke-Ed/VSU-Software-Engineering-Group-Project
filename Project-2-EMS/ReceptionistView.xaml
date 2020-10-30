@@ -5,39 +5,104 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Project_2_EMS"
         mc:Ignorable="d"
-        Title="ReceptionistView" Height="800" Width="1200" WindowStartupLocation="CenterScreen" MinWidth="800" MinHeight="600">
+        Title="Reception" Height="800" Width="1200" WindowStartupLocation="CenterScreen" MinWidth="800" MinHeight="600">
 
-<!-- This is the Main Grid to hold all child grids in the form -->
+    <!-- This is the Main Grid to hold all child grids in the form -->
     <Grid Name="MainFormPanel"  >
+        <!-- Split the main panel into two columns -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250" /> <!-- Column 0 -->
             <ColumnDefinition Width="*"   /> <!-- Column 1 -->
         </Grid.ColumnDefinitions>
-
-    <!-- This is the side control panel -->
-        <Grid Grid.Column="0" Background="#FF515353" Name="ControlPanel" >
-        <!-- Grid Row Definitions split the Grid into rows -->
+        
+        <!-- This is the initial greetings grid -->
+        <Grid Name="GreetingGrid" Grid.Column="1" Background="#FF7C7C7C" Visibility="Hidden" >
+            <Label Name="GreetingLabel" Content="Greetings {insert name}" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" Foreground="White" />
+        </Grid>
+        
+        <!-- This is the side control panel -->
+        <Grid Name="ControlPanel" Grid.Column="0" Background="#FF515353" >
+            <!-- Grid Row Definitions split the Grid into rows -->
             <Grid.RowDefinitions>
-                <RowDefinition Height="60" /> <!-- Row 0 -->
-                <RowDefinition Height="60" /> <!-- Row 1 -->
-                <RowDefinition Height="60" /> <!-- Row 2 -->
-                <RowDefinition Height="60" /> <!-- Row 3 -->
+                <RowDefinition Height="60"   /> <!-- Row 0 -->
+                <RowDefinition Height="60"   /> <!-- Row 1 -->
+                <RowDefinition Height="60"   /> <!-- Row 2 -->
+                <RowDefinition Height="60"   /> <!-- Row 3 -->
                 <RowDefinition Height="*"    /> <!-- Row 4 -->
                 <RowDefinition Height="auto" /> <!-- Row 5 -->
             </Grid.RowDefinitions>
 
-        <!-- Image can be filled with our logo -->
+            <!-- Image can be filled with our logo -->
             <Image Grid.Column="0" Grid.Row="0" Height="50" />
 
-            <Button Content="Calendar" Grid.Column="0" Grid.Row="1" Height="50" FontSize="18" />
-            <Button Content="Sign-in" Grid.Column="0" Grid.Row="2" Height="50" FontSize="18" />
-            <Button Content="Billing" Grid.Column="0" Grid.Row="3" Height="50" FontSize="18" />
+            <Button Content="Calendar" Grid.Column="0" Grid.Row="1" Height="50" FontSize="18" Click="CalendarButton_Click" />
+            <Button Content="Sign-in" Grid.Column="0" Grid.Row="2" Height="50" FontSize="18" Click="SigninButton_Click" />
+            <Button Content="Billing" Grid.Column="0" Grid.Row="3" Height="50" FontSize="18" Click="BillingButton_Click" />
             <Button Content="Log Out" Grid.Column="0" Grid.Row="5" Height="50" FontSize="18" Click="LogOutButton_Click" />
         </Grid>
 
-    <!-- This is the main work panel -->
-        <Grid Grid.Column="1" Background="#FF7C7C7C" Name="WorkPanel" >
-            <!-- Your views go here -->
+        <!-- This is the calendar panel -->
+        <Grid Name="CalendarPanel" Grid.Column="1" Background="#FF7C7C7C" Visibility="Visible" >
+            <!-- Split calendar panel into two columns -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"    /> <!-- Column 0 -->
+                <ColumnDefinition Width="auto" /> <!-- Column 1 -->
+            </Grid.ColumnDefinitions>
+
+            <!-- This grid will hold the calendar and appointment day views -->
+            <Grid Grid.Column="0" >
+                <!-- Split the grid into two rows -->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"    /> <!-- Row 0 -->
+                    <RowDefinition Height="auto" /> <!-- Row 1 -->
+                </Grid.RowDefinitions>
+
+                <!-- Viewbox scales the calendar to fill the grid -->
+                <Viewbox Grid.Row="0" Stretch="Fill" >
+                    <Calendar/>
+                </Viewbox>
+
+                <!-- ScrollViewer allows us to have a scrollable grid for our appointment days -->
+                <ScrollViewer Name="ApptDateViewer" Grid.Row="1" Height="200" VerticalScrollBarVisibility="Hidden" >
+                    <Grid Height="400" Width="auto" Margin="0">
+                        <!-- Split the scroll viewer into two rows -->
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50" />
+                            <!-- Row 0 -->
+                            <RowDefinition Height="*"  />
+                            <!-- Row 1 -->
+                        </Grid.RowDefinitions>
+
+                        <!-- Grid to hold the date label and to change background color -->
+                        <Grid Grid.Row="0" Background="#FF92D3AC" >
+                            <Label Name="AppointmentDate" Content="Date" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" />
+                            <Button Name="CloseAppointmentDate"  Height="45" Width="50" Content="X" FontSize="30" Background="{x:Null}" HorizontalAlignment="Right" Margin="0,0,3,0" Click="CloseAppointmentDate_Click" />
+                        </Grid>
+
+                        <!-- Grid to show the appointment times and patients -->
+                        <Grid Grid.Row="1">
+                            
+                        </Grid>
+
+                    </Grid>
+                </ScrollViewer>
+            </Grid>
+            
+            <!-- This grid will hold the patient information for adding/removing appointments -->
+            <Grid Grid.Column="1">
+                
+            </Grid>
         </Grid>
+
+        <!-- This is the sign-in panel -->
+        <Grid Name="SigninPanel" Visibility="Hidden" >
+
+        </Grid>
+
+        <!-- This is the billing panel -->
+        <Grid Name="BillingPanel" Visibility="Hidden" >
+
+        </Grid>
+
     </Grid>
 </Window>
