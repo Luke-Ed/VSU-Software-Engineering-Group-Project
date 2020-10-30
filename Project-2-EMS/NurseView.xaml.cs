@@ -27,7 +27,6 @@ namespace Project_2_EMS {
       String connectionString = ConfigurationManager.ConnectionStrings["MDR_ConnStr"].ConnectionString;
       SqlConnection connection = new SqlConnection(connectionString);
       connection.Open();
-      connection.Close();
       outputTextBlock.Text = "Success";
     }
   }
