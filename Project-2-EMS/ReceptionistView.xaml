@@ -147,8 +147,8 @@
             <!-- This grid will hold the patient information for adding/removing appointments -->
             <Grid Grid.Column="1" >
                 <Grid Margin="8,8,8,8" Background="#FFDADADA" >
-                    <Label Name="PatientQuickViewLabel" Content="No patient selected" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" />
-                    <Label Name="PatientQuickViewInfo" Content="Patient selected" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24" Visibility="Hidden" />
+                    <Label Name="PatientQuickViewLabel" Content="No appointment selected" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" />
+                    <Label Name="PatientQuickViewInfo" Content="Appointment selected" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24" Visibility="Hidden" />
                 </Grid>
             </Grid>
         </Grid>
