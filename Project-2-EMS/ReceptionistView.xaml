@@ -11,25 +11,25 @@
     <Grid Name="MainFormPanel"  >
         <!-- Split the main panel into two columns -->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250" /> <!-- Column 0 -->
-            <ColumnDefinition Width="*"   /> <!-- Column 1 -->
+            <ColumnDefinition Width="250" />
+            <ColumnDefinition Width="*"   />
         </Grid.ColumnDefinitions>
-        
+
         <!-- This is the initial greetings grid -->
         <Grid Name="GreetingGrid" Grid.Column="1" Background="#FF7C7C7C" Visibility="Hidden" >
             <Label Name="GreetingLabel" Content="Greetings {insert name}" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" Foreground="White" />
         </Grid>
-        
+
         <!-- This is the side control panel -->
         <Grid Name="ControlPanel" Grid.Column="0" Background="#FF515353" >
             <!-- Grid Row Definitions split the Grid into rows -->
             <Grid.RowDefinitions>
-                <RowDefinition Height="60"   /> <!-- Row 0 -->
-                <RowDefinition Height="60"   /> <!-- Row 1 -->
-                <RowDefinition Height="60"   /> <!-- Row 2 -->
-                <RowDefinition Height="60"   /> <!-- Row 3 -->
-                <RowDefinition Height="*"    /> <!-- Row 4 -->
-                <RowDefinition Height="auto" /> <!-- Row 5 -->
+                <RowDefinition Height="60"   />
+                <RowDefinition Height="60"   />
+                <RowDefinition Height="60"   />
+                <RowDefinition Height="60"   />
+                <RowDefinition Height="*"    />
+                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
 
             <!-- Image can be filled with our logo -->
@@ -45,52 +45,92 @@
         <Grid Name="CalendarPanel" Grid.Column="1" Background="#FF7C7C7C" Visibility="Visible" >
             <!-- Split calendar panel into two columns -->
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"    /> <!-- Column 0 -->
-                <ColumnDefinition Width="auto" /> <!-- Column 1 -->
+                <ColumnDefinition Width="*"    />
+                <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
 
             <!-- This grid will hold the calendar and appointment day views -->
             <Grid Grid.Column="0" >
                 <!-- Split the grid into two rows -->
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"    /> <!-- Row 0 -->
-                    <RowDefinition Height="auto" /> <!-- Row 1 -->
+                    <RowDefinition Height="*"    />
+                    <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
 
                 <!-- Viewbox scales the calendar to fill the grid -->
-                <Viewbox Grid.Row="0" Stretch="Fill" >
-                    <Calendar/>
+                <Viewbox Grid.Row="0" Stretch="Fill" Margin="0,-6,0,-8" >
+                    <Calendar Name="ApptCalendar" />
                 </Viewbox>
 
                 <!-- ScrollViewer allows us to have a scrollable grid for our appointment days -->
-                <ScrollViewer Name="ApptDateViewer" Grid.Row="1" Height="200" VerticalScrollBarVisibility="Hidden" >
-                    <Grid Height="400" Width="auto" Margin="0">
+                <ScrollViewer Name="ApptDateViewer" Grid.Row="1" Height="250" VerticalScrollBarVisibility="Hidden" >
+                    <Grid Height="auto" Width="auto" Margin="0">
                         <!-- Split the scroll viewer into two rows -->
                         <Grid.RowDefinitions>
                             <RowDefinition Height="50" />
-                            <!-- Row 0 -->
-                            <RowDefinition Height="*"  />
-                            <!-- Row 1 -->
+                            <RowDefinition Height="auto"  />
                         </Grid.RowDefinitions>
 
                         <!-- Grid to hold the date label and to change background color -->
                         <Grid Grid.Row="0" Background="#FF92D3AC" >
-                            <Label Name="AppointmentDate" Content="Date" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" />
-                            <Button Name="CloseAppointmentDate"  Height="45" Width="50" Content="X" FontSize="30" Background="{x:Null}" HorizontalAlignment="Right" Margin="0,0,3,0" Click="CloseAppointmentDate_Click" />
+                            <Label Name="AppointmentDate" Content="Date" HorizontalAlignment="Center" FontSize="24" Grid.Column="4" />
+                            <Button Name="CloseAppointmentDate"  Height="45" Width="50" Content="X" FontSize="30" Background="{x:Null}" HorizontalAlignment="Right" Margin="0,2,2,2" Click="CloseAppointmentDate_Click" Grid.Column="4" />
                         </Grid>
 
                         <!-- Grid to show the appointment times and patients -->
-                        <Grid Grid.Row="1">
+                        <Grid Grid.Row="1" Grid.ColumnSpan="2" Height="auto" >
+                            <!-- Split the grid into two columns -->
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.5*" />
+                                <ColumnDefinition Width="0.5*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Split the grid into 14 rows -->
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="50" />
+                                <RowDefinition Height="50" />
+                            </Grid.RowDefinitions>
+
+                            <Label Content="Time" Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Margin="0,0,1,0" Background="#FF3CA037" />
+                            <Label Content="Patient" Grid.Column="1" Grid.Row="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Margin="1,0,0,0" Background="#FF3CA037" />
+
+                            <Label Name="Time1" Content="9:00 AM" Grid.Column="0" Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="#FF9E9E9E" />
+                            <Label Name="Time2" Content="9:30 AM" Grid.Column="0" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="LightGray" />
+                            <Label Name="Time3" Content="10:00 AM" Grid.Column="0" Grid.Row="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="#FF9E9E9E" />
+                            <Label Name="Time4" Content="10:30 AM" Grid.Column="0" Grid.Row="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="LightGray" />
+                            <Label Name="Time5" Content="11:00 AM" Grid.Column="0" Grid.Row="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="#FF9E9E9E" />
+                            <Label Name="Time6" Content="11:30 AM" Grid.Column="0" Grid.Row="6" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="LightGray" />
+                            <Label Name="Time7" Content="1:00 PM" Grid.Column="0" Grid.Row="7" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="#FF9E9E9E" />
+                            <Label Name="Time8" Content="1:30 PM" Grid.Column="0" Grid.Row="8" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="LightGray" />
+                            <Label Name="Time9" Content="2:00 PM" Grid.Column="0" Grid.Row="9" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="#FF9E9E9E" />
+                            <Label Name="Time10" Content="2:30 PM" Grid.Column="0" Grid.Row="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="LightGray" />
+                            <Label Name="Time11" Content="3:00 PM" Grid.Column="0" Grid.Row="11" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="#FF9E9E9E" />
+                            <Label Name="Time12" Content="3:30 PM" Grid.Column="0" Grid.Row="12" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="LightGray" />
+                            <Label Name="Time13" Content="4:00 PM" Grid.Column="0" Grid.Row="13" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="#FF9E9E9E" />
+                            <Label Name="Time14" Content="4:30 PM" Grid.Column="0" Grid.Row="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="LightGray" />
+                        
                             
                         </Grid>
-
                     </Grid>
                 </ScrollViewer>
             </Grid>
-            
+
             <!-- This grid will hold the patient information for adding/removing appointments -->
             <Grid Grid.Column="1">
-                
+
             </Grid>
         </Grid>
 
