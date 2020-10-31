@@ -25,18 +25,18 @@ namespace Project_2_EMS {
     //SqlConnection connection = new SqlConnection(connectionString);
     //connection.Open();
     private void NurseButton_Click(object sender, RoutedEventArgs e) {
-      Window nurseWindow = new NurseView();
+      Window nurseWindow = new NurseView(this);
       nurseWindow.Show();
-      Close();
+      Hide();
     }
 
     private void PatientButton_Click(object sender, RoutedEventArgs e) {
     }
 
     private void ReceptionButton_Click(object sender, RoutedEventArgs e) {
-        Window receptionWindow = new ReceptionistView();
-        receptionWindow.Show();
-        Close();
+      Window receptionWindow = new ReceptionistView();
+      receptionWindow.Show();
+      Hide();
     }
   }
 }

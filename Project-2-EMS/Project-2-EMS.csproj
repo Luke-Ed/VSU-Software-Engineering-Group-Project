@@ -71,6 +71,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="App_Code\NurseSqlHandler.cs" />
     <Compile Include="ReceptionistView.xaml.cs">
       <DependentUpon>ReceptionistView.xaml</DependentUpon>
     </Compile>
