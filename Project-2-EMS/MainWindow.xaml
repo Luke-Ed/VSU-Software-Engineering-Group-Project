@@ -3,9 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Project_2_EMS"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+        Title="MainWindow" Height="800" Width="1200" WindowStartupLocation="CenterScreen">
   
   <Grid>
     <Grid.RowDefinitions>
@@ -19,10 +18,32 @@
       <ColumnDefinition Width="40*"/>
       <ColumnDefinition Width="10*"/>
     </Grid.ColumnDefinitions>
-    <Button Content="Nurse View" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="1" Click="NurseButton_Click"/>
-    <Button Content="Receptionist View" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="auto" Grid.Row="1" Grid.Column="1" Click="ReceptionButton_Click"/>
-    <Label Grid.Row="1" Grid.Column="1" Content="Staff Login" HorizontalAlignment="Center" Margin="125,0,126,305" />
+    <Grid Row="1" Column="1" Name="StaffLoginGrid">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="5*"/>
+        <RowDefinition Height="10*"/>
+        <RowDefinition Height="30*" />
+        <RowDefinition Height="12*"/>
+        <RowDefinition Height="12*"/>
+        <RowDefinition Height="12*"/>
+        <RowDefinition Height="5*"/>
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="5*"/>
+        <ColumnDefinition Width="90*"/>
+        <ColumnDefinition Width="5*"/>
+      </Grid.ColumnDefinitions>
+
+      <Label Grid.Row="1" Grid.Column="1" Content="Staff Login" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+      <Button Content="Nurse View" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1" Click="NurseButton_Click"/>
+      <Button Content="Receptionist View" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto" Grid.Row="5" Grid.Column="1" Click="ReceptionButton_Click"/>
+
+      <TextBox Grid.Row="3" Grid.Column="1" Name="TextBoxUsername" Text="Username" Width="300" Height="40" VerticalAlignment="Top" VerticalContentAlignment="Center"/>
+      <PasswordBox Grid.Row="3" Grid.Column="1" Width="300" Height="40" VerticalAlignment="Bottom" VerticalContentAlignment="Center"/>
+    </Grid>
+    
+    
     <Button Content="Patient View" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="2" Click="PatientButton_Click"/>
-    <Label Grid.Row="1" Grid.Column="2" Content="Patient Login" HorizontalAlignment="Center" Margin="119,0,119,305" />
+    <Label Grid.Row="1" Grid.Column="2" Content="Patient Login" HorizontalAlignment="Center" />
   </Grid>
 </Window>
