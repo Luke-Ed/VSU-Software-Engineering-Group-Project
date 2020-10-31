@@ -45,8 +45,8 @@
         <Grid Name="CalendarPanel" Grid.Column="1" Background="#FF7C7C7C" Visibility="Visible" >
             <!-- Split calendar panel into two columns -->
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"    />
-                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="0.65*"    />
+                <ColumnDefinition Width="0.35*" />
             </Grid.ColumnDefinitions>
 
             <!-- This grid will hold the calendar and appointment day views -->
@@ -58,12 +58,12 @@
                 </Grid.RowDefinitions>
 
                 <!-- Viewbox scales the calendar to fill the grid -->
-                <Viewbox Grid.Row="0" Stretch="Fill" Margin="0,-6,0,-8" >
+                <Viewbox Grid.Row="0" Stretch="Fill" Margin="6,-2,6,-5" >
                     <Calendar Name="ApptCalendar" />
                 </Viewbox>
 
                 <!-- ScrollViewer allows us to have a scrollable grid for our appointment days -->
-                <ScrollViewer Name="ApptDateViewer" Grid.Row="1" Height="250" VerticalScrollBarVisibility="Hidden" >
+                <ScrollViewer Name="ApptDateViewer" Grid.Row="1" Height="250" Margin="8,8,8,8" >
                     <Grid Height="auto" Width="auto" Margin="0">
                         <!-- Split the scroll viewer into two rows -->
                         <Grid.RowDefinitions>
@@ -104,9 +104,11 @@
                                 <RowDefinition Height="50" />
                             </Grid.RowDefinitions>
 
+                            <!-- Labels for time and patient columns -->
                             <Label Content="Time" Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Margin="0,0,1,0" Background="#FF3CA037" />
                             <Label Content="Patient" Grid.Column="1" Grid.Row="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Margin="1,0,0,0" Background="#FF3CA037" />
 
+                            <!-- Labels for appointment times in column 0 -->
                             <Label Name="Time1" Content="9:00 AM" Grid.Column="0" Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="#FF9E9E9E" />
                             <Label Name="Time2" Content="9:30 AM" Grid.Column="0" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="LightGray" />
                             <Label Name="Time3" Content="10:00 AM" Grid.Column="0" Grid.Row="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="#FF9E9E9E" />
@@ -121,26 +123,43 @@
                             <Label Name="Time12" Content="3:30 PM" Grid.Column="0" Grid.Row="12" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="LightGray" />
                             <Label Name="Time13" Content="4:00 PM" Grid.Column="0" Grid.Row="13" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="#FF9E9E9E" />
                             <Label Name="Time14" Content="4:30 PM" Grid.Column="0" Grid.Row="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="LightGray" />
-                        
-                            
+
+                            <!-- Buttons to show patient information if patient has appointment or to let you add/remove a patient -->
+                            <Button Name="Appt1" Content="Available" Grid.Column="1" Grid.Row="1" FontSize="28" Background="#FF76F994" />
+                            <Button Name="Appt2" Content="Available" Grid.Column="1" Grid.Row="2" FontSize="28" Background="#FF76F994" />
+                            <Button Name="Appt3" Content="Available" Grid.Column="1" Grid.Row="3" FontSize="28" Background="#FF76F994" />
+                            <Button Name="Appt4" Content="Available" Grid.Column="1" Grid.Row="4" FontSize="28" Background="#FF76F994" />
+                            <Button Name="Appt5" Content="Available" Grid.Column="1" Grid.Row="5" FontSize="28" Background="#FF76F994" />
+                            <Button Name="Appt6" Content="Available" Grid.Column="1" Grid.Row="6" FontSize="28" Background="#FF76F994" />
+                            <Button Name="Appt7" Content="Available" Grid.Column="1" Grid.Row="7" FontSize="28" Background="#FF76F994" />
+                            <Button Name="Appt8" Content="Available" Grid.Column="1" Grid.Row="8" FontSize="28" Background="#FF76F994" />
+                            <Button Name="Appt9" Content="Available" Grid.Column="1" Grid.Row="9" FontSize="28" Background="#FF76F994" />
+                            <Button Name="Appt10" Content="Available" Grid.Column="1" Grid.Row="10" FontSize="28" Background="#FF76F994" />
+                            <Button Name="Appt11" Content="Available" Grid.Column="1" Grid.Row="11" FontSize="28" Background="#FF76F994" />
+                            <Button Name="Appt12" Content="Available" Grid.Column="1" Grid.Row="12" FontSize="28" Background="#FF76F994" />
+                            <Button Name="Appt13" Content="Available" Grid.Column="1" Grid.Row="13" FontSize="28" Background="#FF76F994" />
+                            <Button Name="Appt14" Content="Available" Grid.Column="1" Grid.Row="14" FontSize="28" Background="#FF76F994" />
                         </Grid>
                     </Grid>
                 </ScrollViewer>
             </Grid>
 
             <!-- This grid will hold the patient information for adding/removing appointments -->
-            <Grid Grid.Column="1">
-
+            <Grid Grid.Column="1" >
+                <Grid Margin="8,8,8,8" Background="#FFDADADA" >
+                    <Label Name="PatientQuickViewLabel" Content="No patient selected" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" />
+                    <Label Name="PatientQuickViewInfo" Content="Patient selected" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24" Visibility="Hidden" />
+                </Grid>
             </Grid>
         </Grid>
 
         <!-- This is the sign-in panel -->
-        <Grid Name="SigninPanel" Visibility="Hidden" >
-
+        <Grid Name="SigninPanel" Grid.Column="1" Visibility="Hidden" >
+            
         </Grid>
 
         <!-- This is the billing panel -->
-        <Grid Name="BillingPanel" Visibility="Hidden" >
+        <Grid Name="BillingPanel" Grid.Column="1" Visibility="Hidden" >
 
         </Grid>
 
