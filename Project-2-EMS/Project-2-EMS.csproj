@@ -72,6 +72,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="App_Code\NurseSqlHandler.cs" />
+    <Compile Include="App_Code\Patient.cs" />
     <Compile Include="NurseToday.xaml.cs">
       <DependentUpon>NurseToday.xaml</DependentUpon>
     </Compile>

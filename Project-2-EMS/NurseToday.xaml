@@ -9,6 +9,8 @@
       Title="NurseToday">
 
     <Grid>
-        
+        <DataGrid>
+          <DataGrid.AutoGenerateColumns>True</DataGrid.AutoGenerateColumns>
+        </DataGrid>
     </Grid>
 </Page>

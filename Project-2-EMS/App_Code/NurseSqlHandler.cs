@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Project_2_EMS {
   class NurseSqlHandler {
-    protected string NameQueryBuilder(String name) {
-      String query = "SELECT * FROM PatientInfo WHERE ";
+    protected string NameQuerier(String name) {
+      String query = "SELECT * FROM PatientInfo WHERE FirstName LIKE " + name + "OR LastName LIKE " + name;
 
       return query;
     }
