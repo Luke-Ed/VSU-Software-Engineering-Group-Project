@@ -72,6 +72,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="App_Code\NurseSqlHandler.cs" />
+    <Compile Include="NurseToday.xaml.cs">
+      <DependentUpon>NurseToday.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ReceptionistView.xaml.cs">
       <DependentUpon>ReceptionistView.xaml</DependentUpon>
     </Compile>
@@ -87,6 +90,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="NurseToday.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="NurseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -137,6 +144,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>EMR_DB.mdf</DependentUpon>
     </Content>
+    <Resource Include="App_Resources\EdmondsonInternalMedicine.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

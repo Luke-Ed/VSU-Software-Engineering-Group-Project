@@ -13,7 +13,7 @@
     </Grid.ColumnDefinitions>
 
     <!-- This is the side control panel -->
-    <Grid Grid.Column="0" Background="#FF515353" Name="ControlPanel" >
+    <Grid Grid.Column="0" Background="#444444" Name="ControlPanel" >
       <!-- Grid Row Definitions split the Grid into rows -->
       <Grid.RowDefinitions>
         <RowDefinition Height="60" /> <!-- Row 0 -->
@@ -25,7 +25,7 @@
       </Grid.RowDefinitions>
 
       <!-- Image can be filled with our logo -->
-      <Image Grid.Column="0" Grid.Row="0" Height="50" />
+      <Image Grid.Column="0" Grid.Row="0" Height="50" Source="App_Resources/EdmondsonInternalMedicine.png"/>
 
       <Button Content="Today's Appointments" Grid.Column="0" Grid.Row="1" Height="50" FontSize="18" />
       <Button Content="Patient Lookup" Grid.Column="0" Grid.Row="2" Height="50" FontSize="18" />

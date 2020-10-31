@@ -17,7 +17,7 @@ namespace Project_2_EMS {
   /// <summary>
   /// Interaction logic for MainWindow.xaml
   /// </summary>
-  public partial class MainWindow : Window {
+  public partial class MainWindow {
     public MainWindow() {
       InitializeComponent();
     }
@@ -34,7 +34,7 @@ namespace Project_2_EMS {
     }
 
     private void ReceptionButton_Click(object sender, RoutedEventArgs e) {
-      Window receptionWindow = new ReceptionistView();
+      Window receptionWindow = new ReceptionistView(this);
       receptionWindow.Show();
       Hide();
     }
