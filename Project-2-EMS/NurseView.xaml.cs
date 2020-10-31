@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -13,8 +15,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-using System.Configuration;
-
 namespace Project_2_EMS {
   /// <summary>
   /// Interaction logic for NurseView.xaml
@@ -22,13 +22,11 @@ namespace Project_2_EMS {
   public partial class NurseView : Window {
     public NurseView() {
       InitializeComponent();
-      TextBlock outputTextBlock = OutputTextBlock;
-      
-      String connectionString = ConfigurationManager.ConnectionStrings["MDR_ConnStr"].ConnectionString;
-      SqlConnection connection = new SqlConnection(connectionString);
-      connection.Open();
+      Closing += OnWindowClosing;
+    }
 
-      outputTextBlock.Text = "Success";
+    private void OnWindowClosing(object sender, CancelEventArgs e) {
+
     }
   }
 }

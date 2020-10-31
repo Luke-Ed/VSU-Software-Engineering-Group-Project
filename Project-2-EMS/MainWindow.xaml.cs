@@ -21,7 +21,9 @@ namespace Project_2_EMS {
     public MainWindow() {
       InitializeComponent();
     }
-
+    //String connectionString = ConfigurationManager.ConnectionStrings["MDR_ConnStr"].ConnectionString;
+    //SqlConnection connection = new SqlConnection(connectionString);
+    //connection.Open();
     private void NurseButton_Click(object sender, RoutedEventArgs e) {
       Window nurseWindow = new NurseView();
       nurseWindow.Show();

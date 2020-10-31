@@ -12,13 +12,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Project_2_EMS
-{
+namespace Project_2_EMS {
     /// <summary>
     /// Interaction logic for ReceptionistView.xaml
     /// </summary>
-    public partial class ReceptionistView : Window
-    {
+    public partial class ReceptionistView : Window {
         public ReceptionistView() {
             InitializeComponent();
         }
