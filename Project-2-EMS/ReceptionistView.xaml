@@ -3,15 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Project_2_EMS"
         mc:Ignorable="d"
         Title="ReceptionistView" Height="800" Width="1200" WindowStartupLocation="CenterScreen" MinWidth="800" MinHeight="600">
 
 <!-- This is the Main Grid to hold all child grids in the form -->
     <Grid Name="MainFormPanel"  >
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250" /> <!-- Column 0 -->
-            <ColumnDefinition Width="*"   /> <!-- Column 1 -->
+            <ColumnDefinition Width="20*" /> <!-- Column 0 -->
+            <ColumnDefinition Width="80*"   /> <!-- Column 1 -->
         </Grid.ColumnDefinitions>
 
     <!-- This is the side control panel -->

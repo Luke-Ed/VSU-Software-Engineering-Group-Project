@@ -17,24 +17,26 @@ namespace Project_2_EMS {
   /// <summary>
   /// Interaction logic for MainWindow.xaml
   /// </summary>
-  public partial class MainWindow : Window {
+  public partial class MainWindow {
     public MainWindow() {
       InitializeComponent();
     }
-
+    //String connectionString = ConfigurationManager.ConnectionStrings["MDR_ConnStr"].ConnectionString;
+    //SqlConnection connection = new SqlConnection(connectionString);
+    //connection.Open();
     private void NurseButton_Click(object sender, RoutedEventArgs e) {
-      Window nurseWindow = new NurseView();
+      Window nurseWindow = new NurseView(this);
       nurseWindow.Show();
-      Close();
+      Hide();
     }
 
     private void PatientButton_Click(object sender, RoutedEventArgs e) {
     }
 
     private void ReceptionButton_Click(object sender, RoutedEventArgs e) {
-        Window receptionWindow = new ReceptionistView();
-        receptionWindow.Show();
-        Close();
+      Window receptionWindow = new ReceptionistView(this);
+      receptionWindow.Show();
+      Hide();
     }
   }
 }
