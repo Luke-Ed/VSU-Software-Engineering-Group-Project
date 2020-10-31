@@ -55,8 +55,10 @@ namespace Project_2_EMS
             }
         }
 
-        private void CloseAppointmentDate_Click(object sender, RoutedEventArgs e) {
-            ApptDateViewer.Visibility = Visibility.Collapsed;
+        private void ApptCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e) {
+            if (ApptCalendar.SelectedDate.HasValue) {
+                AppointmentDate.Content = ApptCalendar.SelectedDate.Value.ToString("MM/dd/yyyy");
+            }
         }
     }
 }

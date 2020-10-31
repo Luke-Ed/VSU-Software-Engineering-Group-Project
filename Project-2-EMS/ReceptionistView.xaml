@@ -45,7 +45,7 @@
         <Grid Name="CalendarPanel" Grid.Column="1" Background="#FF7C7C7C" Visibility="Visible" >
             <!-- Split calendar panel into two columns -->
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.65*"    />
+                <ColumnDefinition Width="0.65*" />
                 <ColumnDefinition Width="0.35*" />
             </Grid.ColumnDefinitions>
 
@@ -59,7 +59,7 @@
 
                 <!-- Viewbox scales the calendar to fill the grid -->
                 <Viewbox Grid.Row="0" Stretch="Fill" Margin="6,-2,6,-5" >
-                    <Calendar Name="ApptCalendar" />
+                    <Calendar Name="ApptCalendar" SelectedDatesChanged="ApptCalendar_SelectedDatesChanged" />
                 </Viewbox>
 
                 <!-- ScrollViewer allows us to have a scrollable grid for our appointment days -->
@@ -67,18 +67,17 @@
                     <Grid Height="auto" Width="auto" Margin="0">
                         <!-- Split the scroll viewer into two rows -->
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="50" />
-                            <RowDefinition Height="auto"  />
+                            <RowDefinition Height="50"   />
+                            <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
 
                         <!-- Grid to hold the date label and to change background color -->
                         <Grid Grid.Row="0" Background="#FF92D3AC" >
-                            <Label Name="AppointmentDate" Content="Date" HorizontalAlignment="Center" FontSize="24" Grid.Column="4" />
-                            <Button Name="CloseAppointmentDate"  Height="45" Width="50" Content="X" FontSize="30" Background="{x:Null}" HorizontalAlignment="Right" Margin="0,2,2,2" Click="CloseAppointmentDate_Click" Grid.Column="4" />
+                            <Label Name="AppointmentDate" Content="No Date Selected" HorizontalAlignment="Center" FontSize="24" Grid.Column="4" />
                         </Grid>
 
                         <!-- Grid to show the appointment times and patients -->
-                        <Grid Grid.Row="1" Grid.ColumnSpan="2" Height="auto" >
+                        <Grid Grid.Row="1" Height="auto" >
                             <!-- Split the grid into two columns -->
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.5*" />
@@ -146,6 +145,7 @@
 
             <!-- This grid will hold the patient information for adding/removing appointments -->
             <Grid Grid.Column="1" >
+                <!-- Placeholder grid for before an appointment time is selected -->
                 <Grid Margin="8,8,8,8" Background="#FFDADADA" >
                     <Label Name="PatientQuickViewLabel" Content="No appointment selected" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" />
                     <Label Name="PatientQuickViewInfo" Content="Appointment selected" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24" Visibility="Hidden" />
