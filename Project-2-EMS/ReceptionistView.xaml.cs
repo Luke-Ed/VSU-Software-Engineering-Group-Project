@@ -15,7 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Project_2_EMS{
+namespace Project_2_EMS {
     /// <summary>
     /// Interaction logic for ReceptionistView.xaml
     /// </summary>
@@ -70,9 +70,7 @@ namespace Project_2_EMS{
         private void ApptCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e) {
             if (ApptCalendar.SelectedDate.HasValue) {
                 AppointmentDate.Content = ApptCalendar.SelectedDate.Value.ToString("MM/dd/yyyy");
-                AppointmentDate.Content = ApptCalendar.SelectedDate.Value.ToString("dddd");
-                if (ApptCalendar.SelectedDate.Value.ToString("dddd").Equals("Saturday") || ApptCalendar.SelectedDate.Value.ToString("dddd").Equals("Sunday"))
-                {
+                if (ApptCalendar.SelectedDate.Value.ToString("dddd").Equals("Saturday") || ApptCalendar.SelectedDate.Value.ToString("dddd").Equals("Sunday")) {
                     ApptDateViewer.Visibility = Visibility.Hidden;
                     ApptDateViewerEmpty.Visibility = Visibility.Visible;
                 }
@@ -149,6 +147,9 @@ namespace Project_2_EMS{
         private void Appt14_Click(object sender, RoutedEventArgs e) {
             PatientQuickViewLabel.Content = "4:30 appointment available";
         }
+
+        // Setup a helper method to revert buttons to previous colors if I decide to change it
+
         #endregion
     }
 }
