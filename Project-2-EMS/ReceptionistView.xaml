@@ -7,7 +7,7 @@
         Title="Reception" Height="800" Width="1200" WindowStartupLocation="CenterScreen" MinWidth="800" MinHeight="600">
 
     <!-- This is the Main Grid to hold all child grids in the form -->
-    <Grid Name="MainFormPanel"  >
+    <Grid Name="MainFormPanel" >
         <!-- Split the main panel into two columns -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20*" /> <!-- Column 0 -->
@@ -32,7 +32,7 @@
             </Grid.RowDefinitions>
 
             <!-- Image can be filled with our logo -->
-            <Image Grid.Column="0" Grid.Row="0" Height="50" />
+            <Image Grid.Column="0" Grid.Row="0" Height="50" Source="App_Resources/EdmondsonInternalMedicine.png"/>
 
             <Button Content="Calendar" Grid.Column="0" Grid.Row="1" Height="50" FontSize="18" Click="CalendarButton_Click" />
             <Button Content="Sign-in" Grid.Column="0" Grid.Row="2" Height="50" FontSize="18" Click="SigninButton_Click" />
@@ -58,11 +58,15 @@
 
                 <!-- Viewbox scales the calendar to fill the grid -->
                 <Viewbox Grid.Row="0" Stretch="Fill" Margin="6,-2,6,-5" >
-                    <Calendar Name="ApptCalendar" SelectedDatesChanged="ApptCalendar_SelectedDatesChanged" />
+                    <Calendar Name="ApptCalendar" SelectedDatesChanged="ApptCalendar_SelectedDatesChanged" GotMouseCapture="ApptCalendar_GotMouseCapture"  />
                 </Viewbox>
 
+                <Grid Name="ApptDateViewerEmpty" Grid.Row="1" Height="250" Margin="8,8,8,8" Background="#FFDADADA" Visibility="Hidden" >
+                    <Label Name="ApptEmpty" Content="No appointments available" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="28" />
+                </Grid>
+                
                 <!-- ScrollViewer allows us to have a scrollable grid for our appointment days -->
-                <ScrollViewer Name="ApptDateViewer" Grid.Row="1" Height="250" Margin="8,8,8,8" >
+                <ScrollViewer Name="ApptDateViewer" Grid.Row="1" Height="250" Margin="8,8,8,8" Visibility="Visible" >
                     <Grid Height="auto" Width="auto" Margin="0">
                         <!-- Split the scroll viewer into two rows -->
                         <Grid.RowDefinitions>
@@ -123,20 +127,20 @@
                             <Label Name="Time14" Content="4:30 PM" Grid.Column="0" Grid.Row="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="LightGray" />
 
                             <!-- Buttons to show patient information if patient has appointment or to let you add/remove a patient -->
-                            <Button Name="Appt1" Content="Available" Grid.Column="1" Grid.Row="1" FontSize="28" Background="#FF76F994" />
-                            <Button Name="Appt2" Content="Available" Grid.Column="1" Grid.Row="2" FontSize="28" Background="#FF76F994" />
-                            <Button Name="Appt3" Content="Available" Grid.Column="1" Grid.Row="3" FontSize="28" Background="#FF76F994" />
-                            <Button Name="Appt4" Content="Available" Grid.Column="1" Grid.Row="4" FontSize="28" Background="#FF76F994" />
-                            <Button Name="Appt5" Content="Available" Grid.Column="1" Grid.Row="5" FontSize="28" Background="#FF76F994" />
-                            <Button Name="Appt6" Content="Available" Grid.Column="1" Grid.Row="6" FontSize="28" Background="#FF76F994" />
-                            <Button Name="Appt7" Content="Available" Grid.Column="1" Grid.Row="7" FontSize="28" Background="#FF76F994" />
-                            <Button Name="Appt8" Content="Available" Grid.Column="1" Grid.Row="8" FontSize="28" Background="#FF76F994" />
-                            <Button Name="Appt9" Content="Available" Grid.Column="1" Grid.Row="9" FontSize="28" Background="#FF76F994" />
-                            <Button Name="Appt10" Content="Available" Grid.Column="1" Grid.Row="10" FontSize="28" Background="#FF76F994" />
-                            <Button Name="Appt11" Content="Available" Grid.Column="1" Grid.Row="11" FontSize="28" Background="#FF76F994" />
-                            <Button Name="Appt12" Content="Available" Grid.Column="1" Grid.Row="12" FontSize="28" Background="#FF76F994" />
-                            <Button Name="Appt13" Content="Available" Grid.Column="1" Grid.Row="13" FontSize="28" Background="#FF76F994" />
-                            <Button Name="Appt14" Content="Available" Grid.Column="1" Grid.Row="14" FontSize="28" Background="#FF76F994" />
+                            <Button Name="Appt1" Content="Available" Grid.Column="1" Grid.Row="1" FontSize="28" Background="#FF76F994" Click="Appt1_Click" />
+                            <Button Name="Appt2" Content="Available" Grid.Column="1" Grid.Row="2" FontSize="28" Background="#FF76F994" Click="Appt2_Click" />
+                            <Button Name="Appt3" Content="Available" Grid.Column="1" Grid.Row="3" FontSize="28" Background="#FF76F994" Click="Appt3_Click" />
+                            <Button Name="Appt4" Content="Available" Grid.Column="1" Grid.Row="4" FontSize="28" Background="#FF76F994" Click="Appt4_Click" />
+                            <Button Name="Appt5" Content="Available" Grid.Column="1" Grid.Row="5" FontSize="28" Background="#FF76F994" Click="Appt5_Click" />
+                            <Button Name="Appt6" Content="Available" Grid.Column="1" Grid.Row="6" FontSize="28" Background="#FF76F994" Click="Appt6_Click" />
+                            <Button Name="Appt7" Content="Available" Grid.Column="1" Grid.Row="7" FontSize="28" Background="#FF76F994" Click="Appt7_Click" />
+                            <Button Name="Appt8" Content="Available" Grid.Column="1" Grid.Row="8" FontSize="28" Background="#FF76F994" Click="Appt8_Click" />
+                            <Button Name="Appt9" Content="Available" Grid.Column="1" Grid.Row="9" FontSize="28" Background="#FF76F994" Click="Appt9_Click" />
+                            <Button Name="Appt10" Content="Available" Grid.Column="1" Grid.Row="10" FontSize="28" Background="#FF76F994" Click="Appt10_Click" />
+                            <Button Name="Appt11" Content="Available" Grid.Column="1" Grid.Row="11" FontSize="28" Background="#FF76F994" Click="Appt11_Click" />
+                            <Button Name="Appt12" Content="Available" Grid.Column="1" Grid.Row="12" FontSize="28" Background="#FF76F994" Click="Appt12_Click" />
+                            <Button Name="Appt13" Content="Available" Grid.Column="1" Grid.Row="13" FontSize="28" Background="#FF76F994" Click="Appt13_Click" />
+                            <Button Name="Appt14" Content="Available" Grid.Column="1" Grid.Row="14" FontSize="28" Background="#FF76F994" Click="Appt14_Click" />
                         </Grid>
                     </Grid>
                 </ScrollViewer>
@@ -147,7 +151,6 @@
                 <!-- Placeholder grid for before an appointment time is selected -->
                 <Grid Margin="8,8,8,8" Background="#FFDADADA" >
                     <Label Name="PatientQuickViewLabel" Content="No appointment selected" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" />
-                    <Label Name="PatientQuickViewInfo" Content="Appointment selected" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24" Visibility="Hidden" />
                 </Grid>
             </Grid>
         </Grid>
@@ -161,6 +164,5 @@
         <Grid Name="BillingPanel" Grid.Column="1" Visibility="Hidden" >
 
         </Grid>
-
     </Grid>
 </Window>
