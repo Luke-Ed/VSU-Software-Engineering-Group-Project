@@ -58,11 +58,15 @@
 
                 <!-- Viewbox scales the calendar to fill the grid -->
                 <Viewbox Grid.Row="0" Stretch="Fill" Margin="6,-2,6,-5" >
-                    <Calendar Name="ApptCalendar" SelectedDatesChanged="ApptCalendar_SelectedDatesChanged" GotMouseCapture="ApptCalendar_GotMouseCapture" />
+                    <Calendar Name="ApptCalendar" SelectedDatesChanged="ApptCalendar_SelectedDatesChanged" GotMouseCapture="ApptCalendar_GotMouseCapture"  />
                 </Viewbox>
 
+                <Grid Name="ApptDateViewerEmpty" Grid.Row="1" Height="250" Margin="8,8,8,8" Background="#FFDADADA" Visibility="Hidden" >
+                    <Label Name="ApptEmpty" Content="No appointments available" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="28" />
+                </Grid>
+                
                 <!-- ScrollViewer allows us to have a scrollable grid for our appointment days -->
-                <ScrollViewer Name="ApptDateViewer" Grid.Row="1" Height="250" Margin="8,8,8,8" >
+                <ScrollViewer Name="ApptDateViewer" Grid.Row="1" Height="250" Margin="8,8,8,8" Visibility="Visible" >
                     <Grid Height="auto" Width="auto" Margin="0">
                         <!-- Split the scroll viewer into two rows -->
                         <Grid.RowDefinitions>
@@ -147,7 +151,6 @@
                 <!-- Placeholder grid for before an appointment time is selected -->
                 <Grid Margin="8,8,8,8" Background="#FFDADADA" >
                     <Label Name="PatientQuickViewLabel" Content="No appointment selected" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" />
-                    <Label Name="PatientQuickViewInfo" Content="Appointment selected" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24" Visibility="Hidden" />
                 </Grid>
             </Grid>
         </Grid>
