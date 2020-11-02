@@ -29,9 +29,9 @@ namespace Project_2_EMS {
     }
 
     private void LogOutButton_Click(object sender, RoutedEventArgs e) {
-      Close();
       Window mainWindow = _parentWindow;
       mainWindow.Show();
+      Close();
     }
 
     private void OnWindowClosing(object sender, CancelEventArgs e) {
