@@ -157,8 +157,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>EMR_DB.mdf</DependentUpon>
     </Content>
-    <Resource Include="HEAD-Top_9_Medical_Apps_for_Doctors_Hero_no_text.png" />
-    <Resource Include="EdmondsonInternalMedicine.png" />
+    <Resource Include="App_Resources\HEAD-Top_9_Medical_Apps_for_Doctors_Hero_no_text.png" />
     <Resource Include="App_Resources\EdmondsonInternalMedicine.png" />
   </ItemGroup>
   <ItemGroup>
