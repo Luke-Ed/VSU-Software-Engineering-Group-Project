@@ -53,6 +53,8 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -76,6 +78,9 @@
     <Compile Include="NurseToday.xaml.cs">
       <DependentUpon>NurseToday.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PatientView.xaml.cs">
+      <DependentUpon>PatientView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ReceptionistView.xaml.cs">
       <DependentUpon>ReceptionistView.xaml</DependentUpon>
     </Compile>
@@ -96,6 +101,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="NurseView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PatientView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -145,6 +154,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>EMR_DB.mdf</DependentUpon>
     </Content>
+    <Resource Include="HEAD-Top_9_Medical_Apps_for_Doctors_Hero_no_text.png" />
+    <Resource Include="EdmondsonInternalMedicine.png" />
     <Resource Include="App_Resources\EdmondsonInternalMedicine.png" />
   </ItemGroup>
   <ItemGroup>
