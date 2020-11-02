@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,7 +29,7 @@ namespace Project_2_EMS {
         Closing += OnWindowClosing;
       }
       private void LogOutButton_Click(object sender, RoutedEventArgs e) {
-        Close();
+        Hide();
         Window mainWindow = _parentWindow;
         mainWindow.Show();
       }

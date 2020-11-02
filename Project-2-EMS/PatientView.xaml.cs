@@ -17,8 +17,9 @@ namespace Project_2_EMS{
   /// Interaction logic for PatientView.xaml
   /// </summary>
 
-  public partial class PatientView : Window{
+  public partial class PatientView {
     private readonly Window _parentWindow;
+
     public PatientView(Window parentWindow){
       _parentWindow = parentWindow;
       InitializeComponent();

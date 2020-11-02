@@ -50,7 +50,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
+    <Reference Include="System">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll</HintPath>
+    </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -134,6 +136,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -154,8 +157,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>EMR_DB.mdf</DependentUpon>
     </Content>
-    <Resource Include="HEAD-Top_9_Medical_Apps_for_Doctors_Hero_no_text.png" />
-    <Resource Include="EdmondsonInternalMedicine.png" />
+    <Resource Include="App_Resources\HEAD-Top_9_Medical_Apps_for_Doctors_Hero_no_text.png" />
     <Resource Include="App_Resources\EdmondsonInternalMedicine.png" />
   </ItemGroup>
   <ItemGroup>

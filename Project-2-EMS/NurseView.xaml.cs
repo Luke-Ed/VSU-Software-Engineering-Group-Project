@@ -29,7 +29,7 @@ namespace Project_2_EMS {
     }
 
     private void LogOutButton_Click(object sender, RoutedEventArgs e) {
-      Close();
+      Hide();
       Window mainWindow = _parentWindow;
       mainWindow.Show();
     }
@@ -37,6 +37,7 @@ namespace Project_2_EMS {
     private void OnWindowClosing(object sender, CancelEventArgs e) {
       Window mainWindow = _parentWindow;
       mainWindow.Close();
+      Close();
     }
   }
 }
