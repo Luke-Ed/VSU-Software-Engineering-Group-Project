@@ -25,14 +25,15 @@ namespace Project_2_EMS {
       public ReceptionistView(Window parentWindow) {
         _parentWindow = parentWindow;
         InitializeComponent();
-        AppointmentDate.Content = DateTime.Now.ToShortDateString();
+        AppointmentDays.Content = DateTime.Now.AddDays(Convert.ToDouble(DateTime.Now.DayOfWeek.ToString("d")) * -1.0).ToString("Week o\\f MMMM dd, yyyy");
         Closing += OnWindowClosing;
       }
+
       private void LogOutButton_Click(object sender, RoutedEventArgs e) {
         Hide();
         Window mainWindow = _parentWindow;
         mainWindow.Show();
-      }
+        }
       
       private void OnWindowClosing(object sender, CancelEventArgs e) {
         Window mainWindow = _parentWindow;
@@ -68,19 +69,31 @@ namespace Project_2_EMS {
 
         // This region holds the code/event handlers for Calendar view
         #region
-        private void ApptCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e) {
-            if (ApptCalendar.SelectedDate.HasValue) {
-                AppointmentDate.Content = ApptCalendar.SelectedDate.Value.ToString("MM/dd/yyyy");
-                if (ApptCalendar.SelectedDate.Value.ToString("dddd").Equals("Saturday") || ApptCalendar.SelectedDate.Value.ToString("dddd").Equals("Sunday")) {
-                    ApptDateViewer.Visibility = Visibility.Hidden;
+
+        private void ApptCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ApptCalendar.SelectedDate.HasValue)
+            {
+                //AppointmentDays.Content = ApptCalendar.SelectedDate.Value.ToShortDateString();
+                DateTime date = ApptCalendar.SelectedDate.Value;
+                AppointmentDays.Content = date.AddDays(Convert.ToDouble(ApptCalendar.SelectedDate.Value.DayOfWeek.ToString("d")) * -1.0).ToString("Week o\\f MMMM dd, yyyy");
+
+                /** 
+                if (ApptCalendar.SelectedDate.Value.ToString("dddd").Equals("Saturday") || ApptCalendar.SelectedDate.Value.ToString("dddd").Equals("Sunday"))
+                {
                     ApptDateViewerEmpty.Visibility = Visibility.Visible;
+                    ApptDateViewer.Opacity = 0.1;
+                    ApptDateViewer.IsHitTestVisible = false;
                 }
-                else {
+                else
+                {
                     ApptDateViewerEmpty.Visibility = Visibility.Hidden;
-                    ApptDateViewer.Visibility = Visibility.Visible;
+                    ApptDateViewer.Opacity = 1.0;
+                    ApptDateViewer.IsHitTestVisible = true;
                 }
+                */
             }
-            PatientQuickViewLabel.Content = "No appointment selected";
+            //PatientQuickViewLabel.Content = "No appointment selected";
         }
 
         private void ApptCalendar_GotMouseCapture(object sender, MouseEventArgs e) {
@@ -91,62 +104,6 @@ namespace Project_2_EMS {
             {
                 originalElement.ReleaseMouseCapture();
             }
-        }
-
-        private void Appt1_Click(object sender, RoutedEventArgs e) {
-            PatientQuickViewLabel.Content = "9:00 appointment available";
-        }
-
-        private void Appt2_Click(object sender, RoutedEventArgs e) {
-            PatientQuickViewLabel.Content = "9:30 appointment available";
-        }
-
-        private void Appt3_Click(object sender, RoutedEventArgs e) {
-            PatientQuickViewLabel.Content = "10:00 appointment available";
-        }
-
-        private void Appt4_Click(object sender, RoutedEventArgs e) {
-            PatientQuickViewLabel.Content = "10:30 appointment available";
-        }
-
-        private void Appt5_Click(object sender, RoutedEventArgs e) {
-            PatientQuickViewLabel.Content = "11:00 appointment available";
-        }
-
-        private void Appt6_Click(object sender, RoutedEventArgs e) {
-            PatientQuickViewLabel.Content = "11:30 appointment available";
-        }
-
-        private void Appt7_Click(object sender, RoutedEventArgs e) {
-            PatientQuickViewLabel.Content = "1:00 appointment available";
-        }
-
-        private void Appt8_Click(object sender, RoutedEventArgs e) {
-            PatientQuickViewLabel.Content = "1:30 appointment available";
-        }
-
-        private void Appt9_Click(object sender, RoutedEventArgs e) {
-            PatientQuickViewLabel.Content = "2:00 appointment available";
-        }
-
-        private void Appt10_Click(object sender, RoutedEventArgs e) {
-            PatientQuickViewLabel.Content = "2:30 appointment available";
-        }
-
-        private void Appt11_Click(object sender, RoutedEventArgs e) {
-            PatientQuickViewLabel.Content = "3:00 appointment available";
-        }
-
-        private void Appt12_Click(object sender, RoutedEventArgs e) {
-            PatientQuickViewLabel.Content = "3:30 appointment available";
-        }
-
-        private void Appt13_Click(object sender, RoutedEventArgs e) {
-            PatientQuickViewLabel.Content = "4:00 appointment available";
-        }
-
-        private void Appt14_Click(object sender, RoutedEventArgs e) {
-            PatientQuickViewLabel.Content = "4:30 appointment available";
         }
 
         // Setup a helper method to revert buttons to previous colors if I decide to change it
