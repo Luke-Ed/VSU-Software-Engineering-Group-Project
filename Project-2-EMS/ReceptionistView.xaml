@@ -4,20 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Reception" Height="800" Width="1200" WindowStartupLocation="CenterScreen" MinWidth="800" MinHeight="600">
+        Title="Reception" Height="1000" Width="1400" WindowStartupLocation="CenterScreen" MinHeight="800" MinWidth="1200" >
 
     <!-- This is the Main Grid to hold all child grids in the form -->
     <Grid Name="MainFormPanel" >
         <!-- Split the main panel into two columns -->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20*" /> <!-- Column 0 -->
-            <ColumnDefinition Width="80*"   /> <!-- Column 1 -->
+            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="*"   />
         </Grid.ColumnDefinitions>
-
-        <!-- This is the initial greetings grid -->
-        <Grid Name="GreetingGrid" Grid.Column="1" Background="#FF7C7C7C" Visibility="Hidden" >
-            <Label Name="GreetingLabel" Content="Greetings {insert name}" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" Foreground="White" />
-        </Grid>
 
         <!-- This is the side control panel -->
         <Grid Name="ControlPanel" Grid.Column="0" Background="#FF515353" >
@@ -38,122 +33,368 @@
             <Button Content="Sign-in" Grid.Column="0" Grid.Row="2" Height="50" FontSize="18" Click="SigninButton_Click" />
             <Button Content="Billing" Grid.Column="0" Grid.Row="3" Height="50" FontSize="18" Click="BillingButton_Click" />
             <Button Content="Log Out" Grid.Column="0" Grid.Row="5" Height="50" FontSize="18" Click="LogOutButton_Click" />
+
+            <Grid Grid.Row="4" Name="CalendarSidePanel" Margin="10" Background="#FFBFBFBF" Visibility="Visible" >
+                <!-- Viewbox scales the calendar to fill the grid -->
+                <Viewbox VerticalAlignment="Top" Margin="10,10,10,0" >
+                    <Calendar Name="ApptCalendar" SelectedDatesChanged="ApptCalendar_SelectedDatesChanged" GotMouseCapture="ApptCalendar_GotMouseCapture" />
+                </Viewbox>
+            </Grid>
+        </Grid>
+            
+        <!-- This is the initial greetings grid -->
+        <Grid Name="GreetingGrid" Grid.Column="1" Background="#FF7C7C7C" Visibility="Hidden" >
+            <Label Name="GreetingLabel" Content="Greetings {insert name}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" Foreground="White" />
         </Grid>
 
         <!-- This is the calendar panel -->
         <Grid Name="CalendarPanel" Grid.Column="1" Background="#FF7C7C7C" Visibility="Visible" >
-            <!-- Split calendar panel into two columns -->
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.65*" />
-                <ColumnDefinition Width="0.35*" />
-            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="65" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-            <!-- This grid will hold the calendar and appointment day views -->
-            <Grid Grid.Column="0" >
-                <!-- Split the grid into two rows -->
+            <Grid Grid.Row="0" Background="White" Margin="5,1,0,0" >
+                <Label Content="Appointment Calendar" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" FontSize="36" />
+            </Grid>
+            
+            <Grid Grid.Row="1" Background="White" Margin="5,1,0,2" ShowGridLines="True" >
+                <Label Name="AppointmentDays" Content="Date Time" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0" FontSize="24" />
+            </Grid>
+
+            <Grid Grid.Row="2" Background="White" Margin="5,0,0,2" ShowGridLines="True" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="8*" />
+                    <ColumnDefinition Width="13*" />
+                    <ColumnDefinition Width="13*" />
+                    <ColumnDefinition Width="13*" />
+                    <ColumnDefinition Width="13*" />
+                    <ColumnDefinition Width="13*" />
+                    <ColumnDefinition Width="13*" />
+                    <ColumnDefinition Width="13*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="1" Content="Sunday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                <Label Grid.Column="2" Content="Monday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                <Label Grid.Column="3" Content="Tuesday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                <Label Grid.Column="4" Content="Wednesday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                <Label Grid.Column="5" Content="Thursday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                <Label Grid.Column="6" Content="Friday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                <Label Grid.Column="7" Content="Saturday" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+            </Grid>
+
+            <!--#region Calendar day view -->
+            
+            <Grid Grid.Row="3" Height="auto" Width="auto" Margin="5,0,0,0" >
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"    />
-                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="8*" />
+                    <RowDefinition Height="8*" />
+                    <RowDefinition Height="8*" />
+                    <RowDefinition Height="8*" />
+                    <RowDefinition Height="8*" />
+                    <RowDefinition Height="8*" />
+                    <RowDefinition Height="8*" />
+                    <RowDefinition Height="8*" />
+                    <RowDefinition Height="8*" />
+                    <RowDefinition Height="8*" />
+                    <RowDefinition Height="8*" />
+                    <RowDefinition Height="8*" />
+                    <RowDefinition Height="8*" />
                 </Grid.RowDefinitions>
 
-                <!-- Viewbox scales the calendar to fill the grid -->
-                <Viewbox Grid.Row="0" Stretch="Fill" Margin="6,-2,6,-5" >
-                    <Calendar Name="ApptCalendar" SelectedDatesChanged="ApptCalendar_SelectedDatesChanged" GotMouseCapture="ApptCalendar_GotMouseCapture"  />
-                </Viewbox>
+                <Grid Grid.Row="0" Background="White" ShowGridLines="True" Margin="0,0,0,1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                    </Grid.ColumnDefinitions>
 
-                <Grid Name="ApptDateViewerEmpty" Grid.Row="1" Height="250" Margin="8,8,8,8" Background="#FFDADADA" Visibility="Hidden" >
-                    <Label Name="ApptEmpty" Content="No appointments available" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="28" />
+                    <Label Grid.Column="0" Content="6:00 AM" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17" />
+                    <Label Grid.Column="1" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="2" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="3" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="4" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="5" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="6" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="7" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
                 </Grid>
-                
-                <!-- ScrollViewer allows us to have a scrollable grid for our appointment days -->
-                <ScrollViewer Name="ApptDateViewer" Grid.Row="1" Height="250" Margin="8,8,8,8" Visibility="Visible" >
-                    <Grid Height="auto" Width="auto" Margin="0">
-                        <!-- Split the scroll viewer into two rows -->
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="50"   />
-                            <RowDefinition Height="auto" />
-                        </Grid.RowDefinitions>
 
-                        <!-- Grid to hold the date label and to change background color -->
-                        <Grid Grid.Row="0" Background="#FF92D3AC" >
-                            <Label Name="AppointmentDate" Content="No Date Selected" HorizontalAlignment="Center" FontSize="24" Grid.Column="4" />
-                        </Grid>
+                <Grid Grid.Row="1" Background="White" ShowGridLines="True" Margin="0,0,0,1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                    </Grid.ColumnDefinitions>
 
-                        <!-- Grid to show the appointment times and patients -->
-                        <Grid Grid.Row="1" Height="auto" >
-                            <!-- Split the grid into two columns -->
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="0.5*" />
-                                <ColumnDefinition Width="0.5*" />
-                            </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="7:00 AM" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17" />
+                    <Label Grid.Column="1" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="2" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="3" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="4" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="5" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="6" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="7" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                </Grid>
 
-                            <!-- Split the grid into 14 rows -->
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="50" />
-                                <RowDefinition Height="50" />
-                                <RowDefinition Height="50" />
-                                <RowDefinition Height="50" />
-                                <RowDefinition Height="50" />
-                                <RowDefinition Height="50" />
-                                <RowDefinition Height="50" />
-                                <RowDefinition Height="50" />
-                                <RowDefinition Height="50" />
-                                <RowDefinition Height="50" />
-                                <RowDefinition Height="50" />
-                                <RowDefinition Height="50" />
-                                <RowDefinition Height="50" />
-                                <RowDefinition Height="50" />
-                                <RowDefinition Height="50" />
-                            </Grid.RowDefinitions>
+                <Grid Grid.Row="2" Background="White" ShowGridLines="True" Margin="0,0,0,1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                    </Grid.ColumnDefinitions>
 
-                            <!-- Labels for time and patient columns -->
-                            <Label Content="Time" Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Margin="0,0,1,0" Background="#FF3CA037" />
-                            <Label Content="Patient" Grid.Column="1" Grid.Row="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Margin="1,0,0,0" Background="#FF3CA037" />
+                    <Label Grid.Column="0" Content="8:00 AM" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17" />
+                    <Label Grid.Column="1" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="2" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="3" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="4" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="5" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="6" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="7" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                </Grid>
 
-                            <!-- Labels for appointment times in column 0 -->
-                            <Label Name="Time1" Content="9:00 AM" Grid.Column="0" Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="#FF9E9E9E" />
-                            <Label Name="Time2" Content="9:30 AM" Grid.Column="0" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="LightGray" />
-                            <Label Name="Time3" Content="10:00 AM" Grid.Column="0" Grid.Row="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="#FF9E9E9E" />
-                            <Label Name="Time4" Content="10:30 AM" Grid.Column="0" Grid.Row="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="LightGray" />
-                            <Label Name="Time5" Content="11:00 AM" Grid.Column="0" Grid.Row="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="#FF9E9E9E" />
-                            <Label Name="Time6" Content="11:30 AM" Grid.Column="0" Grid.Row="6" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="LightGray" />
-                            <Label Name="Time7" Content="1:00 PM" Grid.Column="0" Grid.Row="7" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="#FF9E9E9E" />
-                            <Label Name="Time8" Content="1:30 PM" Grid.Column="0" Grid.Row="8" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="LightGray" />
-                            <Label Name="Time9" Content="2:00 PM" Grid.Column="0" Grid.Row="9" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="#FF9E9E9E" />
-                            <Label Name="Time10" Content="2:30 PM" Grid.Column="0" Grid.Row="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="LightGray" />
-                            <Label Name="Time11" Content="3:00 PM" Grid.Column="0" Grid.Row="11" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="#FF9E9E9E" />
-                            <Label Name="Time12" Content="3:30 PM" Grid.Column="0" Grid.Row="12" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="LightGray" />
-                            <Label Name="Time13" Content="4:00 PM" Grid.Column="0" Grid.Row="13" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="#FF9E9E9E" />
-                            <Label Name="Time14" Content="4:30 PM" Grid.Column="0" Grid.Row="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="28" Background="LightGray" />
+                <Grid Grid.Row="3" Background="White" ShowGridLines="True" Margin="0,0,0,1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                    </Grid.ColumnDefinitions>
 
-                            <!-- Buttons to show patient information if patient has appointment or to let you add/remove a patient -->
-                            <Button Name="Appt1" Content="Available" Grid.Column="1" Grid.Row="1" FontSize="28" Background="#FF76F994" Click="Appt1_Click" />
-                            <Button Name="Appt2" Content="Available" Grid.Column="1" Grid.Row="2" FontSize="28" Background="#FF76F994" Click="Appt2_Click" />
-                            <Button Name="Appt3" Content="Available" Grid.Column="1" Grid.Row="3" FontSize="28" Background="#FF76F994" Click="Appt3_Click" />
-                            <Button Name="Appt4" Content="Available" Grid.Column="1" Grid.Row="4" FontSize="28" Background="#FF76F994" Click="Appt4_Click" />
-                            <Button Name="Appt5" Content="Available" Grid.Column="1" Grid.Row="5" FontSize="28" Background="#FF76F994" Click="Appt5_Click" />
-                            <Button Name="Appt6" Content="Available" Grid.Column="1" Grid.Row="6" FontSize="28" Background="#FF76F994" Click="Appt6_Click" />
-                            <Button Name="Appt7" Content="Available" Grid.Column="1" Grid.Row="7" FontSize="28" Background="#FF76F994" Click="Appt7_Click" />
-                            <Button Name="Appt8" Content="Available" Grid.Column="1" Grid.Row="8" FontSize="28" Background="#FF76F994" Click="Appt8_Click" />
-                            <Button Name="Appt9" Content="Available" Grid.Column="1" Grid.Row="9" FontSize="28" Background="#FF76F994" Click="Appt9_Click" />
-                            <Button Name="Appt10" Content="Available" Grid.Column="1" Grid.Row="10" FontSize="28" Background="#FF76F994" Click="Appt10_Click" />
-                            <Button Name="Appt11" Content="Available" Grid.Column="1" Grid.Row="11" FontSize="28" Background="#FF76F994" Click="Appt11_Click" />
-                            <Button Name="Appt12" Content="Available" Grid.Column="1" Grid.Row="12" FontSize="28" Background="#FF76F994" Click="Appt12_Click" />
-                            <Button Name="Appt13" Content="Available" Grid.Column="1" Grid.Row="13" FontSize="28" Background="#FF76F994" Click="Appt13_Click" />
-                            <Button Name="Appt14" Content="Available" Grid.Column="1" Grid.Row="14" FontSize="28" Background="#FF76F994" Click="Appt14_Click" />
-                        </Grid>
-                    </Grid>
-                </ScrollViewer>
+                    <Label Grid.Column="0" Content="9:00 AM" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17" />
+                    <Label Grid.Column="1" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="2" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="3" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="4" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="5" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="6" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="7" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                </Grid>
+
+                <Grid Grid.Row="4" Background="White" ShowGridLines="True" Margin="0,0,0,1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" Content="10:00 AM" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17" />
+                    <Label Grid.Column="1" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="2" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="3" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="4" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="5" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="6" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="7" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                </Grid>
+
+                <Grid Grid.Row="5" Background="White" ShowGridLines="True" Margin="0,0,0,1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" Content="11:00 AM" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17" />
+                    <Label Grid.Column="1" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="2" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="3" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="4" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="5" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="6" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="7" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                </Grid>
+
+                <Grid Grid.Row="6" Background="White" ShowGridLines="True" Margin="0,0,0,1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" Content="12:00 PM" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17" />
+                    <Label Grid.Column="1" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="2" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="3" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="4" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="5" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="6" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="7" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                </Grid>
+
+                <Grid Grid.Row="7" Background="White" ShowGridLines="True" Margin="0,0,0,1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" Content="1:00 PM" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17" />
+                    <Label Grid.Column="1" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="2" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="3" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="4" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="5" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="6" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="7" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                </Grid>
+
+                <Grid Grid.Row="8" Background="White" ShowGridLines="True" Margin="0,0,0,1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" Content="2:00 PM" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17" />
+                    <Label Grid.Column="1" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="2" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="3" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="4" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="5" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="6" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="7" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                </Grid>
+
+                <Grid Grid.Row="9" Background="White" ShowGridLines="True" Margin="0,0,0,1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" Content="3:00 PM" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17" />
+                    <Label Grid.Column="1" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="2" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="3" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="4" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="5" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="6" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="7" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                </Grid>
+
+                <Grid Grid.Row="10" Background="White" ShowGridLines="True" Margin="0,0,0,1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" Content="4:00 PM" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17" />
+                    <Label Grid.Column="1" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="2" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="3" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="4" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="5" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="6" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="7" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                </Grid>
+
+                <Grid Grid.Row="11" Background="White" ShowGridLines="True" Margin="0,0,0,1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" Content="5:00 PM" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17" />
+                    <Label Grid.Column="1" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="2" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="3" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="4" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="5" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="6" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="7" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                </Grid>
+
+                <Grid Grid.Row="12" Background="White" ShowGridLines="True" Margin="0,0,0,1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                        <ColumnDefinition Width="13*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" Content="6:00 PM" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17" />
+                    <Label Grid.Column="1" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="2" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="3" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="4" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="5" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="6" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                    <Label Grid.Column="7" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" />
+                </Grid>
             </Grid>
 
-            <!-- This grid will hold the patient information for adding/removing appointments -->
-            <Grid Grid.Column="1" >
-                <!-- Placeholder grid for before an appointment time is selected -->
-                <Grid Margin="8,8,8,8" Background="#FFDADADA" >
-                    <Label Name="PatientQuickViewLabel" Content="No appointment selected" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" />
-                </Grid>
-            </Grid>
+            <!--#endregion-->
+
         </Grid>
+        
 
         <!-- This is the sign-in panel -->
         <Grid Name="SigninPanel" Grid.Column="1" Visibility="Hidden" >
