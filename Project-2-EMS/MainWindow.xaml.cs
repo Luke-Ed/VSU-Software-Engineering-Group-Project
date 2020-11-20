@@ -31,6 +31,9 @@ namespace Project_2_EMS {
     }
 
     private void PatientButton_Click(object sender, RoutedEventArgs e) {
+      Window patientWindow = new PatientView(this);
+      patientWindow.Show();
+      Hide();
     }
 
     private void ReceptionButton_Click(object sender, RoutedEventArgs e) {

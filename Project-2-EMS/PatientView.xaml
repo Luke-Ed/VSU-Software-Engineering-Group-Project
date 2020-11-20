@@ -1,0 +1,48 @@
+﻿<Window x:Class="Project_2_EMS.PatientView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Project_2_EMS"
+        mc:Ignorable="d"
+        Title="PatientView" Height="700" Width="600" WindowStartupLocation="CenterScreen" Background="#ADD8E6" MinWidth="600" MinHeight="700">
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,2,-4" Width="590" Height="573">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="73*"/>
+            <RowDefinition Height="58*"/>
+            <RowDefinition Height="85*"/>
+            <RowDefinition Height="347*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+
+        </Grid.ColumnDefinitions>
+
+        <Image x:Name="Logo" Height="28" Margin="211,20,209,25" VerticalAlignment="Center" Source="EdmondsonInternalMedicine.png" RenderTransformOrigin="-0.142,-0.164" HorizontalAlignment="Center" Width="170" Grid.Row="1"/>
+
+        <Label x:Name="WelcomeLabel" Content="Welcome to Edmondson Internal Medicine!" HorizontalAlignment="Center" Margin="172,10,165,22" Grid.Row="2" VerticalAlignment="Center" Height="26" Width="253"/>
+
+        <Button x:Name="ViewApptButton" Content="View Appointments" HorizontalAlignment="Left" Margin="123,34,0,0" Grid.Row="3" VerticalAlignment="Top" Height="20" Width="108" Click="ViewApptButton_Click"/>
+
+        <Button x:Name="ViewPrescButton" Content="View Prescriptions" HorizontalAlignment="Left" Margin="381,34,0,0" Grid.Row="3" VerticalAlignment="Top" Height="20" Width="100" Click="ViewPrescButton_Click"/>
+
+        <Grid x:Name="AppointmentsGrid" HorizontalAlignment="Left" Height="347" VerticalAlignment="Top" Width="590" Grid.Row="4" Visibility="Hidden">
+            <Viewbox>
+                <Calendar HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,5" />
+            </Viewbox>
+        </Grid>
+        <ScrollViewer x:Name="PrescriptionScrollViewer" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Margin="-10,0,0,0" Grid.Row="4">
+            <Grid x:Name="PrescriptionsGrid" HorizontalAlignment="Center" Height="347" VerticalAlignment="Top" Width="590" Grid.Row="4" Visibility="Hidden">
+                <ListBox x:Name="PrescriptionLB" HorizontalAlignment="Center" Height="327" VerticalAlignment="Top" Width="531" Margin="37,10,37,0"/>
+            </Grid>
+        </ScrollViewer>
+
+        <Button x:Name="LogOutButton" Content="Log Out" HorizontalAlignment="Center" Height="26" Margin="256,357,257,-36" Grid.Row="4" VerticalAlignment="Bottom" Width="77" Click="LogOutButton_Click"/>
+
+        <Grid x:Name="WelcomeGrid" HorizontalAlignment="Left" Height="347" VerticalAlignment="Top" Width="590" Grid.Row="4" Visibility="Visible">
+            <Image HorizontalAlignment="Left" Height="347" VerticalAlignment="Top" Width="600" Source="HEAD-Top_9_Medical_Apps_for_Doctors_Hero_no_text.png"/>
+        </Grid>
+
+    </Grid>
+</Window>
