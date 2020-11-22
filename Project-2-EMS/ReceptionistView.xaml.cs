@@ -83,7 +83,7 @@ namespace Project_2_EMS {
                     int row = 0;
 
                     foreach (Label l in Appointments.Children) {
-                        if (Grid.GetRow(l) == row && Grid.GetColumn(l) == (int)dayNum + 1) {
+                        if (Grid.GetRow(l) == row && Grid.GetColumn(l) == (int)dayNum) {
                             if (l.Background == Brushes.White)
                             {
                                 l.Background = Brushes.LightGray;
