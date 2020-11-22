@@ -17,15 +17,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace Project_2_EMS {
-    /// <summary>
-    /// Interaction logic for ReceptionistView.xaml
-    /// </summary>
     public partial class ReceptionistView : Window {
       private readonly Window _parentWindow;
       public ReceptionistView(Window parentWindow) {
         _parentWindow = parentWindow;
         InitializeComponent();
-        AppointmentDays.Content = DateTime.Now.AddDays(Convert.ToDouble(DateTime.Now.DayOfWeek.ToString("d")) * -1.0).ToString("Week o\\f MMMM dd, yyyy");
+        AppointmentWeek.Content = DateTime.Now.AddDays(Convert.ToDouble(DateTime.Now.DayOfWeek.ToString("d")) * -1.0).ToString("Week o\\f MMMM dd, yyyy");
         Closing += OnWindowClosing;
       }
 
@@ -76,7 +73,7 @@ namespace Project_2_EMS {
             {
                 //AppointmentDays.Content = ApptCalendar.SelectedDate.Value.ToShortDateString();
                 DateTime date = ApptCalendar.SelectedDate.Value;
-                AppointmentDays.Content = date.AddDays(Convert.ToDouble(ApptCalendar.SelectedDate.Value.DayOfWeek.ToString("d")) * -1.0).ToString("Week o\\f MMMM dd, yyyy");
+                AppointmentWeek.Content = date.AddDays(Convert.ToDouble(ApptCalendar.SelectedDate.Value.DayOfWeek.ToString("d")) * -1.0).ToString("Week o\\f MMMM dd, yyyy");
 
                 /** 
                 if (ApptCalendar.SelectedDate.Value.ToString("dddd").Equals("Saturday") || ApptCalendar.SelectedDate.Value.ToString("dddd").Equals("Sunday"))
@@ -98,7 +95,7 @@ namespace Project_2_EMS {
 
         private void ApptCalendar_GotMouseCapture(object sender, MouseEventArgs e) {
             // Code obtained from https://stackoverflow.com/questions/25352961/have-to-click-away-twice-from-calendar-in-wpf
-            // to prevent mouse click from being stuck in calendar
+            // to prevent needing to double click outside of calendar after clicking inside of it
             UIElement originalElement = e.OriginalSource as UIElement;
             if (originalElement is CalendarDayButton || originalElement is CalendarItem)
             {
@@ -109,5 +106,48 @@ namespace Project_2_EMS {
         // Setup a helper method to revert buttons to previous colors if I decide to change it
 
         #endregion
+
+        private void Label_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            /**
+            if (SundayCell.Background == Brushes.LightCyan)
+            {
+                
+                //int row = Grid.GetRow(Sunday);
+                int col = Grid.GetColumn(SundayCell);
+                SundayCell.Background = Brushes.White;
+                SundayCell.Content = e.Source.ToString();
+                
+            }
+            else {
+                SundayCell.Content = "Sunday";
+                SundayCell.Background = Brushes.LightCyan;
+            }
+            */
+            //var str = e.Source as Label;
+            //str.Background = Brushes.White;
+
+            //int row = Grid.GetRow(str);
+            //int col = Grid.GetColumn(str);
+
+            //MessageBox.Show(GetChildren(SundayColumn, row, col).ToString());
+            
+            //str.Content = Grid.GetColumn(str);
+        }
+
+
+        private static UIElement GetChildren(Grid grid, int row, int column)
+        {
+            foreach (UIElement child in grid.Children)
+            {
+                if (Grid.GetRow(child) == row
+                      &&
+                   Grid.GetColumn(child) == column)
+                {
+                    return child;
+                }
+            }
+            return null;
+        }
     }
 }
