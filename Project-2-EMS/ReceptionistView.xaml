@@ -92,7 +92,7 @@
             </Grid>
 
             <!-- The main grid showing appointment days and times -->
-            <Grid Grid.Row="3" Background="#FF7C7C7C" >
+            <Grid Name="Appointments" Grid.Row="3" Background="#FF7C7C7C" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="9*" />
                     <ColumnDefinition Width="13*" />

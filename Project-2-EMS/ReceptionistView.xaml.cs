@@ -18,7 +18,9 @@ using System.Windows.Shapes;
 
 namespace Project_2_EMS {
     public partial class ReceptionistView : Window {
-      private readonly Window _parentWindow;
+        private readonly Window _parentWindow;
+        private DateTime prevDate;
+
       public ReceptionistView(Window parentWindow) {
         _parentWindow = parentWindow;
         InitializeComponent();
@@ -71,26 +73,29 @@ namespace Project_2_EMS {
         {
             if (ApptCalendar.SelectedDate.HasValue)
             {
-                //AppointmentDays.Content = ApptCalendar.SelectedDate.Value.ToShortDateString();
                 DateTime date = ApptCalendar.SelectedDate.Value;
-                AppointmentWeek.Content = date.AddDays(Convert.ToDouble(ApptCalendar.SelectedDate.Value.DayOfWeek.ToString("d")) * -1.0).ToString("Week o\\f MMMM dd, yyyy");
+                Double dayNum = Convert.ToDouble(ApptCalendar.SelectedDate.Value.DayOfWeek.ToString("d"));
 
-                /** 
-                if (ApptCalendar.SelectedDate.Value.ToString("dddd").Equals("Saturday") || ApptCalendar.SelectedDate.Value.ToString("dddd").Equals("Sunday"))
-                {
-                    ApptDateViewerEmpty.Visibility = Visibility.Visible;
-                    ApptDateViewer.Opacity = 0.1;
-                    ApptDateViewer.IsHitTestVisible = false;
+                AppointmentWeek.Content = date.AddDays(dayNum * -1.0).ToString("Week o\\f MMMM dd, yyyy");
+
+                if (prevDate != date) {
+                    prevDate = date;
+                    int row = 0;
+
+                    foreach (Label l in Appointments.Children) {
+                        if (Grid.GetRow(l) == row && Grid.GetColumn(l) == (int)dayNum + 1) {
+                            if (l.Background == Brushes.White)
+                            {
+                                l.Background = Brushes.LightGray;
+                            }
+                            row += 1;
+                        }
+                        else if (l.Background == Brushes.LightGray) {
+                            l.Background = Brushes.White;
+                        }
+                    }
                 }
-                else
-                {
-                    ApptDateViewerEmpty.Visibility = Visibility.Hidden;
-                    ApptDateViewer.Opacity = 1.0;
-                    ApptDateViewer.IsHitTestVisible = true;
-                }
-                */
             }
-            //PatientQuickViewLabel.Content = "No appointment selected";
         }
 
         private void ApptCalendar_GotMouseCapture(object sender, MouseEventArgs e) {
@@ -102,8 +107,6 @@ namespace Project_2_EMS {
                 originalElement.ReleaseMouseCapture();
             }
         }
-
-        // Setup a helper method to revert buttons to previous colors if I decide to change it
 
         #endregion
 
@@ -140,9 +143,7 @@ namespace Project_2_EMS {
         {
             foreach (UIElement child in grid.Children)
             {
-                if (Grid.GetRow(child) == row
-                      &&
-                   Grid.GetColumn(child) == column)
+                if (Grid.GetRow(child) == row && Grid.GetColumn(child) == column)
                 {
                     return child;
                 }
