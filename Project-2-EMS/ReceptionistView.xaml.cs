@@ -19,17 +19,27 @@ using System.Windows.Shapes;
 namespace Project_2_EMS {
     public partial class ReceptionistView : Window {
         private readonly Window _parentWindow;
+        private Window newApptWindow;
+        private DateTime weekDate;
         private DateTime prevDate;
 
       public ReceptionistView(Window parentWindow) {
         _parentWindow = parentWindow;
         InitializeComponent();
-        AppointmentWeek.Content = DateTime.Now.AddDays(Convert.ToDouble(DateTime.Now.DayOfWeek.ToString("d")) * -1.0).ToString("Week o\\f MMMM dd, yyyy");
+
+        weekDate = DateTime.Now.AddDays(Convert.ToDouble(DateTime.Now.DayOfWeek.ToString("d")) * -1.0);
+        AppointmentWeek.Content = weekDate.ToString("Week o\\f MMMM dd, yyyy");
+
         Closing += OnWindowClosing;
       }
 
       private void LogOutButton_Click(object sender, RoutedEventArgs e) {
         Hide();
+
+        if (newApptWindow != null) {
+            newApptWindow.Close();
+        }
+
         Window mainWindow = _parentWindow;
         mainWindow.Show();
         }
@@ -76,14 +86,15 @@ namespace Project_2_EMS {
                 DateTime date = ApptCalendar.SelectedDate.Value;
                 Double dayNum = Convert.ToDouble(ApptCalendar.SelectedDate.Value.DayOfWeek.ToString("d"));
 
-                AppointmentWeek.Content = date.AddDays(dayNum * -1.0).ToString("Week o\\f MMMM dd, yyyy");
+                weekDate = date.AddDays(dayNum * -1.0);
+                AppointmentWeek.Content = weekDate.ToString("Week o\\f MMMM dd, yyyy");
 
                 if (prevDate != date) {
                     prevDate = date;
                     int row = 0;
 
-                    foreach (Label l in Appointments.Children) {
-                        if (Grid.GetRow(l) == row && Grid.GetColumn(l) == (int)dayNum) {
+                    foreach (Label l in AppointmentGrids.Children) {
+                        if (Grid.GetRow(l) == row && Grid.GetColumn(l) == (int)dayNum - 1) {
                             if (l.Background == Brushes.White)
                             {
                                 l.Background = Brushes.LightGray;
@@ -112,21 +123,6 @@ namespace Project_2_EMS {
 
         private void Label_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            /**
-            if (SundayCell.Background == Brushes.LightCyan)
-            {
-                
-                //int row = Grid.GetRow(Sunday);
-                int col = Grid.GetColumn(SundayCell);
-                SundayCell.Background = Brushes.White;
-                SundayCell.Content = e.Source.ToString();
-                
-            }
-            else {
-                SundayCell.Content = "Sunday";
-                SundayCell.Background = Brushes.LightCyan;
-            }
-            */
             //var str = e.Source as Label;
             //str.Background = Brushes.White;
 
@@ -138,10 +134,9 @@ namespace Project_2_EMS {
             //str.Content = Grid.GetColumn(str);
         }
 
-
-        private static UIElement GetChildren(Grid grid, int row, int column)
+        private static Label GetChild(Grid grid, int row, int column)
         {
-            foreach (UIElement child in grid.Children)
+            foreach (Label child in grid.Children)
             {
                 if (Grid.GetRow(child) == row && Grid.GetColumn(child) == column)
                 {
@@ -149,6 +144,22 @@ namespace Project_2_EMS {
                 }
             }
             return null;
+        }
+
+        private void ApptDate_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (newApptWindow != null)
+            {
+                newApptWindow.Close();
+            }
+            
+            Label srcLabel = e.Source as Label;
+            Label timeLabel = GetChild(AppointmentTimes, Grid.GetRow(srcLabel), 0) as Label;
+            DateTime date = weekDate.AddDays(Grid.GetColumn(srcLabel) + 1);
+
+            //ToString("ddd dd, yyyy")
+            newApptWindow = new NewAppointmentWindow(srcLabel, timeLabel, date);
+            newApptWindow.Show();
         }
     }
 }
