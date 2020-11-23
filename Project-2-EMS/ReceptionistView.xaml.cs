@@ -36,7 +36,8 @@ namespace Project_2_EMS {
       private void LogOutButton_Click(object sender, RoutedEventArgs e) {
         Hide();
 
-        if (newApptWindow != null) {
+        if (newApptWindow != null) 
+        {
             newApptWindow.Close();
         }
 
@@ -46,6 +47,12 @@ namespace Project_2_EMS {
       
       private void OnWindowClosing(object sender, CancelEventArgs e) {
         Window mainWindow = _parentWindow;
+
+        if (newApptWindow != null)
+        {
+            newApptWindow.Close();
+        }
+
         mainWindow.Close();
       }
 
