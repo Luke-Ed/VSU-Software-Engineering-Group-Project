@@ -17,7 +17,7 @@
             <Label Name="ApptDate" Content="Date Time" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" />
         </Grid>
 
-        <Grid Name="FirstPage" Grid.Row="1" >
+        <Grid Name="InitialPage" Grid.Row="1" Visibility="Hidden" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="5*" />
                 <RowDefinition Height="6*" />
@@ -30,6 +30,13 @@
                 <Button Content="Existing Patient" Height="40" Width="200" VerticalAlignment="Top" Margin="0,20,0,0" FontSize="20" />
             </Grid>
         </Grid>
-        
+
+        <Grid Name="NewPatientPage" Grid.Row="1" Visibility="Visible" >
+            
+        </Grid>
+
+        <Grid Name="ExistingPatientPage" Grid.Row="1" Visibility="Hidden" >
+
+        </Grid>
     </Grid>
 </Window>
