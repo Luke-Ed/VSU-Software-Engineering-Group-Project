@@ -96,22 +96,11 @@ namespace Project_2_EMS {
                 weekDate = date.AddDays(dayNum * -1.0);
                 AppointmentWeek.Content = weekDate.ToString("Week o\\f MMMM dd, yyyy");
 
-                if (prevDate != date) {
+                if (prevDate != date && dayNum != 0 && dayNum != 6) {
                     prevDate = date;
-                    int row = 0;
 
-                    foreach (Label l in AppointmentGrids.Children) {
-                        if (Grid.GetRow(l) == row && Grid.GetColumn(l) == (int)dayNum - 1) {
-                            if (l.Background == Brushes.White)
-                            {
-                                l.Background = Brushes.LightGray;
-                            }
-                            row += 1;
-                        }
-                        else if (l.Background == Brushes.LightGray) {
-                            l.Background = Brushes.White;
-                        }
-                    }
+                    List<UIElement> apptDays = GetChildren(AppointmentDays);
+                    HighlightDay(apptDays, 0, (int)dayNum + 1);
                 }
             }
         }
@@ -141,26 +130,81 @@ namespace Project_2_EMS {
             //str.Content = Grid.GetColumn(str);
         }
 
-        private static Label GetChild(Grid grid, int row, int column)
+        // This method was obatained from the following internet site
+        // https://social.msdn.microsoft.com/Forums/vstudio/en-US/dc9afbe7-784d-42cd-8065-6fd1558e8bd9/grid-child-elements-accessing-using-c-rowcolumn?forum=wpf
+        // I modified it into two methods, GetChildren to return a list of UIElements, and GetChild to return a single child
+        private static List<UIElement> GetChildren(Grid grid)
         {
-            foreach (Label child in grid.Children)
+            List<UIElement> children = new List<UIElement>();
+            foreach (UIElement child in grid.Children)
             {
-                if (Grid.GetRow(child) == row && Grid.GetColumn(child) == column)
-                {
+                children.Add(child);
+            }
+            return children;
+        }
+
+        private static UIElement GetChild(Grid grid, int row, int column) 
+        {
+            foreach (UIElement child in grid.Children) 
+            {
+                if (Grid.GetRow(child) == row && Grid.GetColumn(child) == column) {
                     return child;
                 }
             }
             return null;
         }
 
+        private static void HighlightDay(List<UIElement> days, int row, int column) 
+        {
+            foreach (Label l in days)
+            {
+                if (Grid.GetRow(l) == row && Grid.GetColumn(l) == column)
+                {
+                    l.Background = Brushes.BlueViolet;
+                }
+                else
+                {
+                    l.Background = Brushes.LightCyan;
+                }
+            }
+        }
+
+        private static void HighlightAppointment(Grid grid, int row, int column) 
+        {
+            foreach (Label child in grid.Children)
+            {
+                if (Grid.GetRow(child) == row && Grid.GetColumn(child) == column)
+                {
+                    child.Margin = new Thickness(5);
+                }
+                else 
+                {
+                    child.Margin = new Thickness(0.5);
+                }
+            }
+        }
+
         private void ApptDate_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Label srcLabel = e.Source as Label;
+            HighlightAppointment(AppointmentGrids, Grid.GetRow(srcLabel), Grid.GetColumn(srcLabel));
+
+            List<UIElement> apptDays = GetChildren(AppointmentDays);
+            HighlightDay(apptDays, 0, Grid.GetColumn(srcLabel) + 2);
+
+            DateTime date = weekDate.AddDays(Grid.GetColumn(srcLabel) + 1);
+            ApptCalendar.SelectedDate = date;
+        }
+
+        private void ApptDate_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (newApptWindow != null)
             {
                 newApptWindow.Close();
             }
-            
+
             Label srcLabel = e.Source as Label;
+
             Label timeLabel = GetChild(AppointmentTimes, Grid.GetRow(srcLabel), 0) as Label;
             DateTime date = weekDate.AddDays(Grid.GetColumn(srcLabel) + 1);
 
