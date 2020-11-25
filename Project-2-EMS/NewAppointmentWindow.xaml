@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="New Appointment Scheduler" Height="650" Width="500" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
     
-    <Grid Name="NewApptPanel" Background="LightGray" >
+    <Grid Name="NewApptPanel" Background="LightGray" Visibility="Visible" >
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
             <RowDefinition Height="9*" />
@@ -24,15 +24,151 @@
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0" >
-                <Button Content="New Patient" Height="40" Width="200" VerticalAlignment="Bottom" Margin="0,0,0,20" FontSize="20" />
+                <Button Content="New Patient" Height="40" Width="200" VerticalAlignment="Bottom" Margin="0,0,0,20" FontSize="20" Click="NewPatientBtn_Click" />
             </Grid>
             <Grid Grid.Row="1" >
-                <Button Content="Existing Patient" Height="40" Width="200" VerticalAlignment="Top" Margin="0,20,0,0" FontSize="20" />
+                <Button Content="Existing Patient" Height="40" Width="200" VerticalAlignment="Top" Margin="0,20,0,0" FontSize="20" Click="ExistingPatientBtn_Click" />
             </Grid>
         </Grid>
 
         <Grid Name="NewPatientPage" Grid.Row="1" Visibility="Visible" >
-            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions> 
+
+            <Grid Grid.Row="0" Background="#FF6BBBBD" >
+                <Label Content="New Patient Information" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" />
+            </Grid>
+
+            <Grid Grid.Row="1" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="3*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Content="First Name :" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" />
+                <TextBox  Name="FirstNameTextbox" Grid.Column="1" Height="30" Width="250" MaxLength="15" HorizontalAlignment="Left" VerticalContentAlignment="Center" FontSize="18" />
+            </Grid>
+
+            <Grid Grid.Row="2" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="3*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Content="Last Name :" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" />
+                <TextBox  Name="LastNameTextbox" Grid.Column="1" Height="30" Width="250" MaxLength="20" HorizontalAlignment="Left" VerticalContentAlignment="Center" FontSize="18"  />
+            </Grid>
+
+            <Grid Grid.Row="3" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="6*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Content="Street Address :" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16" />
+                <TextBox  Name="StreetTextbox" Grid.Column="1" Height="30" Width="350" MaxLength="40" HorizontalAlignment="Left" VerticalContentAlignment="Center" FontSize="18"  />
+            </Grid>
+
+            <Grid Grid.Row="4" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="6*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Content="City :" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16" />
+                <TextBox  Name="CityTextbox" Grid.Column="1" Height="30" Width="250" MaxLength="30" HorizontalAlignment="Left" VerticalContentAlignment="Center" FontSize="18"  />
+            </Grid>
+
+            <Grid Grid.Row="5" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="6*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Content="State :" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16" />
+                <ComboBox Name="StateComboBox" Grid.Column="1" Height="30" Width="150" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18" >
+                    <ComboBoxItem FontSize="18">Alabama</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Alaska</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Arizona</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Arkansas</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">California</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Colorado</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Connecticut</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Delaware</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Florida</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Georgia</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Hawaii</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Idaho</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Illinois</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Indiana</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Iowa</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Kansas</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Kentucky</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Louisiana</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Maine</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Maryland</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Massachusetts</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Michigan</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Minnesota</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Mississippi</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Missouri</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Montana</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Nebraska</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Nevada</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">New Hampshire</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">New Jersey</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">New Mexico</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">New York</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">North Carolina</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">North Dakota</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Ohio</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Oklahoma</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Oregon</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Pennsylvania</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Rhode Island</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">South Carolina</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">South Dakota</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Tennessee</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Texas</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Utah</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Vermont</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Virginia</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Washington</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">West Virginia</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Wisconsin</ComboBoxItem>
+                    <ComboBoxItem FontSize="18">Wyoming</ComboBoxItem>
+                </ComboBox>
+            </Grid>
+
+            <Grid Grid.Row="6" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="6*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Content="Zip Code :" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16" />
+                <TextBox  Name="ZipTextbox" Grid.Column="1" Height="30" Width="150" MaxLength="5" HorizontalAlignment="Left" VerticalContentAlignment="Center" FontSize="18"  />
+            </Grid>
+
+            <Grid Grid.Row="9" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="1" Content="Cancel" Height="40" Width="110" FontSize="18" Click="CancelNewPatientBtn_Click" />
+                <Button Grid.Column="2" Content="Confirm" Height="40" Width="110" FontSize="18" Click="ConfirmNewPatientBtn_Click" />
+            </Grid>
         </Grid>
 
         <Grid Name="ExistingPatientPage" Grid.Row="1" Visibility="Hidden" >

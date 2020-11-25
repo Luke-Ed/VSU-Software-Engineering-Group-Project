@@ -25,5 +25,52 @@ namespace Project_2_EMS
             InitializeComponent();
             ApptDate.Content = String.Format("{0} | {1}", date.ToString("ddd dd, yyyy"), timeLabel.Content);
         }
+
+        private static List<UIElement> GetChildren(Grid grid)
+        {
+            List<UIElement> children = new List<UIElement>();
+            foreach (UIElement child in grid.Children)
+            {
+                children.Add(child);
+            }
+            return children;
+        }
+
+        private void NewPatientBtn_Click(object sender, RoutedEventArgs e)
+        {
+            InitialPage.Visibility = Visibility.Hidden;
+            NewPatientPage.Visibility = Visibility.Visible;
+        }
+
+        private void ExistingPatientBtn_Click(object sender, RoutedEventArgs e)
+        {
+            InitialPage.Visibility = Visibility.Hidden;
+            ExistingPatientPage.Visibility = Visibility.Visible;
+        }
+
+        private void CancelNewPatientBtn_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (Grid child in NewPatientPage.Children) 
+            { 
+                foreach (UIElement element in child.Children) 
+                {
+                    if (element as TextBox != null) {
+                        (element as TextBox).Text = String.Empty;
+                    }
+                    else if (element as ComboBox != null)
+                    {
+                        (element as ComboBox).Text = String.Empty;
+                    }
+                }
+            }
+
+            NewPatientPage.Visibility = Visibility.Hidden;
+            InitialPage.Visibility = Visibility.Visible;
+        }
+
+        private void ConfirmNewPatientBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -56,36 +56,22 @@ namespace Project_2_EMS {
         mainWindow.Close();
       }
 
-      private void CalendarButton_Click(object sender, RoutedEventArgs e) {
-          if (!CalendarPanel.IsVisible) {
-              GreetingGrid.Visibility = Visibility.Hidden;
-              CalendarPanel.Visibility = Visibility.Visible;
-              SigninPanel.Visibility = Visibility.Hidden;
-              BillingPanel.Visibility = Visibility.Hidden;
-          }
+      // Change which view is visible when you select buttons from the control panel
+      private void ControlButton_Click(object sender, RoutedEventArgs e) {
+            List<UIElement> views = GetChildren(ViewPanel);
+            Button btn = e.Source as Button;
+            foreach (Grid grid in views) {
+                if (grid.Name.Contains(btn.Name))
+                {
+                    grid.Visibility = Visibility.Visible;
+                }
+                else {
+                    grid.Visibility = Visibility.Hidden;
+                }
+            }
       }
 
-      private void SigninButton_Click(object sender, RoutedEventArgs e) {
-          if (!SigninPanel.IsVisible) {
-              GreetingGrid.Visibility = Visibility.Hidden;
-              CalendarPanel.Visibility = Visibility.Hidden;
-              SigninPanel.Visibility = Visibility.Visible;
-              BillingPanel.Visibility = Visibility.Hidden;
-          }
-      }
-
-      private void BillingButton_Click(object sender, RoutedEventArgs e) {
-          if (!BillingPanel.IsVisible) {
-              GreetingGrid.Visibility = Visibility.Hidden;
-              CalendarPanel.Visibility = Visibility.Hidden;
-              SigninPanel.Visibility = Visibility.Hidden;
-              BillingPanel.Visibility = Visibility.Visible;
-          }
-      }
-
-        // This region holds the code/event handlers for Calendar view
-        #region
-
+        // Change the displayed date when you select a date on the calendar gui, highlight the day on the appointments calendar
         private void ApptCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ApptCalendar.SelectedDate.HasValue)
@@ -105,29 +91,14 @@ namespace Project_2_EMS {
             }
         }
 
+        // Code obtained from https://stackoverflow.com/questions/25352961/have-to-click-away-twice-from-calendar-in-wpf
+        // to prevent needing to double click outside of calendar after clicking inside of it
         private void ApptCalendar_GotMouseCapture(object sender, MouseEventArgs e) {
-            // Code obtained from https://stackoverflow.com/questions/25352961/have-to-click-away-twice-from-calendar-in-wpf
-            // to prevent needing to double click outside of calendar after clicking inside of it
             UIElement originalElement = e.OriginalSource as UIElement;
             if (originalElement is CalendarDayButton || originalElement is CalendarItem)
             {
                 originalElement.ReleaseMouseCapture();
             }
-        }
-
-        #endregion
-
-        private void Label_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            //var str = e.Source as Label;
-            //str.Background = Brushes.White;
-
-            //int row = Grid.GetRow(str);
-            //int col = Grid.GetColumn(str);
-
-            //MessageBox.Show(GetChildren(SundayColumn, row, col).ToString());
-            
-            //str.Content = Grid.GetColumn(str);
         }
 
         // This method was obatained from the following internet site
@@ -143,6 +114,7 @@ namespace Project_2_EMS {
             return children;
         }
 
+        // Get individual child from UIElement
         private static UIElement GetChild(Grid grid, int row, int column) 
         {
             foreach (UIElement child in grid.Children) 
@@ -153,7 +125,8 @@ namespace Project_2_EMS {
             }
             return null;
         }
-
+        
+        // Highlight the selected day on the appointments calendar
         private static void HighlightDay(List<UIElement> days, int row, int column) 
         {
             foreach (Label l in days)
@@ -169,13 +142,14 @@ namespace Project_2_EMS {
             }
         }
 
+        // Highlight the selected cell on the appointments calendar
         private static void HighlightAppointment(Grid grid, int row, int column) 
         {
             foreach (Label child in grid.Children)
             {
                 if (Grid.GetRow(child) == row && Grid.GetColumn(child) == column)
                 {
-                    child.Margin = new Thickness(5);
+                    child.Margin = new Thickness(2);
                 }
                 else 
                 {
@@ -184,6 +158,7 @@ namespace Project_2_EMS {
             }
         }
 
+        // Called when a cell on the appointments calendar is selected
         private void ApptDate_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Label srcLabel = e.Source as Label;
@@ -196,6 +171,7 @@ namespace Project_2_EMS {
             ApptCalendar.SelectedDate = date;
         }
 
+        // Called when a cell on the appointments calendar has been double clicked
         private void ApptDate_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (newApptWindow != null)
