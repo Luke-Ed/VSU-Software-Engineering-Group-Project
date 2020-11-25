@@ -33,6 +33,36 @@ namespace Project_2_EMS
             apptTime = timeLabel;
         }
 
+        private Boolean CheckIfTextEmpty(Grid grid)
+        {
+            Boolean isEmpty = false;
+            foreach (UIElement child in grid.Children)
+            {
+                if (child as TextBox != null)
+                {
+                    if ((child as TextBox).Text == String.Empty)
+                    {
+                        isEmpty = true;
+                    }
+                }
+                else if (child as ComboBox != null)
+                {
+                    if ((child as ComboBox).Text == String.Empty)
+                    {
+                        isEmpty = true;
+                    }
+                }
+                else if (child as DataGrid != null)
+                {
+                    if ((child as DataGrid).Items.Count == 0)
+                    {
+                        isEmpty = true;
+                    }
+                }
+            }
+            return isEmpty;
+        }
+
         private static void ClearChildren(Grid grid)
         {
             foreach (UIElement child in grid.Children)
@@ -65,16 +95,25 @@ namespace Project_2_EMS
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
             ClearChildren(prevPage);
-
+            
             prevPage.Visibility = Visibility.Hidden;
             InitialPage.Visibility = Visibility.Visible;
         }
 
         private void ContinueNewPatientBtn_Click(object sender, RoutedEventArgs e)
         {
-            prevPage.Visibility = Visibility.Hidden;
-            NewAppointmentPage.Visibility = Visibility.Visible;
-        }
+            Boolean isEmpty = CheckIfTextEmpty(prevPage);
+
+            if (isEmpty == false)
+            {
+                prevPage.Visibility = Visibility.Hidden;
+                NewAppointmentPage.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                MessageBox.Show("All fields must be filled in before proceeding.");
+            }
+}
 
         private void BackBtn_Click(object sender, RoutedEventArgs e)
         {

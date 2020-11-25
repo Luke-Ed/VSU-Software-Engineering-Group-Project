@@ -170,16 +170,15 @@
 
             <Button Grid.Row="3" Grid.Column="0" Content="Search" Height="30" Width="100" VerticalAlignment="Bottom" FontSize="18" />
 
-            <Grid Grid.Row="4" Grid.ColumnSpan="2" >
-                <DataGrid Name="ExistingPatientDataGrid" Margin="12" AutoGenerateColumns="False" >
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Id" Width="50" CanUserResize="False" Binding="{Binding Id}"/>
-                        <DataGridTextColumn Header="Last Name" Width="100" CanUserResize="False" Binding="{Binding Last_Name}" />
-                        <DataGridTextColumn Header="First Name" Width="100" CanUserResize="False" Binding="{Binding First_Name}" />
-                        <DataGridTextColumn Header="Address" Width="218" CanUserResize="False" Binding="{Binding Address}" />
-                    </DataGrid.Columns>
-                </DataGrid>
-            </Grid>
+
+            <DataGrid Name="ExistingPatientDataGrid" Grid.Row="4" Grid.ColumnSpan="2" Margin="12" AutoGenerateColumns="False" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Width="50" CanUserResize="False" Binding="{Binding Id}"/>
+                    <DataGridTextColumn Header="Last Name" Width="100" CanUserResize="False" Binding="{Binding Last_Name}" />
+                    <DataGridTextColumn Header="First Name" Width="100" CanUserResize="False" Binding="{Binding First_Name}" />
+                    <DataGridTextColumn Header="Address" Width="218" CanUserResize="False" Binding="{Binding Address}" />
+                </DataGrid.Columns>
+            </DataGrid>
 
             <Grid Grid.Row="5" Grid.ColumnSpan="2" Margin="0,0,7,0" >
                 <Grid.ColumnDefinitions>
