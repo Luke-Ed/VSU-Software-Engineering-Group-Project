@@ -61,13 +61,7 @@ namespace Project_2_EMS {
             List<UIElement> views = GetChildren(ViewPanel);
             Button btn = e.Source as Button;
             foreach (Grid grid in views) {
-                if (grid.Name.Contains(btn.Name))
-                {
-                    grid.Visibility = Visibility.Visible;
-                }
-                else {
-                    grid.Visibility = Visibility.Hidden;
-                }
+                _ = grid.Name.Contains(btn.Name) ? grid.Visibility = Visibility.Visible : grid.Visibility = Visibility.Hidden;
             }
       }
 

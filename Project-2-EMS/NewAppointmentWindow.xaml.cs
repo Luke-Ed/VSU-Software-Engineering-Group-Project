@@ -38,27 +38,9 @@ namespace Project_2_EMS
             Boolean isEmpty = false;
             foreach (UIElement child in grid.Children)
             {
-                if (child as TextBox != null)
-                {
-                    if ((child as TextBox).Text == String.Empty)
-                    {
-                        isEmpty = true;
-                    }
-                }
-                else if (child as ComboBox != null)
-                {
-                    if ((child as ComboBox).Text == String.Empty)
-                    {
-                        isEmpty = true;
-                    }
-                }
-                else if (child as DataGrid != null)
-                {
-                    if ((child as DataGrid).Items.Count == 0)
-                    {
-                        isEmpty = true;
-                    }
-                }
+                _ = child as TextBox != null ? (child as TextBox).Text == String.Empty ? isEmpty = true : false : false;
+                _ = child as ComboBox != null ? (child as ComboBox).Text == String.Empty ? isEmpty = true : false : false;
+                _ = child as DataGrid != null ? (child as DataGrid).Items.Count == 0 ? isEmpty = true : false : false;
             }
             return isEmpty;
         }
@@ -67,14 +49,8 @@ namespace Project_2_EMS
         {
             foreach (UIElement child in grid.Children)
             {
-                if (child as TextBox != null)
-                {
-                    (child as TextBox).Text = String.Empty;
-                }
-                else if (child as ComboBox != null)
-                {
-                    (child as ComboBox).Text = String.Empty;
-                }
+                _ = child as TextBox != null ? (child as TextBox).Text = String.Empty : null;
+                _ = child as ComboBox != null ? (child as ComboBox).Text = String.Empty : null;
             }
         }
 
