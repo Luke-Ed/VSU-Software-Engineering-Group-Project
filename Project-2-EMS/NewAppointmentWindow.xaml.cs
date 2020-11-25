@@ -22,6 +22,7 @@ namespace Project_2_EMS
     {
         private DateTime apptDate;
         private Label apptTime;
+        private Grid prevPage;
 
         public NewAppointmentWindow(Label srcLabel, Label timeLabel, DateTime date)
         {
@@ -51,35 +52,34 @@ namespace Project_2_EMS
         {
             InitialPage.Visibility = Visibility.Hidden;
             NewPatientPage.Visibility = Visibility.Visible;
+            prevPage = NewPatientPage;
         }
 
         private void ExistingPatientBtn_Click(object sender, RoutedEventArgs e)
         {
             InitialPage.Visibility = Visibility.Hidden;
             ExistingPatientPage.Visibility = Visibility.Visible;
+            prevPage = ExistingPatientPage;
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
-            if ((e.Source as Button).Name.Equals("NewPatientCancel"))
-            {
-                ClearChildren(NewPatientPage);
+            ClearChildren(prevPage);
 
-                NewPatientPage.Visibility = Visibility.Hidden;
-                InitialPage.Visibility = Visibility.Visible;
-            }
-            else if ((e.Source as Button).Name.Equals("ExistingPatientCancel"))
-            {
-                ClearChildren(ExistingPatientPage);
-
-                ExistingPatientPage.Visibility = Visibility.Hidden;
-                InitialPage.Visibility = Visibility.Visible;
-            }
+            prevPage.Visibility = Visibility.Hidden;
+            InitialPage.Visibility = Visibility.Visible;
         }
 
-        private void ConfirmNewPatientBtn_Click(object sender, RoutedEventArgs e)
+        private void ContinueNewPatientBtn_Click(object sender, RoutedEventArgs e)
         {
+            prevPage.Visibility = Visibility.Hidden;
+            NewAppointmentPage.Visibility = Visibility.Visible;
+        }
 
+        private void BackBtn_Click(object sender, RoutedEventArgs e)
+        {
+            NewAppointmentPage.Visibility = Visibility.Hidden;
+            prevPage.Visibility = Visibility.Visible;
         }
     }
 }
