@@ -133,7 +133,8 @@ namespace Project_2_EMS {
             {
                 if (Grid.GetRow(l) == row && Grid.GetColumn(l) == column)
                 {
-                    l.Background = Brushes.BlueViolet;
+                    var bc = new BrushConverter();
+                    l.Background = (Brush)bc.ConvertFrom("#FF6BBBBD");
                 }
                 else
                 {

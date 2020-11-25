@@ -26,14 +26,19 @@ namespace Project_2_EMS
             ApptDate.Content = String.Format("{0} | {1}", date.ToString("ddd dd, yyyy"), timeLabel.Content);
         }
 
-        private static List<UIElement> GetChildren(Grid grid)
+        private static void ClearChildren(Grid grid)
         {
-            List<UIElement> children = new List<UIElement>();
             foreach (UIElement child in grid.Children)
             {
-                children.Add(child);
+                if (child as TextBox != null)
+                {
+                    (child as TextBox).Text = String.Empty;
+                }
+                else if (child as ComboBox != null)
+                {
+                    (child as ComboBox).Text = String.Empty;
+                }
             }
-            return children;
         }
 
         private void NewPatientBtn_Click(object sender, RoutedEventArgs e)
@@ -50,19 +55,7 @@ namespace Project_2_EMS
 
         private void CancelNewPatientBtn_Click(object sender, RoutedEventArgs e)
         {
-            foreach (Grid child in NewPatientPage.Children) 
-            { 
-                foreach (UIElement element in child.Children) 
-                {
-                    if (element as TextBox != null) {
-                        (element as TextBox).Text = String.Empty;
-                    }
-                    else if (element as ComboBox != null)
-                    {
-                        (element as ComboBox).Text = String.Empty;
-                    }
-                }
-            }
+            ClearChildren(NewPatientPage);
 
             NewPatientPage.Visibility = Visibility.Hidden;
             InitialPage.Visibility = Visibility.Visible;
