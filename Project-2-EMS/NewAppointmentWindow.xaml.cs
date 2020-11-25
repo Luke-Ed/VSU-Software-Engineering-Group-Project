@@ -20,10 +20,16 @@ namespace Project_2_EMS
     /// </summary>
     public partial class NewAppointmentWindow : Window
     {
+        private DateTime apptDate;
+        private Label apptTime;
+
         public NewAppointmentWindow(Label srcLabel, Label timeLabel, DateTime date)
         {
             InitializeComponent();
             ApptDate.Content = String.Format("{0} | {1}", date.ToString("ddd dd, yyyy"), timeLabel.Content);
+
+            apptDate = date;
+            apptTime = timeLabel;
         }
 
         private static void ClearChildren(Grid grid)
@@ -53,12 +59,22 @@ namespace Project_2_EMS
             ExistingPatientPage.Visibility = Visibility.Visible;
         }
 
-        private void CancelNewPatientBtn_Click(object sender, RoutedEventArgs e)
+        private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
-            ClearChildren(NewPatientPage);
+            if ((e.Source as Button).Name.Equals("NewPatientCancel"))
+            {
+                ClearChildren(NewPatientPage);
 
-            NewPatientPage.Visibility = Visibility.Hidden;
-            InitialPage.Visibility = Visibility.Visible;
+                NewPatientPage.Visibility = Visibility.Hidden;
+                InitialPage.Visibility = Visibility.Visible;
+            }
+            else if ((e.Source as Button).Name.Equals("ExistingPatientCancel"))
+            {
+                ClearChildren(ExistingPatientPage);
+
+                ExistingPatientPage.Visibility = Visibility.Hidden;
+                InitialPage.Visibility = Visibility.Visible;
+            }
         }
 
         private void ConfirmNewPatientBtn_Click(object sender, RoutedEventArgs e)
