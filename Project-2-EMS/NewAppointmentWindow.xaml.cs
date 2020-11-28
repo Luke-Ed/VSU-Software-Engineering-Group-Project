@@ -22,15 +22,29 @@ namespace Project_2_EMS
     {
         private DateTime apptDate;
         private Label apptTime;
-        private Grid prevPage;
+        private Grid patientInfoPage;
 
         public NewAppointmentWindow(Label srcLabel, Label timeLabel, DateTime date)
         {
             InitializeComponent();
-            ApptDate.Content = String.Format("{0} | {1}", date.ToString("ddd dd, yyyy"), timeLabel.Content);
+            InitializeComboBox();
 
+            ApptDate.Content = String.Format("{0} | {1}", date.ToString("ddd dd, yyyy"), timeLabel.Content);
             apptDate = date;
             apptTime = timeLabel;
+        }
+
+        private void InitializeComboBox()
+        {
+            String[] states = new String[] { "Alabama, AL", "Alaska, AK", "Arizona, AZ", "Arkansas, AR", "California, CA", "Colorado, CO", "Connecticut, CT",
+                                             "Delaware, DE", "Florida, FL", "Georgia, GA", "Hawaii, HI", "Idaho, ID", "Illinois, IL", "Indiana, IN", "Iowa, IA",
+                                             "Kansas, KS", "Kentucky, KY", "Louisiana, LA", "Maine, ME", "Maryland, MD", "Massachusetts, MA", "Michigan, MI",
+                                             "Minnesota, MN", "Mississippi, MS", "Missouri, MO", "Montana, MT", "Nebraska, NE", "Nevada, NV", "New Hampshire, NH",
+                                             "New Jersey, NJ", "New Mexico, NM", "New York, NY", "North Carolina, NC", "North Dakota, ND", "Ohio, OH", "Oklahoma, OK",
+                                             "Oregon, OR", "Pennsylvania, PA", "Rhode Island, RI", "South Carolina, SC", "South Dakota, SD", "Tennessee, TN", "Texas, TX",
+                                             "Utah, UT", "Vermont, VT", "Virginia, VA", "Washington, WA", "West Virginia, WV", "Wisconsin, WI", "Wyoming, WY" };
+
+            StateComboBox.ItemsSource = states;
         }
 
         private Boolean CheckIfTextEmpty(Grid grid)
@@ -58,31 +72,31 @@ namespace Project_2_EMS
         {
             InitialPage.Visibility = Visibility.Hidden;
             NewPatientPage.Visibility = Visibility.Visible;
-            prevPage = NewPatientPage;
+            patientInfoPage = NewPatientPage;
         }
 
         private void ExistingPatientBtn_Click(object sender, RoutedEventArgs e)
         {
             InitialPage.Visibility = Visibility.Hidden;
             ExistingPatientPage.Visibility = Visibility.Visible;
-            prevPage = ExistingPatientPage;
+            patientInfoPage = ExistingPatientPage;
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
-            ClearChildren(prevPage);
+            ClearChildren(patientInfoPage);
             
-            prevPage.Visibility = Visibility.Hidden;
+            patientInfoPage.Visibility = Visibility.Hidden;
             InitialPage.Visibility = Visibility.Visible;
         }
 
         private void ContinueNewPatientBtn_Click(object sender, RoutedEventArgs e)
         {
-            Boolean isEmpty = CheckIfTextEmpty(prevPage);
+            Boolean isEmpty = CheckIfTextEmpty(patientInfoPage);
 
-            if (isEmpty == false)
+            if (!isEmpty)
             {
-                prevPage.Visibility = Visibility.Hidden;
+                patientInfoPage.Visibility = Visibility.Hidden;
                 NewAppointmentPage.Visibility = Visibility.Visible;
             }
             else
@@ -94,7 +108,7 @@ namespace Project_2_EMS
         private void BackBtn_Click(object sender, RoutedEventArgs e)
         {
             NewAppointmentPage.Visibility = Visibility.Hidden;
-            prevPage.Visibility = Visibility.Visible;
+            patientInfoPage.Visibility = Visibility.Visible;
         }
     }
 }
