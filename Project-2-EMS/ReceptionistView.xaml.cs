@@ -76,7 +76,7 @@ namespace Project_2_EMS {
                 weekDate = date.AddDays(dayNum * -1.0);
                 AppointmentWeek.Content = weekDate.ToString("Week o\\f MMMM dd, yyyy");
 
-                if (prevDate != date && dayNum != 0 && dayNum != 6) {
+                if (prevDate != date) {
                     prevDate = date;
 
                     List<UIElement> apptDays = GetChildren(AppointmentDays);
@@ -86,7 +86,10 @@ namespace Project_2_EMS {
         }
 
         // Code obtained from https://stackoverflow.com/questions/25352961/have-to-click-away-twice-from-calendar-in-wpf
-        // to prevent needing to double click outside of calendar after clicking inside of it
+        /**
+         *  When clicking inside the calendar view, you would need to double click outside of it before being able
+         *  to click on something outside of it, so this code prevents that from happening
+         */ 
         private void ApptCalendar_GotMouseCapture(object sender, MouseEventArgs e) {
             UIElement originalElement = e.OriginalSource as UIElement;
             if (originalElement is CalendarDayButton || originalElement is CalendarItem)
@@ -95,9 +98,7 @@ namespace Project_2_EMS {
             }
         }
 
-        // This method was obatained from the following internet site
-        // https://social.msdn.microsoft.com/Forums/vstudio/en-US/dc9afbe7-784d-42cd-8065-6fd1558e8bd9/grid-child-elements-accessing-using-c-rowcolumn?forum=wpf
-        // I modified it into two methods, GetChildren to return a list of UIElements, and GetChild to return a single child
+        // Return a list of the given grid's children
         private static List<UIElement> GetChildren(Grid grid)
         {
             List<UIElement> children = new List<UIElement>();
@@ -108,7 +109,7 @@ namespace Project_2_EMS {
             return children;
         }
 
-        // Get individual child from UIElement
+        // Return a specific child from the given grid
         private static UIElement GetChild(Grid grid, int row, int column) 
         {
             foreach (UIElement child in grid.Children) 
@@ -156,12 +157,15 @@ namespace Project_2_EMS {
         // Called when a cell on the appointments calendar is selected
         private void ApptDate_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            // Highlight the selected cell
             Label srcLabel = e.Source as Label;
             HighlightAppointment(AppointmentGrids, Grid.GetRow(srcLabel), Grid.GetColumn(srcLabel));
 
+            // Highlight the day corresponding to the selected cell
             List<UIElement> apptDays = GetChildren(AppointmentDays);
             HighlightDay(apptDays, 0, Grid.GetColumn(srcLabel) + 2);
 
+            // Show the selected date on the calendar view
             DateTime date = weekDate.AddDays(Grid.GetColumn(srcLabel) + 1);
             ApptCalendar.SelectedDate = date;
         }
@@ -175,7 +179,6 @@ namespace Project_2_EMS {
             }
 
             Label srcLabel = e.Source as Label;
-
             Label timeLabel = GetChild(AppointmentTimes, Grid.GetRow(srcLabel), 0) as Label;
             DateTime date = weekDate.AddDays(Grid.GetColumn(srcLabel) + 1);
 

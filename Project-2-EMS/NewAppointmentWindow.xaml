@@ -71,58 +71,7 @@
 
             <!-- State combobox holds all 50 U.S. states -->
             <Label Grid.Row="5" Grid.Column="0" Content="State :" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16" />
-            <ComboBox Name="StateComboBox" Grid.Row="5" Grid.Column="1" Height="30" Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18" >
-                <ComboBoxItem FontSize="18">Alabama, AL</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Alaska, AK</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Arizona, AZ</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Arkansas, AR</ComboBoxItem>
-                <ComboBoxItem FontSize="18">California, CA</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Colorado, CO</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Connecticut, CT</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Delaware, DE</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Florida, FL</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Georgia, GA</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Hawaii, HI</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Idaho, ID</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Illinois, IL</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Indiana, IN</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Iowa, IA</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Kansas, KS</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Kentucky, KY</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Louisiana, LA</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Maine, ME</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Maryland, MD</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Massachusetts, MA</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Michigan, MI</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Minnesota, MN</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Mississippi, MS</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Missouri, MO</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Montana, MT</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Nebraska, NE</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Nevada, NV</ComboBoxItem>
-                <ComboBoxItem FontSize="18">New Hampshire, NH</ComboBoxItem>
-                <ComboBoxItem FontSize="18">New Jersey, NJ</ComboBoxItem>
-                <ComboBoxItem FontSize="18">New Mexico, NM</ComboBoxItem>
-                <ComboBoxItem FontSize="18">New York, NY</ComboBoxItem>
-                <ComboBoxItem FontSize="18">North Carolina, NC</ComboBoxItem>
-                <ComboBoxItem FontSize="18">North Dakota, ND</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Ohio, OH</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Oklahoma, OK</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Oregon, OR</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Pennsylvania, PA</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Rhode Island, RI</ComboBoxItem>
-                <ComboBoxItem FontSize="18">South Carolina, SC</ComboBoxItem>
-                <ComboBoxItem FontSize="18">South Dakota, SD</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Tennessee, TN</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Texas, TX</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Utah, UT</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Vermont, VT</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Virginia, VA</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Washington, WA</ComboBoxItem>
-                <ComboBoxItem FontSize="18">West Virginia, WV</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Wisconsin, WI</ComboBoxItem>
-                <ComboBoxItem FontSize="18">Wyoming, WY</ComboBoxItem>
-            </ComboBox>
+            <ComboBox Name="StateComboBox" Grid.Row="5" Grid.Column="1" Height="30" Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18" />
 
             <!-- Zip code text box -->
             <Label Grid.Row="6" Grid.Column="0" Content="Zip Code :" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16" />
