@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+// using Project_2_EMS.App_Code;
+
 namespace Project_2_EMS
 {
     /// <summary>
@@ -103,7 +105,7 @@ namespace Project_2_EMS
             {
                 MessageBox.Show("All fields must be filled in before proceeding.");
             }
-}
+        }
 
         private void BackBtn_Click(object sender, RoutedEventArgs e)
         {
