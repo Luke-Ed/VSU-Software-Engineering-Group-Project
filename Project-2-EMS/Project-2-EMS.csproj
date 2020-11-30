@@ -75,6 +75,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="App_Code\StaffMember.cs" />
     <Compile Include="App_Code\NurseSqlHandler.cs" />
     <Compile Include="App_Code\Patient.cs" />
     <Compile Include="NewAppointmentWindow.xaml.cs">
