@@ -42,12 +42,14 @@ namespace Project_2_EMS {
     }
 
     // Change which view is visible when you select buttons from the control panel
-    private void ControlButton_Click(object sender, RoutedEventArgs e) {
-      var views = GetChildren(ViewPanel);
-      var btn = e.Source as Button;
-      foreach (Grid grid in views)
-        _ = grid.Name.Contains(btn.Name) ? grid.Visibility = Visibility.Visible : grid.Visibility = Visibility.Hidden;
-    }
+      private void ControlButton_Click(object sender, RoutedEventArgs e) {
+            List<UIElement> views = GetChildren(ViewPanel);
+            Button btn = e.Source as Button;
+            foreach (Grid grid in views) {
+                _ = grid.Name.Contains(btn.Name) ? grid.Visibility = Visibility.Visible : grid.Visibility = Visibility.Hidden;
+            }
+            ApptButtonGrid.Visibility = Visibility.Hidden;
+      }
 
     // Change the displayed date when you select a date on the calendar gui, highlight the day on the appointments calendar
     private void ApptCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e) {
@@ -67,16 +69,17 @@ namespace Project_2_EMS {
     }
 
     // Code obtained from https://stackoverflow.com/questions/25352961/have-to-click-away-twice-from-calendar-in-wpf
-    // to prevent needing to double click outside of calendar after clicking inside of it
+    /**
+     *  When clicking inside the calendar view, you would need to double click outside of it before being able
+     *  to click on something outside of it. This code prevents that from happening
+     */ 
     private void ApptCalendar_GotMouseCapture(object sender, MouseEventArgs e) {
-      var originalElement = e.OriginalSource as UIElement;
-      if (originalElement is CalendarDayButton || originalElement is CalendarItem)
-        originalElement.ReleaseMouseCapture();
+        UIElement originalElement = e.OriginalSource as UIElement;
+        if (originalElement is CalendarDayButton || originalElement is CalendarItem) {
+            originalElement.ReleaseMouseCapture();
+        }
     }
-
-    // This method was obatained from the following internet site
-    // https://social.msdn.microsoft.com/Forums/vstudio/en-US/dc9afbe7-784d-42cd-8065-6fd1558e8bd9/grid-child-elements-accessing-using-c-rowcolumn?forum=wpf
-    // I modified it into two methods, GetChildren to return a list of UIElements, and GetChild to return a single child
+    // Return a list of the given grid's children
     private static List<UIElement> GetChildren(Grid grid) {
       List<UIElement> children = new List<UIElement>();
       foreach (UIElement child in grid.Children){
@@ -107,35 +110,61 @@ namespace Project_2_EMS {
         }
     }
 
-    // Highlight the selected cell on the appointments calendar
+    // Highlight the selected cell on the appointments calendar     
     private static void HighlightAppointment(Grid grid, int row, int column) {
-      foreach (Label child in grid.Children)
-        if (Grid.GetRow(child) == row && Grid.GetColumn(child) == column)
-          child.Margin = new Thickness(2);
-        else
-          child.Margin = new Thickness(0.5);
+        foreach (Label child in grid.Children) {
+            _ = Grid.GetRow(child) == row && Grid.GetColumn(child) == column ? child.Margin = new Thickness(2) : child.Margin = new Thickness(0.5);
+        }
     }
 
-        // Called when a cell on the appointments calendar is selected
-        private void ApptDate_MouseDown(object sender, MouseButtonEventArgs e){
-            // Highlight the selected cell
-            Label srcLabel = e.Source as Label;
-            HighlightAppointment(AppointmentGrids, Grid.GetRow(srcLabel), Grid.GetColumn(srcLabel));
+    // Called when a cell on the appointments calendar is selected
+    private void ApptDate_MouseDown(object sender, MouseButtonEventArgs e){
+        // Highlight the selected cell
+        Label srcLabel = e.Source as Label;
+        HighlightAppointment(AppointmentGrids, Grid.GetRow(srcLabel), Grid.GetColumn(srcLabel));
+      
+        // Highlight the day corresponding to the selected cell
+        List<UIElement> apptDays = GetChildren(AppointmentDays);
+        HighlightDay(apptDays, 0, Grid.GetColumn(srcLabel) + 2);
 
-            // Highlight the day corresponding to the selected cell
-            List<UIElement> apptDays = GetChildren(AppointmentDays);
-            HighlightDay(apptDays, 0, Grid.GetColumn(srcLabel) + 2);
+        // Show the selected date on the calendar view
+        DateTime date = weekDate.AddDays(Grid.GetColumn(srcLabel) + 1);
+        ApptCalendar.SelectedDate = date;
 
-            // Show the selected date on the calendar view
-            DateTime date = weekDate.AddDays(Grid.GetColumn(srcLabel) + 1);
-            ApptCalendar.SelectedDate = date;
-        }
+        // Show a new/view appointment button whenver a cell is selected
+        ApptButtonGrid.Visibility = Visibility.Visible;
+        _ = srcLabel.Content.ToString() == String.Empty ? ViewApptButton.Content = "New Appointment" : ViewApptButton.Content = "View Appointment";
+    }
 
     // Called when a cell on the appointments calendar has been double clicked
     private void ApptDate_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
       if (newApptWindow != null) newApptWindow.Close();
 
             Label srcLabel = e.Source as Label;
+
+            OpenAppointmentView(srcLabel);
+        }
+
+        private void ViewApptButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (newApptWindow != null)
+            {
+                newApptWindow.Close();
+            }
+
+            Label srcLabel = null;
+            Thickness thc = new Thickness(2);
+
+            foreach (Label child in AppointmentGrids.Children)
+            {
+                _ = child.Margin.Equals(thc) ? srcLabel = child : null;
+            }
+
+            OpenAppointmentView(srcLabel);
+        }
+
+        private void OpenAppointmentView(Label srcLabel)
+        {
             Label timeLabel = GetChild(AppointmentTimes, Grid.GetRow(srcLabel), 0) as Label;
             DateTime date = weekDate.AddDays(Grid.GetColumn(srcLabel) + 1);
 
