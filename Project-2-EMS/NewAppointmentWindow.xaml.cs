@@ -1,33 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 // using Project_2_EMS.App_Code;
 
-namespace Project_2_EMS
-{
+namespace Project_2_EMS {
+
     /// <summary>
     /// Interaction logic for NewAppointmentWindow.xaml
     /// </summary>
-    public partial class NewAppointmentWindow : Window
-    {
+    public partial class NewAppointmentWindow {
         private DateTime apptDate;
         private Label apptTime;
         private Grid patientInfoPage;
 
-        public NewAppointmentWindow(Label srcLabel, Label timeLabel, DateTime date)
-        {
+        public NewAppointmentWindow(Label srcLabel, Label timeLabel, DateTime date){
             InitializeComponent();
             InitializeComboBox();
 
@@ -36,8 +23,7 @@ namespace Project_2_EMS
             apptTime = timeLabel;
         }
 
-        private void InitializeComboBox()
-        {
+        private void InitializeComboBox(){
             String[] states = new String[] { "Alabama, AL", "Alaska, AK", "Arizona, AZ", "Arkansas, AR", "California, CA", "Colorado, CO", "Connecticut, CT",
                                              "Delaware, DE", "Florida, FL", "Georgia, GA", "Hawaii, HI", "Idaho, ID", "Illinois, IL", "Indiana, IN", "Iowa, IA",
                                              "Kansas, KS", "Kentucky, KY", "Louisiana, LA", "Maine, ME", "Maryland, MD", "Massachusetts, MA", "Michigan, MI",
@@ -49,11 +35,9 @@ namespace Project_2_EMS
             StateComboBox.ItemsSource = states;
         }
 
-        private Boolean CheckIfTextEmpty(Grid grid)
-        {
+        private Boolean CheckIfTextEmpty(Grid grid) {
             Boolean isEmpty = false;
-            foreach (UIElement child in grid.Children)
-            {
+            foreach (UIElement child in grid.Children){
                 _ = child as TextBox != null ? (child as TextBox).Text == String.Empty ? isEmpty = true : false : false;
                 _ = child as ComboBox != null ? (child as ComboBox).Text == String.Empty ? isEmpty = true : false : false;
                 _ = child as DataGrid != null ? (child as DataGrid).Items.Count == 0 ? isEmpty = true : false : false;
@@ -61,56 +45,47 @@ namespace Project_2_EMS
             return isEmpty;
         }
 
-        private static void ClearChildren(Grid grid)
-        {
-            foreach (UIElement child in grid.Children)
-            {
-                _ = child as TextBox != null ? (child as TextBox).Text = String.Empty : null;
-                _ = child as ComboBox != null ? (child as ComboBox).Text = String.Empty : null;
-            }
+        private static void ClearChildren(Grid grid) {
+          foreach (UIElement child in grid.Children) {
+            _ = child as TextBox != null ? (child as TextBox).Text = string.Empty : null;
+            _ = child as ComboBox != null ? (child as ComboBox).Text = string.Empty : null;
+          }
         }
 
-        private void NewPatientBtn_Click(object sender, RoutedEventArgs e)
-        {
-            InitialPage.Visibility = Visibility.Hidden;
-            NewPatientPage.Visibility = Visibility.Visible;
-            patientInfoPage = NewPatientPage;
+        private void NewPatientBtn_Click(object sender, RoutedEventArgs e) {
+          InitialPage.Visibility = Visibility.Hidden;
+          NewPatientPage.Visibility = Visibility.Visible;
+          patientInfoPage = NewPatientPage;
         }
 
-        private void ExistingPatientBtn_Click(object sender, RoutedEventArgs e)
-        {
-            InitialPage.Visibility = Visibility.Hidden;
-            ExistingPatientPage.Visibility = Visibility.Visible;
-            patientInfoPage = ExistingPatientPage;
+        private void ExistingPatientBtn_Click(object sender, RoutedEventArgs e) {
+          InitialPage.Visibility = Visibility.Hidden;
+          ExistingPatientPage.Visibility = Visibility.Visible;
+          patientInfoPage = ExistingPatientPage;
         }
 
-        private void CancelBtn_Click(object sender, RoutedEventArgs e)
-        {
-            ClearChildren(patientInfoPage);
-            
+        private void CancelBtn_Click(object sender, RoutedEventArgs e) {
+          ClearChildren(patientInfoPage);
+
+          patientInfoPage.Visibility = Visibility.Hidden;
+          InitialPage.Visibility = Visibility.Visible;
+        }
+
+        private void ContinueNewPatientBtn_Click(object sender, RoutedEventArgs e) {
+          Boolean isEmpty = CheckIfTextEmpty(patientInfoPage);
+
+          if (!isEmpty) {
             patientInfoPage.Visibility = Visibility.Hidden;
-            InitialPage.Visibility = Visibility.Visible;
+            NewAppointmentPage.Visibility = Visibility.Visible;
+          }
+          else {
+            MessageBox.Show("All fields must be filled in before proceeding.");
+          }
         }
 
-        private void ContinueNewPatientBtn_Click(object sender, RoutedEventArgs e)
-        {
-            Boolean isEmpty = CheckIfTextEmpty(patientInfoPage);
-
-            if (!isEmpty)
-            {
-                patientInfoPage.Visibility = Visibility.Hidden;
-                NewAppointmentPage.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                MessageBox.Show("All fields must be filled in before proceeding.");
-            }
-        }
-
-        private void BackBtn_Click(object sender, RoutedEventArgs e)
-        {
-            NewAppointmentPage.Visibility = Visibility.Hidden;
-            patientInfoPage.Visibility = Visibility.Visible;
+        private void BackBtn_Click(object sender, RoutedEventArgs e) {
+          NewAppointmentPage.Visibility = Visibility.Hidden;
+          patientInfoPage.Visibility = Visibility.Visible;
         }
     }
 }
