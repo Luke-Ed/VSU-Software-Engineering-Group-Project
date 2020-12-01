@@ -35,10 +35,18 @@
             <Button Content="Log Out"  Grid.Column="0" Grid.Row="5" Height="50" FontSize="18" Click="LogOutButton_Click" />
 
             <Grid Grid.Row="4" Name="CalendarSidePanel" Margin="10" Background="#FFBFBFBF" Visibility="Visible" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1.3*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
                 <!-- Viewbox scales the calendar to fill the grid -->
-                <Viewbox VerticalAlignment="Top" Margin="10,5,10,0" >
+                <Viewbox Grid.Row="0" VerticalAlignment="Top" Margin="10,5,10,0" >
                     <Calendar Name="ApptCalendar" SelectedDatesChanged="ApptCalendar_SelectedDatesChanged" GotMouseCapture="ApptCalendar_GotMouseCapture" />
                 </Viewbox>
+
+                <Grid Grid.Row="1" >
+                    <Button Name="ViewApptButton" VerticalAlignment="Top" Height="30" Width="200" FontSize="18" Click="ViewApptButton_Click" />
+                </Grid>
             </Grid>
         </Grid>
 

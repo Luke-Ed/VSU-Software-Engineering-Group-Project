@@ -29,6 +29,7 @@ namespace Project_2_EMS {
 
         weekDate = DateTime.Now.AddDays(Convert.ToDouble(DateTime.Now.DayOfWeek.ToString("d")) * -1.0);
         AppointmentWeek.Content = weekDate.ToString("Week o\\f MMMM dd, yyyy");
+        ViewApptButton.Visibility = Visibility.Hidden;
 
         Closing += OnWindowClosing;
       }
@@ -63,6 +64,7 @@ namespace Project_2_EMS {
             foreach (Grid grid in views) {
                 _ = grid.Name.Contains(btn.Name) ? grid.Visibility = Visibility.Visible : grid.Visibility = Visibility.Hidden;
             }
+            ViewApptButton.Visibility = Visibility.Hidden;
       }
 
         // Change the displayed date when you select a date on the calendar gui, highlight the day on the appointments calendar
@@ -143,14 +145,7 @@ namespace Project_2_EMS {
         {
             foreach (Label child in grid.Children)
             {
-                if (Grid.GetRow(child) == row && Grid.GetColumn(child) == column)
-                {
-                    child.Margin = new Thickness(2);
-                }
-                else 
-                {
-                    child.Margin = new Thickness(0.5);
-                }
+                _ = Grid.GetRow(child) == row && Grid.GetColumn(child) == column ? child.Margin = new Thickness(2) : child.Margin = new Thickness(0.5);
             }
         }
 
@@ -168,6 +163,10 @@ namespace Project_2_EMS {
             // Show the selected date on the calendar view
             DateTime date = weekDate.AddDays(Grid.GetColumn(srcLabel) + 1);
             ApptCalendar.SelectedDate = date;
+
+            // Show a new/view appointment button whenver a cell is selected
+            ViewApptButton.Visibility = Visibility.Visible;
+            _ = srcLabel.Content.ToString() == String.Empty ? ViewApptButton.Content = "New Appointment" : ViewApptButton.Content = "View Appointment";
         }
 
         // Called when a cell on the appointments calendar has been double clicked
@@ -179,6 +178,30 @@ namespace Project_2_EMS {
             }
 
             Label srcLabel = e.Source as Label;
+
+            OpenAppointmentView(srcLabel);
+        }
+
+        private void ViewApptButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (newApptWindow != null)
+            {
+                newApptWindow.Close();
+            }
+
+            Label srcLabel = null;
+            Thickness thc = new Thickness(2);
+
+            foreach (Label child in AppointmentGrids.Children)
+            {
+                _ = child.Margin.Equals(thc) ? srcLabel = child : null;
+            }
+
+            OpenAppointmentView(srcLabel);
+        }
+
+        private void OpenAppointmentView(Label srcLabel)
+        {
             Label timeLabel = GetChild(AppointmentTimes, Grid.GetRow(srcLabel), 0) as Label;
             DateTime date = weekDate.AddDays(Grid.GetColumn(srcLabel) + 1);
 
