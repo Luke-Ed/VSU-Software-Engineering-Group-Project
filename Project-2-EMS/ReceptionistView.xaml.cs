@@ -29,7 +29,6 @@ namespace Project_2_EMS {
 
         weekDate = DateTime.Now.AddDays(Convert.ToDouble(DateTime.Now.DayOfWeek.ToString("d")) * -1.0);
         AppointmentWeek.Content = weekDate.ToString("Week o\\f MMMM dd, yyyy");
-        ViewApptButton.Visibility = Visibility.Hidden;
 
         Closing += OnWindowClosing;
       }
@@ -64,7 +63,7 @@ namespace Project_2_EMS {
             foreach (Grid grid in views) {
                 _ = grid.Name.Contains(btn.Name) ? grid.Visibility = Visibility.Visible : grid.Visibility = Visibility.Hidden;
             }
-            ViewApptButton.Visibility = Visibility.Hidden;
+            ApptButtonGrid.Visibility = Visibility.Hidden;
       }
 
         // Change the displayed date when you select a date on the calendar gui, highlight the day on the appointments calendar
@@ -90,7 +89,7 @@ namespace Project_2_EMS {
         // Code obtained from https://stackoverflow.com/questions/25352961/have-to-click-away-twice-from-calendar-in-wpf
         /**
          *  When clicking inside the calendar view, you would need to double click outside of it before being able
-         *  to click on something outside of it, so this code prevents that from happening
+         *  to click on something outside of it. This code prevents that from happening
          */ 
         private void ApptCalendar_GotMouseCapture(object sender, MouseEventArgs e) {
             UIElement originalElement = e.OriginalSource as UIElement;
@@ -165,7 +164,7 @@ namespace Project_2_EMS {
             ApptCalendar.SelectedDate = date;
 
             // Show a new/view appointment button whenver a cell is selected
-            ViewApptButton.Visibility = Visibility.Visible;
+            ApptButtonGrid.Visibility = Visibility.Visible;
             _ = srcLabel.Content.ToString() == String.Empty ? ViewApptButton.Content = "New Appointment" : ViewApptButton.Content = "View Appointment";
         }
 
