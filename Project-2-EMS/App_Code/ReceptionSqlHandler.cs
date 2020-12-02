@@ -8,9 +8,9 @@ namespace Project_2_EMS.App_Code
 {
     class ReceptionSqlHandler
     {
-        public string AppointmentQuerier(string apptDate)
+        public string AppointmentQuerier(DateTime apptDate)
         {
-            String query = "SELECT * FROM Appointments WHERE ApptDate = " + apptDate;
+            String query = "SELECT * FROM Appointments WHERE ApptDate = '" + apptDate + "'";
             return query;
         }
     }

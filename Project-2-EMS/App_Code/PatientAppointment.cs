@@ -8,14 +8,16 @@ namespace Project_2_EMS.App_Code
 {
     class PatientAppointment
     {
-        private int VisitId { get; }
-        private int PatientId { get; }
-        private string ApptDate { get; }
-        private string ApptTime { get; }
-        private double Cost { get; }
-        private string ReceptNote { get; }
+        public int VisitId { get; }
+        public int PatientId { get; }
+        public DateTime ApptDate { get; }
+        public TimeSpan ApptTime { get; }
+        public decimal Cost { get; }
+        public string ReceptNote { get; }
+        public string NurseNote { get; }
+        public string DoctorNote { get; }
 
-        public PatientAppointment(int visitId, int patientId, string apptDate, string apptTime, double cost, string receptNote)
+        public PatientAppointment(int visitId, int patientId, DateTime apptDate, TimeSpan apptTime, decimal cost, string receptNote, string nurseNote, string doctorNote)
         {
             VisitId = visitId;
             PatientId = patientId;
@@ -23,6 +25,8 @@ namespace Project_2_EMS.App_Code
             ApptTime = apptTime;
             Cost = cost;
             ReceptNote = receptNote;
+            NurseNote = nurseNote;
+            DoctorNote = doctorNote;
         }
     }
 }
