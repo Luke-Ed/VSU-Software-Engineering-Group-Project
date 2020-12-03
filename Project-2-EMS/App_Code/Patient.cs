@@ -8,10 +8,10 @@
       Balance = balance;
     }
 
-    private int PatientId { get; }
-    private string FirstName { get; }
-    private string LastName { get; }
-    private string Address { get; }
-    private decimal Balance { get; }
+    public int PatientId { get; }
+    public string FirstName { get; }
+    public string LastName { get; }
+    public string Address { get; }
+    public decimal Balance { get; }
   }
 }

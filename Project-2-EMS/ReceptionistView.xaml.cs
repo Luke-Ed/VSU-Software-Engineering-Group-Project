@@ -112,9 +112,9 @@ namespace Project_2_EMS
                         string lastName = dataReader.GetString(1);
                         string firstName = dataReader.GetString(2);
                         string address = dataReader.GetString(3);
-                        decimal balance = dataReader.GetDecimal(4);
+                        //decimal balance = dataReader.GetDecimal(4);
 
-                        Patient p = new Patient(patientId, lastName, firstName, address, balance);
+                        Patient p = new Patient(patientId, lastName, firstName, address, (decimal)2.2);
                         patients.Add(p);
 
                         int visitId = dataReader.GetInt32(5);
