@@ -14,19 +14,7 @@ namespace Project_2_EMS {
       InitializeComponent();
       LabelLoginError.Visibility = Visibility.Hidden;
     }
-    /*
-    private void NurseButton_Click(object sender, RoutedEventArgs e) {
-      Window nurseWindow = new NurseView(this);
-      nurseWindow.Show();
-      Hide();
-    }
 
-    private void ReceptionButton_Click(object sender, RoutedEventArgs e) {
-      Window receptionWindow = new ReceptionistView(this);
-      receptionWindow.Show();
-      Hide();
-    }
-    */
     private void PatientButton_Click(object sender, RoutedEventArgs e) {
       Window patientWindow = new PatientView(this);
       patientWindow.Show();
@@ -97,6 +85,7 @@ namespace Project_2_EMS {
       connection.Open();
 
       SqlDataReader dataReader = cmd.ExecuteReader();
+
       StaffMember staffMember = null;
       while (dataReader.Read()) {
         int drId = dataReader.GetInt32(0);
