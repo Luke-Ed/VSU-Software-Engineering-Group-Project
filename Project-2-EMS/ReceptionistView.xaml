@@ -88,7 +88,7 @@
                         <ColumnDefinition Width="13*" />
                     </Grid.ColumnDefinitions>
 
-                    <Label Grid.Column="0" Background="LightCyan" Margin="0.5" />
+                    <Label Grid.Column="0" Content="" Background="LightCyan" Margin="0.5" />
                     <Label Grid.Column="1" Content="Sunday"    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="LightCyan" Margin="0.5" FontSize="18" />
                     <Label Grid.Column="2" Content="Monday"    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="LightCyan" Margin="0.5" FontSize="18" />
                     <Label Grid.Column="3" Content="Tuesday"   HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="LightCyan" Margin="0.5" FontSize="18" />

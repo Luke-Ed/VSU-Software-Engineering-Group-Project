@@ -48,7 +48,6 @@ namespace Project_2_EMS
             if (newApptWindow != null) newApptWindow.Close();
 
             connection.Close();
-
             var mainWindow = _parentWindow;
             mainWindow.Show();
         }
@@ -60,7 +59,6 @@ namespace Project_2_EMS
             if (newApptWindow != null) newApptWindow.Close();
 
             connection.Close();
-
             mainWindow.Close();
         }
 
@@ -97,37 +95,40 @@ namespace Project_2_EMS
                 if (prevWeekDate != weekDate)
                 {
                     prevWeekDate = weekDate;
+                    ClearAppointmentGrid();
 
-                    ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
-                    string query = rcsql.AppointmentQuerier(date);
+                    List<PatientAppointment> appointments = GetPatientAppointments(date);
 
-                    SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
-                    SqlDataReader dataReader = cmd.ExecuteReader();
-
-                    List<PatientAppointment> patAppts = new List<PatientAppointment>();
-                    PatientAppointment pa = null;
-
-                    while (dataReader.Read())
+                    foreach (PatientAppointment appt in appointments)
                     {
-                        int visitId = dataReader.GetInt32(0);
-                        int patientId = dataReader.GetInt32(1);
-                        DateTime apptDate = dataReader.GetDateTime(2);
-                        TimeSpan apptTime = dataReader.GetTimeSpan(3);
-                        decimal cost = dataReader.GetDecimal(4);
-                        string receptNote = dataReader.GetString(5);
-                        string nurseNote = dataReader.GetString(6);
-                        string doctorNote = dataReader.GetString(7);
+                        string apptTime = string.Format("{0:h\\:mm}", appt.ApptTime);
+                        List<UIElement> apptTimes = GetChildren(AppointmentTimes);
+                        int diff = apptTime.CompareTo("12:00");
 
-                        pa = new PatientAppointment(visitId, patientId, apptDate, apptTime, cost, receptNote, nurseNote, doctorNote);
-                        patAppts.Add(pa);
+                        _ = diff > 0 ? apptTime = string.Format("{0:h\\:mm} PM", appt.ApptTime.Subtract(TimeSpan.FromHours(12))) : null;
+                        _ = diff == 0 ? apptTime += " PM" : null;
+                        _ = diff < 0 ? apptTime += " AM" : null;
+
+                        MessageBox.Show(apptTime);
+
+                        foreach (Label child in apptTimes)
+                        {
+                            if (apptTime.CompareTo(child.Content.ToString()) == 0)
+                            {
+                                Label apptLabel = GetChild(AppointmentGrids, Grid.GetRow(child), (int)dayNum - 1) as Label;
+                                apptLabel.Background = Brushes.LightGreen;
+                            }
+                        }
                     }
 
+                    /**
                     if (patAppts.Count > 0)
                         MessageBox.Show(patAppts.Count.ToString());
                     if (patAppts.Count > 0)
-                        MessageBox.Show(string.Format("{0:hh\\:mm}", patAppts.ElementAt(0).ApptTime));
-
-                    dataReader.Close();
+                    {
+                        MessageBox.Show(string.Format("{0:h\\:mm}", patAppts.ElementAt(1).ApptTime.Subtract(TimeSpan.FromHours(12))));
+                    }
+                    */
                 }
             }
         }
@@ -143,6 +144,46 @@ namespace Project_2_EMS
             if (originalElement is CalendarDayButton || originalElement is CalendarItem)
             {
                 originalElement.ReleaseMouseCapture();
+            }
+        }
+
+        private List<PatientAppointment> GetPatientAppointments(DateTime date)
+        {
+            List<PatientAppointment> appointments = new List<PatientAppointment>();
+
+            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
+            string query = rcsql.AppointmentQuerier(date);
+
+            SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
+            SqlDataReader dataReader = cmd.ExecuteReader();
+
+            while (dataReader.Read())
+            {
+                PatientAppointment pa;
+
+                int visitId = dataReader.GetInt32(0);
+                int patientId = dataReader.GetInt32(1);
+                DateTime apptDate = dataReader.GetDateTime(2);
+                TimeSpan apptTime = dataReader.GetTimeSpan(3);
+                decimal cost = dataReader.GetDecimal(4);
+                string receptNote = dataReader.GetString(5);
+                string nurseNote = dataReader.GetString(6);
+                string doctorNote = dataReader.GetString(7);
+
+                pa = new PatientAppointment(visitId, patientId, apptDate, apptTime, cost, receptNote, nurseNote, doctorNote);
+                appointments.Add(pa);
+            }
+
+            dataReader.Close();
+            return appointments;
+        }
+
+        private void ClearAppointmentGrid()
+        {
+            foreach (Label child in AppointmentGrids.Children)
+            {
+                child.Background = Brushes.White;
+                child.Content = String.Empty;
             }
         }
 
