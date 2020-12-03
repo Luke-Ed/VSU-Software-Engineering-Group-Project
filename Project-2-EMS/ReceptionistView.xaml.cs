@@ -17,7 +17,7 @@ namespace Project_2_EMS
     {
         private readonly Window _parentWindow;
         private Window newApptWindow;
-        SqlConnection connection;
+        private SqlConnection connection;
         private DateTime prevDate;
         private DateTime weekDate;
         private DateTime prevWeekDate;
@@ -114,7 +114,7 @@ namespace Project_2_EMS
                         string address = dataReader.GetString(3);
                         //decimal balance = dataReader.GetDecimal(4);
 
-                        Patient p = new Patient(patientId, lastName, firstName, address, (decimal)2.2);
+                        Patient p = new Patient(patientId, lastName, firstName, address, (decimal)1.0);
                         patients.Add(p);
 
                         int visitId = dataReader.GetInt32(5);
@@ -150,6 +150,7 @@ namespace Project_2_EMS
             }
         }
 
+        // Clear the appointment grids (Used when changing week view)
         private void ClearAppointmentGrid()
         {
             foreach (Label child in AppointmentGrids.Children)
@@ -159,15 +160,17 @@ namespace Project_2_EMS
             }
         }
 
+        // Populate the appointment grids with appropriate appointments
         private void PopulateAppointmentGrid(List<Patient> patients, List<PatientAppointment> appointments)
         {
             foreach (PatientAppointment appt in appointments)
             {
                 string apptTime = string.Format("{0:h\\:mm}", appt.ApptTime);
                 List<UIElement> apptTimes = GetChildren(AppointmentTimes);
-                int diff = apptTime.CompareTo("12:00");
 
                 double day = Convert.ToDouble(appt.ApptDate.DayOfWeek.ToString("d"));
+
+                int diff = apptTime.CompareTo("12:00");
 
                 _ = diff > 0 ? apptTime = string.Format("{0:h\\:mm} PM", appt.ApptTime.Subtract(TimeSpan.FromHours(12))) : null;
                 _ = diff == 0 ? apptTime += " PM" : null;
@@ -178,6 +181,14 @@ namespace Project_2_EMS
                     if (apptTime.CompareTo(child.Content.ToString()) == 0)
                     {
                         Label apptLabel = GetChild(AppointmentGrids, Grid.GetRow(child), (int)day - 1) as Label;
+
+                        // Grab the current appt index to be able to get the patient at the same index
+                        int index = appointments.IndexOf(appt);
+
+                        string firstName = patients.ElementAt(index).FirstName;
+                        string lastInitial = patients.ElementAt(index).LastName;
+
+                        apptLabel.Content = String.Format("{0} {1}.", firstName, lastInitial.Substring(0,1));
                         apptLabel.Background = Brushes.LightGreen;
                     }
                 }
@@ -211,9 +222,10 @@ namespace Project_2_EMS
         // Highlight the selected day on the appointments calendar
         private static void HighlightDay(List<UIElement> days, int row, int column)
         {
-            foreach (Label l in days)
+            foreach (Label label in days)
             {
-                _ = Grid.GetRow(l) == row && Grid.GetColumn(l) == column ? l.Background = Brushes.CornflowerBlue : l.Background = Brushes.LightCyan;
+                Boolean labelMatch = Grid.GetRow(label) == row && Grid.GetColumn(label) == column;
+                _ = labelMatch ? label.Background = Brushes.CornflowerBlue : label.Background = Brushes.LightCyan;
             }
         }
 
@@ -222,7 +234,8 @@ namespace Project_2_EMS
         {
             foreach (Label child in grid.Children)
             {
-                _ = Grid.GetRow(child) == row && Grid.GetColumn(child) == column ? child.Margin = new Thickness(2) : child.Margin = new Thickness(0.5);
+                Boolean childMatch = Grid.GetRow(child) == row && Grid.GetColumn(child) == column;
+                _ = childMatch ? child.Margin = new Thickness(2) : child.Margin = new Thickness(0.5);
             }
         }
 
@@ -243,7 +256,8 @@ namespace Project_2_EMS
 
             // Show a new/view appointment button whenever a cell is selected
             ApptButtonGrid.Visibility = Visibility.Visible;
-            _ = srcLabel.Content.ToString() == String.Empty ? ViewApptButton.Content = "New Appointment" : ViewApptButton.Content = "View Appointment";
+            Boolean srcLabelEmpty = srcLabel.Content.ToString() == String.Empty;
+            _ = srcLabelEmpty ? ViewApptButton.Content = "New Appointment" : ViewApptButton.Content = "View Appointment";
         }
 
         // Called when a cell on the appointments calendar has been double clicked
