@@ -115,6 +115,37 @@ namespace Project_2_EMS
             }
         }
 
+        private List<Patient> GetPatients(List<PatientAppointment> appointments)
+        {
+            List<Patient> patients = new List<Patient>();
+
+            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
+
+            foreach (PatientAppointment appt in appointments)
+            {
+                int patId = appt.PatientId;
+                string query = rcsql.PatientQuerier(patId);
+
+                SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
+                SqlDataReader dataReader = cmd.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    int patientId = dataReader.GetInt32(0);
+                    string lastName = dataReader.GetString(1);
+                    string firstName = dataReader.GetString(2);
+                    string address = dataReader.GetString(3);
+                    decimal balance = dataReader.GetDecimal(4);
+
+                    Patient p = new Patient(patientId, lastName, firstName, address, balance);
+                    patients.Add(p);
+                }
+                dataReader.Close();
+            }
+
+            return patients;
+        }
+
         private List<PatientAppointment> GetPatientAppointments(DateTime date)
         {
             List<PatientAppointment> appointments = new List<PatientAppointment>();
@@ -127,8 +158,6 @@ namespace Project_2_EMS
 
             while (dataReader.Read())
             {
-                PatientAppointment pa;
-
                 int visitId = dataReader.GetInt32(0);
                 int patientId = dataReader.GetInt32(1);
                 DateTime apptDate = dataReader.GetDateTime(2);
@@ -138,7 +167,7 @@ namespace Project_2_EMS
                 string nurseNote = dataReader.GetString(6);
                 string doctorNote = dataReader.GetString(7);
 
-                pa = new PatientAppointment(visitId, patientId, apptDate, apptTime, cost, receptNote, nurseNote, doctorNote);
+                PatientAppointment pa = new PatientAppointment(visitId, patientId, apptDate, apptTime, cost, receptNote, nurseNote, doctorNote);
                 appointments.Add(pa);
             }
 
@@ -158,6 +187,7 @@ namespace Project_2_EMS
         private void HighlightAppointments(DateTime date)
         {
             List<PatientAppointment> appointments = GetPatientAppointments(date);
+            List<Patient> patients = GetPatients(appointments);
 
             foreach (PatientAppointment appt in appointments)
             {
@@ -165,7 +195,7 @@ namespace Project_2_EMS
                 List<UIElement> apptTimes = GetChildren(AppointmentTimes);
                 int diff = apptTime.CompareTo("12:00");
 
-                var day = Convert.ToDouble(appt.ApptDate.DayOfWeek.ToString("d"));
+                double day = Convert.ToDouble(appt.ApptDate.DayOfWeek.ToString("d"));
 
                 _ = diff > 0 ? apptTime = string.Format("{0:h\\:mm} PM", appt.ApptTime.Subtract(TimeSpan.FromHours(12))) : null;
                 _ = diff == 0 ? apptTime += " PM" : null;
