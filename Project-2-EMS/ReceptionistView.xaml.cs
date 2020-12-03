@@ -96,7 +96,7 @@ namespace Project_2_EMS
                 {
                     prevWeekDate = weekDate;
                     ClearAppointmentGrid();
-                    HighlightAppointments(date, dayNum);
+                    HighlightAppointments(weekDate);
                 }
             }
         }
@@ -155,7 +155,7 @@ namespace Project_2_EMS
             }
         }
 
-        private void HighlightAppointments(DateTime date, double dayNum)
+        private void HighlightAppointments(DateTime date)
         {
             List<PatientAppointment> appointments = GetPatientAppointments(date);
 
@@ -165,6 +165,8 @@ namespace Project_2_EMS
                 List<UIElement> apptTimes = GetChildren(AppointmentTimes);
                 int diff = apptTime.CompareTo("12:00");
 
+                var day = Convert.ToDouble(appt.ApptDate.DayOfWeek.ToString("d"));
+
                 _ = diff > 0 ? apptTime = string.Format("{0:h\\:mm} PM", appt.ApptTime.Subtract(TimeSpan.FromHours(12))) : null;
                 _ = diff == 0 ? apptTime += " PM" : null;
                 _ = diff < 0 ? apptTime += " AM" : null;
@@ -173,7 +175,7 @@ namespace Project_2_EMS
                 {
                     if (apptTime.CompareTo(child.Content.ToString()) == 0)
                     {
-                        Label apptLabel = GetChild(AppointmentGrids, Grid.GetRow(child), (int)dayNum - 1) as Label;
+                        Label apptLabel = GetChild(AppointmentGrids, Grid.GetRow(child), (int)day - 1) as Label;
                         apptLabel.Background = Brushes.LightGreen;
                     }
                 }
