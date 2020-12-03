@@ -10,7 +10,9 @@ namespace Project_2_EMS.App_Code
     {
         public string AppointmentQuerier(DateTime apptDate)
         {
-            String query = "SELECT * FROM Appointments WHERE ApptDate BETWEEN '" + apptDate + "' AND  '" + apptDate.AddDays(6) + "'";
+            String query = "SELECT * " +
+                           "FROM Appointments " +
+                           "WHERE ApptDate BETWEEN '" + apptDate + "' AND  '" + apptDate.AddDays(6) + "'";
             return query;
         }
     }

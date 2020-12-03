@@ -96,39 +96,7 @@ namespace Project_2_EMS
                 {
                     prevWeekDate = weekDate;
                     ClearAppointmentGrid();
-
-                    List<PatientAppointment> appointments = GetPatientAppointments(date);
-
-                    foreach (PatientAppointment appt in appointments)
-                    {
-                        string apptTime = string.Format("{0:h\\:mm}", appt.ApptTime);
-                        List<UIElement> apptTimes = GetChildren(AppointmentTimes);
-                        int diff = apptTime.CompareTo("12:00");
-
-                        _ = diff > 0 ? apptTime = string.Format("{0:h\\:mm} PM", appt.ApptTime.Subtract(TimeSpan.FromHours(12))) : null;
-                        _ = diff == 0 ? apptTime += " PM" : null;
-                        _ = diff < 0 ? apptTime += " AM" : null;
-
-                        MessageBox.Show(apptTime);
-
-                        foreach (Label child in apptTimes)
-                        {
-                            if (apptTime.CompareTo(child.Content.ToString()) == 0)
-                            {
-                                Label apptLabel = GetChild(AppointmentGrids, Grid.GetRow(child), (int)dayNum - 1) as Label;
-                                apptLabel.Background = Brushes.LightGreen;
-                            }
-                        }
-                    }
-
-                    /**
-                    if (patAppts.Count > 0)
-                        MessageBox.Show(patAppts.Count.ToString());
-                    if (patAppts.Count > 0)
-                    {
-                        MessageBox.Show(string.Format("{0:h\\:mm}", patAppts.ElementAt(1).ApptTime.Subtract(TimeSpan.FromHours(12))));
-                    }
-                    */
+                    HighlightAppointments(date, dayNum);
                 }
             }
         }
@@ -187,6 +155,31 @@ namespace Project_2_EMS
             }
         }
 
+        private void HighlightAppointments(DateTime date, double dayNum)
+        {
+            List<PatientAppointment> appointments = GetPatientAppointments(date);
+
+            foreach (PatientAppointment appt in appointments)
+            {
+                string apptTime = string.Format("{0:h\\:mm}", appt.ApptTime);
+                List<UIElement> apptTimes = GetChildren(AppointmentTimes);
+                int diff = apptTime.CompareTo("12:00");
+
+                _ = diff > 0 ? apptTime = string.Format("{0:h\\:mm} PM", appt.ApptTime.Subtract(TimeSpan.FromHours(12))) : null;
+                _ = diff == 0 ? apptTime += " PM" : null;
+                _ = diff < 0 ? apptTime += " AM" : null;
+
+                foreach (Label child in apptTimes)
+                {
+                    if (apptTime.CompareTo(child.Content.ToString()) == 0)
+                    {
+                        Label apptLabel = GetChild(AppointmentGrids, Grid.GetRow(child), (int)dayNum - 1) as Label;
+                        apptLabel.Background = Brushes.LightGreen;
+                    }
+                }
+            }
+        }
+
         // Return a list of the given grid's children
         private static List<UIElement> GetChildren(Grid grid)
         {
@@ -229,7 +222,7 @@ namespace Project_2_EMS
         }
 
         // Highlight the selected cell on the appointments calendar     
-        private static void HighlightAppointment(Grid grid, int row, int column)
+        private static void HighlightSelected(Grid grid, int row, int column)
         {
             foreach (Label child in grid.Children)
             {
@@ -242,7 +235,7 @@ namespace Project_2_EMS
         {
             // Highlight the selected cell
             Label srcLabel = e.Source as Label;
-            HighlightAppointment(AppointmentGrids, Grid.GetRow(srcLabel), Grid.GetColumn(srcLabel));
+            HighlightSelected(AppointmentGrids, Grid.GetRow(srcLabel), Grid.GetColumn(srcLabel));
 
             // Highlight the day corresponding to the selected cell
             List<UIElement> apptDays = GetChildren(AppointmentDays);
