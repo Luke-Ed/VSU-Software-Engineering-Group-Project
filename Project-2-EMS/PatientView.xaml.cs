@@ -7,9 +7,11 @@ namespace Project_2_EMS {
   /// </summary>
   public partial class PatientView {
     private readonly Window _parentWindow;
+    private readonly Patient _patient;
 
-    public PatientView(Window parentWindow) {
+    public PatientView(Window parentWindow, Patient patient) {
       _parentWindow = parentWindow;
+      _patient = patient;
       InitializeComponent();
     }
 
