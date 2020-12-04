@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-// using Project_2_EMS.App_Code;
+using Project_2_EMS.App_Code;
 
 namespace Project_2_EMS {
 
@@ -17,10 +17,27 @@ namespace Project_2_EMS {
         public NewAppointmentWindow(Label srcLabel, Label timeLabel, DateTime date){
             InitializeComponent();
             InitializeComboBox();
+            InitialPage.Visibility = Visibility.Visible;
 
             ApptDate.Content = String.Format("{0} | {1}", date.ToString("ddd dd, yyyy"), timeLabel.Content);
             apptDate = date;
             apptTime = timeLabel;
+        }
+
+        public NewAppointmentWindow(string firstName, string lastName, string receptNote, Label srcLabel, Label timeLabel, DateTime date)
+        {
+            InitializeComponent();
+            InitializeAppointmentInfo(firstName, lastName, receptNote);
+            ViewApptPage.Visibility = Visibility.Visible;
+
+            ApptDate.Content = String.Format("{0} | {1}", date.ToString("ddd dd, yyyy"), timeLabel.Content);
+        }
+
+        private void InitializeAppointmentInfo(string firstName, string lastName, string receptNote)
+        {
+            ViewApptFirstName.Content = firstName;
+            ViewApptLastName.Content = lastName;
+            ViewApptNotes.Text = receptNote;
         }
 
         private void InitializeComboBox(){
@@ -86,6 +103,11 @@ namespace Project_2_EMS {
         private void BackBtn_Click(object sender, RoutedEventArgs e) {
           NewAppointmentPage.Visibility = Visibility.Hidden;
           patientInfoPage.Visibility = Visibility.Visible;
+        }
+
+        private void CloseApptView_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }
