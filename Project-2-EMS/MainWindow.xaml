@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="1200" WindowStartupLocation="CenterScreen">
 
-  <Grid>
+  <Grid Name="BackgroundGrid">
     <Grid.RowDefinitions>
       <RowDefinition Height="10*" />
       <RowDefinition Height="80*" />
@@ -18,6 +18,7 @@
       <ColumnDefinition Width="40*" />
       <ColumnDefinition Width="10*" />
     </Grid.ColumnDefinitions>
+
     <Grid Row="1" Column="1" Name="StaffLoginGrid">
       <Grid.RowDefinitions>
         <RowDefinition Height="5*" />
@@ -34,25 +35,48 @@
         <ColumnDefinition Width="5*" />
       </Grid.ColumnDefinitions>
 
-      <Label Grid.Row="1" Grid.Column="1" Content="Staff Login" HorizontalAlignment="Center" VerticalAlignment="Center" />
-      <Button Content="Login" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="4" Grid.Column="1"
-              Click="LoginButton_Click" />
-      <TextBox Grid.Row="3" Grid.Column="1" Name="TextBoxStaffUsername" Text="Username" Width="300" Height="40"
-               VerticalAlignment="Top" VerticalContentAlignment="Center" />
-      <PasswordBox Grid.Row="3" Grid.Column="1" Width="300" Height="40" VerticalAlignment="Bottom"
-                   VerticalContentAlignment="Center" Name="PasswordBoxStaff"/>
-      <Label Grid.Column="1" Grid.Row="4" Name="LabelLoginError" Foreground="Red" />
+      <Label Grid.Row="1" Grid.Column="1" Content="Staff Login" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" FontWeight="Bold"/>
+      <TextBox Grid.Row="3" Grid.Column="1" Name="Staff_TbUsername" Text="Username" Width="300" Height="40"
+               VerticalAlignment="Center" VerticalContentAlignment="Center" />
+
+      <PasswordBox Grid.Row="4" Grid.Column="1" Width="300" Height="40" VerticalAlignment="Center"
+                   VerticalContentAlignment="Center" Name="Staff_TbPassword"/>
+
+      <Button Content="Login" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="5" Grid.Column="1"
+              Click="StaffLoginButton_Click" Height="30" Width="50"/>
+
+      <Label Grid.Column="1" Grid.Row="5" Name="StaffLoginError_Label" Foreground="Red" VerticalAlignment="Top" HorizontalAlignment="Center"/>
     </Grid>
-    <Grid x:Name="PatientLoginGrid" Grid.Column="2" HorizontalAlignment="Left" Height="615" Margin="5,0,0,0"
-          Grid.Row="1" VerticalAlignment="Top" Width="472">
-      <Label Content="Patient Login" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="194,61,199,0"
-             RenderTransformOrigin="0.51,1.571" Grid.Row="1" Grid.Column="1" />
-      <Button Content="Patient View" HorizontalAlignment="Center" VerticalAlignment="Center"
-              Click="PatientButton_Click" Margin="194,438,202,154" />
-      <TextBox Height="40" Margin="87,321,85,0" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top" Width="300"
-               HorizontalAlignment="Center" VerticalContentAlignment="Center" />
-      <PasswordBox HorizontalAlignment="Center" Margin="87,366,85,0" VerticalAlignment="Top" Width="300" Height="40"
-                   Grid.Row="3" Grid.Column="1" />
+
+    <Grid Name="PatientLoginGrid" Grid.Row="1" Grid.Column="2">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="5*" />
+        <RowDefinition Height="10*" />
+        <RowDefinition Height="30*" />
+        <RowDefinition Height="12*" />
+        <RowDefinition Height="12*" />
+        <RowDefinition Height="12*" />
+        <RowDefinition Height="5*" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="5*" />
+        <ColumnDefinition Width="90*" />
+        <ColumnDefinition Width="5*" />
+      </Grid.ColumnDefinitions>
+      
+      <Label Content="Patient Login" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" FontSize="36" FontWeight="Bold"/>
+
+      
+      <TextBox Grid.Row="3" Grid.Column="1" Name="Patient_TbUsername" Text="Username" Width="300" Height="40"
+               VerticalAlignment="Center" VerticalContentAlignment="Center" />
+
+      <PasswordBox Grid.Row="4" Grid.Column="1" Width="300" Height="40" VerticalAlignment="Center"
+                   VerticalContentAlignment="Center" Name="Patient_TbPassword"/>
+
+      <Button Grid.Row="5" Grid.Column="1" Content="Login" HorizontalAlignment="Center" VerticalAlignment="Center"
+              Click="PatientLoginButton_Click" Height="30" Width="50"/>
+
+      <Label Grid.Column="1" Grid.Row="5" Name="PatientLoginError_Label" Foreground="Red" VerticalAlignment="Top" HorizontalAlignment="Center"/>
     </Grid>
   </Grid>
 </Window>

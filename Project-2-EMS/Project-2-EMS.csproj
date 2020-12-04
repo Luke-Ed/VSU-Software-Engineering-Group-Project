@@ -76,6 +76,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="App_Code\PatientAppointment.cs" />
+    <Compile Include="App_Code\PatientLogin.cs" />
     <Compile Include="App_Code\ReceptionSqlHandler.cs" />
     <Compile Include="App_Code\StaffMember.cs" />
     <Compile Include="App_Code\NurseSqlHandler.cs" />
