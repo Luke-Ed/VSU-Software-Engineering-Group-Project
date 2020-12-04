@@ -1,6 +1,6 @@
 ﻿namespace Project_2_EMS {
   internal class Patient {
-    public Patient(int patientId, string firstName, string lastName, string address, double balance) {
+    public Patient(int patientId, string firstName, string lastName, string address, decimal balance) {
       PatientId = patientId;
       FirstName = firstName;
       LastName = lastName;
@@ -8,10 +8,10 @@
       Balance = balance;
     }
 
-    private int PatientId { get; }
-    private string FirstName { get; }
-    private string LastName { get; }
-    private string Address { get; }
-    private double Balance { get; }
+    public int PatientId { get; }
+    public string FirstName { get; }
+    public string LastName { get; }
+    public string Address { get; }
+    public decimal Balance { get; }
   }
 }
