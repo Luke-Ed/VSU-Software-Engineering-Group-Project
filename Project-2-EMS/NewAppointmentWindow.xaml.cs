@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text.RegularExpressions;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -49,17 +51,21 @@ namespace Project_2_EMS {
                                              "Oregon, OR", "Pennsylvania, PA", "Rhode Island, RI", "South Carolina, SC", "South Dakota, SD", "Tennessee, TN", "Texas, TX",
                                              "Utah, UT", "Vermont, VT", "Virginia, VA", "Washington, WA", "West Virginia, WV", "Wisconsin, WI", "Wyoming, WY" };
 
-            StateComboBox.ItemsSource = states;
+            StateCb.ItemsSource = states;
         }
 
-        private Boolean CheckIfTextEmpty(Grid grid) {
-            Boolean isEmpty = false;
-            foreach (UIElement child in grid.Children){
-                _ = child as TextBox != null ? (child as TextBox).Text == String.Empty ? isEmpty = true : false : false;
-                _ = child as ComboBox != null ? (child as ComboBox).Text == String.Empty ? isEmpty = true : false : false;
-                _ = child as DataGrid != null ? (child as DataGrid).Items.Count == 0 ? isEmpty = true : false : false;
-            }
-            return isEmpty;
+        private Boolean ValidNewPatientInfo() {
+            Boolean isValid = true;
+
+            _ = !NewFirstNameTb.Text.All(Char.IsLetter) || NewFirstNameTb.Text == String.Empty ? isValid = false : false;
+            _ = !NewLastNameTb.Text.All(Char.IsLetter) || NewLastNameTb.Text == String.Empty ? isValid = false : false;
+;
+            _ = !Regex.IsMatch(StreetTb.Text, @"^[a-zA-Z0-9.\s]+$") || StreetTb.Text == String.Empty ? isValid = false : false;
+            _ = !CityTb.Text.All(Char.IsLetter) || CityTb.Text == String.Empty ? isValid = false : false;
+            _ = StateCb.Text == String.Empty ? isValid = false : false;
+            _ = !ZipTb.Text.All(Char.IsDigit) || ZipTb.Text == String.Empty ? isValid = false : false;
+
+            return isValid;
         }
 
         private static void ClearChildren(Grid grid) {
@@ -89,15 +95,20 @@ namespace Project_2_EMS {
         }
 
         private void ContinueNewPatientBtn_Click(object sender, RoutedEventArgs e) {
-          Boolean isEmpty = CheckIfTextEmpty(patientInfoPage);
+          Boolean isValid = ValidNewPatientInfo();
 
-          if (!isEmpty) {
+          if (isValid) {
             patientInfoPage.Visibility = Visibility.Hidden;
             NewAppointmentPage.Visibility = Visibility.Visible;
           }
           else {
-            MessageBox.Show("All fields must be filled in before proceeding.");
+            MessageBox.Show("One or more fields are filled out incorrectly");
           }
+        }
+
+        private void ContinueExistingPatientBtn_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         private void BackBtn_Click(object sender, RoutedEventArgs e) {
