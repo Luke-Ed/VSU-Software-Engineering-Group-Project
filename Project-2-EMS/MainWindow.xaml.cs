@@ -13,8 +13,6 @@ namespace Project_2_EMS {
   public partial class MainWindow {
     public MainWindow() {
       InitializeComponent();
-      StaffLoginError_Label.Content = null;
-      StaffLoginError_Label.Visibility = Visibility.Hidden;
     }
 
     private void MoveToNurseView() {
@@ -53,13 +51,13 @@ namespace Project_2_EMS {
 
     private void LoginHandler(String loginType, String username, String password, Label errorLabel) {
       if (username.Equals(String.Empty)) {
-        errorLabel.Content = null;
+        errorLabel.Visibility = Visibility.Hidden;
         errorLabel.Content = "Username cannot be empty";
         errorLabel.Visibility = Visibility.Visible;
       }
 
       if (password.Equals(String.Empty)) {
-        errorLabel.Content = null;
+        errorLabel.Visibility = Visibility.Hidden;
         errorLabel.Content = "Password cannot be empty";
         errorLabel.Visibility = Visibility.Visible;
       }
@@ -81,13 +79,13 @@ namespace Project_2_EMS {
               }
             }
             else {
-              errorLabel.Content = null;
+              errorLabel.Visibility = Visibility.Hidden;
               errorLabel.Content = "Incorrect Username or Password";
               errorLabel.Visibility = Visibility.Visible;
             }
           }
           else {
-            errorLabel.Content = null;
+            errorLabel.Visibility = Visibility.Hidden;
             errorLabel.Content = "Incorrect Username or Password";
             errorLabel.Visibility = Visibility.Visible;
           }
@@ -101,13 +99,13 @@ namespace Project_2_EMS {
               MoveToPatientView(patient);
             }
             else {
-              errorLabel.Content = null;
+              errorLabel.Visibility = Visibility.Hidden;
               errorLabel.Content = "Incorrect Username or Password";
               errorLabel.Visibility = Visibility.Visible;
             }
           }
           else {
-            errorLabel.Content = null;
+            errorLabel.Visibility = Visibility.Hidden;
             errorLabel.Content = "Incorrect Username or Password";
             errorLabel.Visibility = Visibility.Visible;
           }

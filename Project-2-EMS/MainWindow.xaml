@@ -45,7 +45,7 @@
       <Button Content="Login" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="5" Grid.Column="1"
               Click="StaffLoginButton_Click" Height="30" Width="50"/>
 
-      <Label Grid.Column="1" Grid.Row="5" Name="StaffLoginError_Label" Foreground="Red" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+      <Label Grid.Column="1" Grid.Row="5" Name="StaffLoginError_Label" Foreground="Red" VerticalAlignment="Top" HorizontalAlignment="Center" Visibility="Hidden"/>
     </Grid>
 
     <Grid Name="PatientLoginGrid" Grid.Row="1" Grid.Column="2">
@@ -76,7 +76,7 @@
       <Button Grid.Row="5" Grid.Column="1" Content="Login" HorizontalAlignment="Center" VerticalAlignment="Center"
               Click="PatientLoginButton_Click" Height="30" Width="50"/>
 
-      <Label Grid.Column="1" Grid.Row="5" Name="PatientLoginError_Label" Foreground="Red" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+      <Label Grid.Column="1" Grid.Row="5" Name="PatientLoginError_Label" Foreground="Red" VerticalAlignment="Top" HorizontalAlignment="Center" Visibility="Hidden"/>
     </Grid>
   </Grid>
 </Window>
