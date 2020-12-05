@@ -76,12 +76,16 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="App_Code\DatabaseConnectionManager.cs" />
+    <Compile Include="App_Code\DoctorSqlHandler.cs" />
     <Compile Include="App_Code\PatientAppointment.cs" />
     <Compile Include="App_Code\PatientLogin.cs" />
     <Compile Include="App_Code\ReceptionSqlHandler.cs" />
     <Compile Include="App_Code\StaffMember.cs" />
     <Compile Include="App_Code\NurseSqlHandler.cs" />
     <Compile Include="App_Code\Patient.cs" />
+    <Compile Include="DoctorView.xaml.cs">
+      <DependentUpon>DoctorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NewAppointmentWindow.xaml.cs">
       <DependentUpon>NewAppointmentWindow.xaml</DependentUpon>
     </Compile>
@@ -94,6 +98,10 @@
     <Compile Include="ReceptionistView.xaml.cs">
       <DependentUpon>ReceptionistView.xaml</DependentUpon>
     </Compile>
+    <Page Include="DoctorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
