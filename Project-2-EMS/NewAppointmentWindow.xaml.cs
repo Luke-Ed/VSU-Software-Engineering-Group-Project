@@ -13,7 +13,7 @@ namespace Project_2_EMS {
         private Label apptTime;
         private Grid patientInfoPage;
 
-        public NewAppointmentWindow(Label srcLabel, Label timeLabel, DateTime date){
+        public NewAppointmentWindow(Label srcLabel, Label timeLabel, DateTime date) {
             InitializeComponent();
             InitializeComboBox();
             InitialPage.Visibility = Visibility.Visible;
@@ -39,7 +39,7 @@ namespace Project_2_EMS {
             ViewApptNotes.Text = receptNote;
         }
 
-        private void InitializeComboBox(){
+        private void InitializeComboBox() {
             String[] states = new String[] { "Alabama, AL", "Alaska, AK", "Arizona, AZ", "Arkansas, AR", "California, CA", "Colorado, CO", "Connecticut, CT",
                                              "Delaware, DE", "Florida, FL", "Georgia, GA", "Hawaii, HI", "Idaho, ID", "Illinois, IL", "Indiana, IN", "Iowa, IA",
                                              "Kansas, KS", "Kentucky, KY", "Louisiana, LA", "Maine, ME", "Maryland, MD", "Massachusetts, MA", "Michigan, MI",
@@ -66,6 +66,18 @@ namespace Project_2_EMS {
             _ = cityValid ? (isValid = false, CityInvalid.Visibility = Visibility.Visible) : (true, CityInvalid.Visibility = Visibility.Hidden);
             _ = StateCb.Text == String.Empty ? isValid = false : true;
             _ = zipValid ? (isValid = false, ZipInvalid.Visibility = Visibility.Visible) : (true, ZipInvalid.Visibility = Visibility.Hidden);
+
+            return isValid;
+        }
+
+        private Boolean ValidExistingPatientInfo()
+        {
+            Boolean isValid = true;
+
+            foreach (UIElement child in patientInfoPage.Children)
+            {
+                _ = child as DataGrid != null ? (child as DataGrid).SelectedIndex < 0 ? isValid = false : true : true;
+            }
 
             return isValid;
         }
@@ -101,21 +113,38 @@ namespace Project_2_EMS {
           InitialPage.Visibility = Visibility.Visible;
         }
 
-        private void NewPatientContinueBtn_Click(object sender, RoutedEventArgs e) {
-          Boolean isValid = ValidNewPatientInfo();
-
-          if (isValid) {
-            patientInfoPage.Visibility = Visibility.Hidden;
-            NewAppointmentPage.Visibility = Visibility.Visible;
-          }
-          else {
-            MessageBox.Show("One or more fields are filled out incorrectly");
-          }
+        private void ContinueBtn_Click(object sender, RoutedEventArgs e) {
+            _ = patientInfoPage == NewPatientPage ? NewAppointmentNewPatient() : NewAppointmentExistingPatient();
         }
 
-        private void ExistPatientContinueBtn_Click(object sender, RoutedEventArgs e)
+        private Boolean NewAppointmentNewPatient()
         {
-            
+            if (ValidNewPatientInfo())
+            {
+                patientInfoPage.Visibility = Visibility.Hidden;
+                NewAppointmentPage.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                MessageBox.Show("One or more fields are filled out incorrectly.");
+            }
+
+            return true;
+        }
+
+        private Boolean NewAppointmentExistingPatient()
+        {
+            if (ValidExistingPatientInfo())
+            {
+                patientInfoPage.Visibility = Visibility.Hidden;
+                NewAppointmentPage.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                MessageBox.Show("Error occurred while reading from table, data corrupted.");
+            }
+
+            return true;
         }
 
         private void BackBtn_Click(object sender, RoutedEventArgs e) {
