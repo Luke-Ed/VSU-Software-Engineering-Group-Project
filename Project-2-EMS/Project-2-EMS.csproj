@@ -75,8 +75,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="App_Code\PatientAppointment.cs" />
+    <Compile Include="App_Code\PatientLogin.cs" />
+    <Compile Include="App_Code\ReceptionSqlHandler.cs" />
+    <Compile Include="App_Code\StaffMember.cs" />
     <Compile Include="App_Code\NurseSqlHandler.cs" />
     <Compile Include="App_Code\Patient.cs" />
+    <Compile Include="NewAppointmentWindow.xaml.cs">
+      <DependentUpon>NewAppointmentWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NurseToday.xaml.cs">
       <DependentUpon>NurseToday.xaml</DependentUpon>
     </Compile>
@@ -98,6 +105,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="NewAppointmentWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="NurseToday.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
