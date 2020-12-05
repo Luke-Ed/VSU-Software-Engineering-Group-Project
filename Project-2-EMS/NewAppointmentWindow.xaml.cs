@@ -8,9 +8,6 @@ using Project_2_EMS.App_Code;
 
 namespace Project_2_EMS {
 
-    /// <summary>
-    /// Interaction logic for NewAppointmentWindow.xaml
-    /// </summary>
     public partial class NewAppointmentWindow {
         private DateTime apptDate;
         private Label apptTime;
@@ -57,13 +54,18 @@ namespace Project_2_EMS {
         private Boolean ValidNewPatientInfo() {
             Boolean isValid = true;
 
-            _ = !NewFirstNameTb.Text.All(Char.IsLetter) || NewFirstNameTb.Text == String.Empty ? isValid = false : false;
-            _ = !NewLastNameTb.Text.All(Char.IsLetter) || NewLastNameTb.Text == String.Empty ? isValid = false : false;
-;
-            _ = !Regex.IsMatch(StreetTb.Text, @"^[a-zA-Z0-9.\s]+$") || StreetTb.Text == String.Empty ? isValid = false : false;
-            _ = !CityTb.Text.All(Char.IsLetter) || CityTb.Text == String.Empty ? isValid = false : false;
-            _ = StateCb.Text == String.Empty ? isValid = false : false;
-            _ = !ZipTb.Text.All(Char.IsDigit) || ZipTb.Text == String.Empty ? isValid = false : false;
+            bool firstValid = !NewFirstNameTb.Text.All(Char.IsLetter) || NewFirstNameTb.Text == String.Empty;
+            bool lastValid = !NewLastNameTb.Text.All(Char.IsLetter) || NewLastNameTb.Text == String.Empty;
+            bool streetValid = !Regex.IsMatch(StreetTb.Text, @"^[a-zA-Z0-9.\-\s]+$") || StreetTb.Text == String.Empty;
+            bool cityValid = !CityTb.Text.All(Char.IsLetter) || CityTb.Text == String.Empty;
+            bool zipValid = !ZipTb.Text.All(Char.IsDigit) || ZipTb.Text == String.Empty;
+
+            _ = firstValid ? (isValid = false, FirstNameInvalid.Visibility = Visibility.Visible) : (true, FirstNameInvalid.Visibility = Visibility.Hidden);
+            _ = lastValid ? (isValid = false, LastNameInvalid.Visibility = Visibility.Visible) : (true, LastNameInvalid.Visibility = Visibility.Hidden);
+            _ = streetValid ? (isValid = false, StreetInvalid.Visibility = Visibility.Visible) : (true, StreetInvalid.Visibility = Visibility.Hidden);
+            _ = cityValid ? (isValid = false, CityInvalid.Visibility = Visibility.Visible) : (true, CityInvalid.Visibility = Visibility.Hidden);
+            _ = StateCb.Text == String.Empty ? isValid = false : true;
+            _ = zipValid ? (isValid = false, ZipInvalid.Visibility = Visibility.Visible) : (true, ZipInvalid.Visibility = Visibility.Hidden);
 
             return isValid;
         }
@@ -72,6 +74,11 @@ namespace Project_2_EMS {
           foreach (UIElement child in grid.Children) {
             _ = child as TextBox != null ? (child as TextBox).Text = string.Empty : null;
             _ = child as ComboBox != null ? (child as ComboBox).Text = string.Empty : null;
+
+            if (child as DataGrid != null)
+            {
+              (child as DataGrid).Items.Clear();
+            }
           }
         }
 
@@ -94,7 +101,7 @@ namespace Project_2_EMS {
           InitialPage.Visibility = Visibility.Visible;
         }
 
-        private void ContinueNewPatientBtn_Click(object sender, RoutedEventArgs e) {
+        private void NewPatientContinueBtn_Click(object sender, RoutedEventArgs e) {
           Boolean isValid = ValidNewPatientInfo();
 
           if (isValid) {
@@ -106,9 +113,9 @@ namespace Project_2_EMS {
           }
         }
 
-        private void ContinueExistingPatientBtn_Click(object sender, RoutedEventArgs e)
+        private void ExistPatientContinueBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void BackBtn_Click(object sender, RoutedEventArgs e) {

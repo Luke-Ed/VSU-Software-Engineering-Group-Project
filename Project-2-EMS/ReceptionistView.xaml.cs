@@ -259,6 +259,7 @@ namespace Project_2_EMS
             OpenAppointmentView(srcLabel);
         }
 
+        // Button with similar functionality to double clicking a cell on the appointments calendar
         private void ViewApptButton_Click(object sender, RoutedEventArgs e)
         {
             if (newApptWindow != null)
@@ -269,6 +270,7 @@ namespace Project_2_EMS
             Label srcLabel = null;
             Thickness thc = new Thickness(2);
 
+            // Find the child corresponding to the selected cell on the appointments calendar
             foreach (Label child in AppointmentGrids.Children)
             {
                 _ = child.Margin.Equals(thc) ? srcLabel = child : null;
@@ -277,6 +279,7 @@ namespace Project_2_EMS
             OpenAppointmentView(srcLabel);
         }
 
+        // Open a separate window when viewing/adding appointments
         private void OpenAppointmentView(Label srcLabel)
         {
             Label timeLabel = GetChild(AppointmentTimes, Grid.GetRow(srcLabel), 0) as Label;
