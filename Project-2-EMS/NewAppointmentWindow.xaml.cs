@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Data.SqlClient;
 
 using Project_2_EMS.App_Code;
 
@@ -12,8 +13,9 @@ namespace Project_2_EMS {
         private DateTime apptDate;
         private Label apptTime;
         private Grid patientInfoPage;
+        private SqlConnection connection;
 
-        public NewAppointmentWindow(Label srcLabel, Label timeLabel, DateTime date) {
+        public NewAppointmentWindow(Label srcLabel, Label timeLabel, DateTime date, SqlConnection conn) {
             InitializeComponent();
             InitializeComboBox();
             InitialPage.Visibility = Visibility.Visible;
@@ -21,6 +23,7 @@ namespace Project_2_EMS {
             ApptDate.Content = String.Format("{0} | {1}", date.ToString("ddd dd, yyyy"), timeLabel.Content);
             apptDate = date;
             apptTime = timeLabel;
+            connection = conn;
         }
 
         public NewAppointmentWindow(string firstName, string lastName, string receptNote, Label srcLabel, Label timeLabel, DateTime date)
@@ -82,7 +85,7 @@ namespace Project_2_EMS {
             return isValid;
         }
 
-        private static void ClearChildren(Grid grid) {
+        private void ClearChildren(Grid grid) {
           foreach (UIElement child in grid.Children) {
             _ = child as TextBox != null ? (child as TextBox).Text = string.Empty : null;
             _ = child as ComboBox != null ? (child as ComboBox).Text = string.Empty : null;
@@ -92,6 +95,12 @@ namespace Project_2_EMS {
               (child as DataGrid).Items.Clear();
             }
           }
+
+          FirstNameInvalid.Visibility = Visibility.Hidden;
+          LastNameInvalid.Visibility = Visibility.Hidden;
+          StreetInvalid.Visibility = Visibility.Hidden;
+          CityInvalid.Visibility = Visibility.Hidden;
+          ZipInvalid.Visibility = Visibility.Hidden;
         }
 
         private void NewPatientBtn_Click(object sender, RoutedEventArgs e) {
@@ -108,7 +117,6 @@ namespace Project_2_EMS {
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e) {
           ClearChildren(patientInfoPage);
-
           patientInfoPage.Visibility = Visibility.Hidden;
           InitialPage.Visibility = Visibility.Visible;
         }
@@ -123,13 +131,27 @@ namespace Project_2_EMS {
             {
                 patientInfoPage.Visibility = Visibility.Hidden;
                 NewAppointmentPage.Visibility = Visibility.Visible;
+
+                FillNewAppointmentInfo();
             }
             else
             {
                 MessageBox.Show("One or more fields are filled out incorrectly.");
             }
-
             return true;
+        }
+
+        private void FillNewAppointmentInfo()
+        {
+            if (patientInfoPage == NewPatientPage)
+            {
+                FirstNameLabel.Content = NewFirstNameTb.Text;
+                LastNameLabel.Content = NewLastNameTb.Text;
+                StreetLabel.Content = StreetTb.Text;
+                CityLabel.Content = CityTb.Text;
+                StateLabel.Content = StateCb.Text;
+                ZipLabel.Content = ZipTb.Text;
+            }
         }
 
         private Boolean NewAppointmentExistingPatient()
@@ -141,10 +163,40 @@ namespace Project_2_EMS {
             }
             else
             {
-                MessageBox.Show("Error occurred while reading from table, data corrupted.");
+                MessageBox.Show("Error occurred while attempting to read from table.");
             }
-
             return true;
+        }
+
+        private void ConfirmBtn_Click(object sender, RoutedEventArgs e)
+        {
+            int patientId = GeneratePatientId();
+            int visitId = GenerateVisitId();
+
+            if (patientInfoPage == NewPatientPage)
+            {
+                string firstName = FirstNameLabel.Content.ToString();
+                string lastName = LastNameLabel.Content.ToString();
+
+                string street = StreetLabel.Content.ToString();
+                string city = CityLabel.Content.ToString();
+                string state = StateLabel.Content.ToString().Substring(StateCb.Text.Length - 2);
+                string zip = ZipLabel.Content.ToString();
+
+                string address = String.Format("{0}, {1}, {2} {3}", street, city, state, zip);
+
+                // Remove AM/PM and space from apptTime in order to create a new PatientAppointment
+                string appointmentTime = apptTime.Content.ToString().Trim(' ','A','P', 'M');
+                TimeSpan time = TimeSpan.Parse(appointmentTime);
+
+                string receptNote = ReceptionNotesTb.Text;
+
+                Patient patient = new Patient(patientId, firstName, lastName, address, (decimal)0.0);
+                PatientAppointment appointment = new PatientAppointment(visitId, patientId, apptDate, time, (decimal)50, receptNote, "", "");
+
+                AddNewPatientToDB(patient);
+                AddNewAppointmentToDB(appointment);
+            }
         }
 
         private void BackBtn_Click(object sender, RoutedEventArgs e) {
@@ -155,6 +207,54 @@ namespace Project_2_EMS {
         private void CloseApptView_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void AddNewPatientToDB(Patient patient)
+        {
+
+        }
+
+        private void AddNewAppointmentToDB(PatientAppointment appointment)
+        {
+
+        }
+
+        private int GeneratePatientId()
+        {
+            int patientId = 0;
+
+            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
+            string query = rcsql.NumberOfPatientsQuerier();
+
+            SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
+            SqlDataReader dataReader = cmd.ExecuteReader();
+
+            while (dataReader.Read())
+            {
+                patientId = dataReader.GetInt32(0);
+            }
+            dataReader.Close();
+
+            return (patientId + 1);
+        }
+
+        private int GenerateVisitId()
+        {
+            int VisitId = 0;
+
+            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
+            string query = rcsql.NumberOfAppointmentsQuerier();
+
+            SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
+            SqlDataReader dataReader = cmd.ExecuteReader();
+
+            while (dataReader.Read())
+            {
+                VisitId = dataReader.GetInt32(0);
+            }
+            dataReader.Close();
+
+            return (VisitId + 1);
         }
     }
 }

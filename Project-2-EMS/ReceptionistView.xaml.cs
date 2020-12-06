@@ -311,7 +311,7 @@ namespace Project_2_EMS
             }
             else
             {
-                newApptWindow = new NewAppointmentWindow(srcLabel, timeLabel, date);
+                newApptWindow = new NewAppointmentWindow(srcLabel, timeLabel, date, connection);
                 newApptWindow.Show();
             }
         }

@@ -15,5 +15,21 @@ namespace Project_2_EMS.App_Code
                            "WHERE ApptDate BETWEEN '" + apptDate + "' AND '" + apptDate.AddDays(6) + "'";
             return query;
         }
+
+        public string NumberOfPatientsQuerier()
+        {
+            String query = "SELECT COUNT(*) " +
+                           "FROM PatientInfo";
+
+            return query;
+        }
+
+        public string NumberOfAppointmentsQuerier()
+        {
+            String query = "SELECT COUNT(*) " +
+                           "FROM Appointments";
+
+            return query;
+        }
     }
 }
