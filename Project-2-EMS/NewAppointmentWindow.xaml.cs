@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -163,9 +164,53 @@ namespace Project_2_EMS {
             }
             else
             {
-                MessageBox.Show("Error occurred while attempting to read from table.");
+                MessageBox.Show("No patient selected, please select a patient before continuing.");
             }
             return true;
+        }
+
+        private void SearchBtn_Click(object sender, RoutedEventArgs e)
+        {
+            DataGrid patientDataGrid = null;
+
+            foreach (UIElement child in patientInfoPage.Children)
+            {
+                if (child as DataGrid != null)
+                {
+                    patientDataGrid = (child as DataGrid);
+                    break;
+                }
+            }
+
+            patientDataGrid.ItemsSource = null;
+            patientDataGrid.Items.Refresh();
+
+            PopulateDataGrid(patientDataGrid);
+        }
+
+        private void PopulateDataGrid(DataGrid patientDataGrid)
+        {
+            List<Patient> patients = new List<Patient>();
+
+            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
+            string query = rcsql.PatientQuerier();
+
+            SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
+            SqlDataReader dataReader = cmd.ExecuteReader();
+
+            while (dataReader.Read())
+            {
+                int patientId = dataReader.GetInt32(0);
+                string lastName = dataReader.GetString(1);
+                string firstName = dataReader.GetString(2);
+                string address = dataReader.GetString(3);
+
+                Patient patient = new Patient(patientId, firstName, lastName, address);
+                patients.Add(patient);
+            }
+            dataReader.Close();
+
+            patientDataGrid.ItemsSource = patients;
         }
 
         private void ConfirmBtn_Click(object sender, RoutedEventArgs e)
@@ -196,6 +241,10 @@ namespace Project_2_EMS {
 
                 AddNewPatientToDB(patient);
                 AddNewAppointmentToDB(appointment);
+            }
+            else
+            {
+
             }
         }
 

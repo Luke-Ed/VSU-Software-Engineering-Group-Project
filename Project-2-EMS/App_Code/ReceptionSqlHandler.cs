@@ -16,6 +16,14 @@ namespace Project_2_EMS.App_Code
             return query;
         }
 
+        public string PatientQuerier()
+        {
+            string query = "SELECT PatientID, LastName, FirstName, Address " +
+                           "FROM PatientInfo ";
+
+            return query;
+        }
+
         public string NumberOfPatientsQuerier()
         {
             String query = "SELECT COUNT(*) " +
