@@ -61,7 +61,7 @@ namespace Project_2_EMS {
             bool lastValid = !NewLastNameTb.Text.All(Char.IsLetter) || NewLastNameTb.Text == String.Empty;
             bool streetValid = !Regex.IsMatch(StreetTb.Text, @"^[a-zA-Z0-9.\-\s]+$") || StreetTb.Text == String.Empty;
             bool cityValid = !CityTb.Text.All(Char.IsLetter) || CityTb.Text == String.Empty;
-            bool zipValid = !ZipTb.Text.All(Char.IsDigit) || ZipTb.Text == String.Empty;
+            bool zipValid = !ZipTb.Text.All(Char.IsDigit) || ZipTb.Text.Length < 5 || ZipTb.Text == String.Empty;
 
             _ = firstValid ? (isValid = false, FirstNameInvalid.Visibility = Visibility.Visible) : (true, FirstNameInvalid.Visibility = Visibility.Hidden);
             _ = lastValid ? (isValid = false, LastNameInvalid.Visibility = Visibility.Visible) : (true, LastNameInvalid.Visibility = Visibility.Hidden);
@@ -73,7 +73,7 @@ namespace Project_2_EMS {
             return isValid;
         }
 
-        private Boolean ValidExistingPatientInfo()
+        private Boolean IsPatientSelected()
         {
             Boolean isValid = true;
 
@@ -142,25 +142,14 @@ namespace Project_2_EMS {
             return true;
         }
 
-        private void FillNewAppointmentInfo()
-        {
-            if (patientInfoPage == NewPatientPage)
-            {
-                FirstNameLabel.Content = NewFirstNameTb.Text;
-                LastNameLabel.Content = NewLastNameTb.Text;
-                StreetLabel.Content = StreetTb.Text;
-                CityLabel.Content = CityTb.Text;
-                StateLabel.Content = StateCb.Text;
-                ZipLabel.Content = ZipTb.Text;
-            }
-        }
-
         private Boolean NewAppointmentExistingPatient()
         {
-            if (ValidExistingPatientInfo())
+            if (IsPatientSelected())
             {
                 patientInfoPage.Visibility = Visibility.Hidden;
                 NewAppointmentPage.Visibility = Visibility.Visible;
+
+                FillNewAppointmentInfo();
             }
             else
             {
@@ -169,23 +158,50 @@ namespace Project_2_EMS {
             return true;
         }
 
+        private void FillNewAppointmentInfo()
+        {
+            if (patientInfoPage == NewPatientPage)
+            {
+                FirstNameLabel.Content = NewFirstNameTb.Text;
+                LastNameLabel.Content = NewLastNameTb.Text;
+
+                string state = StateCb.Text.Substring(StateCb.Text.Length - 2);
+                string address = String.Format("{0}, {1}, {2} {3}", StreetTb.Text, CityTb.Text, state, ZipTb.Text);
+                AddressLabel.Content = address;
+            }
+            else
+            {
+                DataGrid patientDataGrid = GetDataGrid();
+                Patient patient = (Patient)patientDataGrid.SelectedItem;
+
+                FirstNameLabel.Content = patient.FirstName;
+                LastNameLabel.Content = patient.LastName;
+                AddressLabel.Content = patient.Address;
+            }
+        }
+
         private void SearchBtn_Click(object sender, RoutedEventArgs e)
         {
-            DataGrid patientDataGrid = null;
-
-            foreach (UIElement child in patientInfoPage.Children)
-            {
-                if (child as DataGrid != null)
-                {
-                    patientDataGrid = (child as DataGrid);
-                    break;
-                }
-            }
+            DataGrid patientDataGrid = GetDataGrid();
 
             patientDataGrid.ItemsSource = null;
             patientDataGrid.Items.Refresh();
 
             PopulateDataGrid(patientDataGrid);
+        }
+
+        private DataGrid GetDataGrid()
+        {
+            DataGrid dataGrid = new DataGrid();
+            foreach (UIElement child in ExistingPatientPage.Children)
+            {
+                if (child as DataGrid != null)
+                {
+                    dataGrid = (child as DataGrid);
+                    break;
+                }
+            }
+            return dataGrid;
         }
 
         private void PopulateDataGrid(DataGrid patientDataGrid)
@@ -194,6 +210,8 @@ namespace Project_2_EMS {
 
             string findFirstName = FirstNameExistingTextbox.Text.ToString();
             string findLastName = LastNameExistingTextbox.Text.ToString();
+
+            _ = findFirstName == String.Empty && findLastName == String.Empty ? (findFirstName = "%%", findLastName = "%%") : (null, null);
 
             ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
             string query = rcsql.PatientNameQuerier();
@@ -206,8 +224,8 @@ namespace Project_2_EMS {
                 cmd.Parameters.Add("@firstName", SqlDbType.Text).Value = findFirstName;
                 cmd.Parameters.Add("@lastName", SqlDbType.Text).Value = findLastName;
 
-                //try
-                //{
+                try
+                {
                     connection.Open();
                     SqlDataReader dataReader = cmd.ExecuteReader();
 
@@ -224,11 +242,11 @@ namespace Project_2_EMS {
 
                     dataReader.Close();
                     patientDataGrid.ItemsSource = patients;
-                //}
-                //catch (Exception e)
-                //{
-                   //MessageBox.Show("Error reading from database.");
-                //}
+                }
+                catch (Exception e)
+                {
+                   MessageBox.Show("Error reading from database.");
+                }
             }
         }
 
@@ -238,39 +256,71 @@ namespace Project_2_EMS {
             int visitId = GenerateVisitId();
 
             if (patientId > 0 && visitId > 0) {
-                if (patientInfoPage == NewPatientPage)
+                // Remove AM/PM and space from apptTime in order to create a new PatientAppointment
+                string appointmentTime = apptTime.Content.ToString().Trim(' ', 'A', 'P', 'M');
+                TimeSpan time = TimeSpan.Parse(appointmentTime);
+                string receptNote = ReceptionNotesTb.Text;
+
+                if (receptNote != String.Empty)
                 {
-                    string firstName = FirstNameLabel.Content.ToString();
-                    string lastName = LastNameLabel.Content.ToString();
+                    if (patientInfoPage == NewPatientPage)
+                    {
+                        string firstName = FirstNameLabel.Content.ToString();
+                        string lastName = LastNameLabel.Content.ToString();
+                        string address = AddressLabel.Content.ToString();
 
-                    string street = StreetLabel.Content.ToString();
-                    string city = CityLabel.Content.ToString();
-                    string state = StateLabel.Content.ToString().Substring(StateCb.Text.Length - 2);
-                    string zip = ZipLabel.Content.ToString();
+                        Patient patient = new Patient(patientId, firstName, lastName, address, (decimal)0.0);
+                        PatientAppointment appointment = new PatientAppointment(visitId, patientId, apptDate, time, (decimal)50, receptNote, "", "");
 
-                    string address = String.Format("{0}, {1}, {2} {3}", street, city, state, zip);
+                        ConfirmNewPatientAndAppointment(patient, appointment);
+                    }
+                    else if (patientInfoPage == ExistingPatientPage)
+                    {
+                        DataGrid patientDataGrid = GetDataGrid();
+                        Patient patient = (Patient)patientDataGrid.SelectedItem;
+                        PatientAppointment appointment = new PatientAppointment(visitId, patient.PatientId, apptDate, time, (decimal)50, receptNote, "", "");
 
-                    // Remove AM/PM and space from apptTime in order to create a new PatientAppointment
-                    string appointmentTime = apptTime.Content.ToString().Trim(' ', 'A', 'P', 'M');
-                    TimeSpan time = TimeSpan.Parse(appointmentTime);
-
-                    string receptNote = ReceptionNotesTb.Text;
-
-                    Patient patient = new Patient(patientId, firstName, lastName, address, (decimal)0.0);
-                    PatientAppointment appointment = new PatientAppointment(visitId, patientId, apptDate, time, (decimal)50, receptNote, "", "");
-
-                    AddNewPatientToDB(patient);
-                    AddNewAppointmentToDB(appointment);
+                        ConfirmNewAppointment(appointment);
+                    }
                 }
                 else
                 {
-
+                    MessageBox.Show("Please fill out the reason for this visit.");
                 }
             }
             else
             {
                 MessageBox.Show("An error occurred when trying to generate Id's");
             }            
+        }
+
+        private void ConfirmNewAppointment(PatientAppointment appointment)
+        {
+            MessageBoxResult result = MessageBox.Show("Confirm new appointment?", "Appointment Confirmation", MessageBoxButton.YesNo);
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    AddNewAppointmentToDB(appointment);
+                    this.Close();
+                    break;
+                case MessageBoxResult.No:
+                    break;
+            }
+        }
+
+        private void ConfirmNewPatientAndAppointment(Patient patient, PatientAppointment appointment)
+        {
+            MessageBoxResult result = MessageBox.Show("Confirm new patient and appointment?", "Appointment Confirmation", MessageBoxButton.YesNo);
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    AddNewPatientToDB(patient);
+                    AddNewAppointmentToDB(appointment);
+                    this.Close();
+                    break;
+                case MessageBoxResult.No:
+                    break;
+            }
         }
 
         private void AddNewPatientToDB(Patient patient)

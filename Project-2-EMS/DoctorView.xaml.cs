@@ -67,8 +67,8 @@ namespace Project_2_EMS
 
         private void Patient_Information_Click(object sender, RoutedEventArgs e)
         {
-            Grid1.Visibility = Visibility.Visible;
-            Grid2.Visibility = Visibility.Hidden;
+            Patient_Information_Grid.Visibility = Visibility.Visible;
+            Update_Patient_Info_Grid.Visibility = Visibility.Hidden;
 
             //First_Name.Text = " ";
             //Last_Name.Text = " ";
@@ -84,8 +84,8 @@ namespace Project_2_EMS
 
         private void Update_Patient_Info_Click(object sender, RoutedEventArgs e)
         {
-            Grid1.Visibility = Visibility.Hidden;
-            Grid2.Visibility = Visibility.Visible;
+            Patient_Information_Grid.Visibility = Visibility.Hidden;
+            Update_Patient_Info_Grid.Visibility = Visibility.Visible;
         }
 
     }

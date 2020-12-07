@@ -45,7 +45,7 @@ namespace Project_2_EMS.App_Code
         public string NumberOfAppointmentsQuerier()
         {
             String query = "SELECT COUNT(*) " +
-                           "FROM Appointments";
+                           "FROM Appointments;";
 
             return query;
         }
