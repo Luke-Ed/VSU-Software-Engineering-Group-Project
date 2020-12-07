@@ -325,12 +325,61 @@ namespace Project_2_EMS {
 
         private void AddNewPatientToDB(Patient patient)
         {
+            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
+            string query = rcsql.AddNewPatientToDb();
 
+            DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
+
+            using (SqlConnection connection = dbConn.ConnectToDatabase())
+            {
+                SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
+                cmd.Parameters.Add("@patientId", SqlDbType.Int).Value = patient.PatientId;
+                cmd.Parameters.Add("@lastName", SqlDbType.Text).Value = patient.LastName;
+                cmd.Parameters.Add("@firstName", SqlDbType.Text).Value = patient.FirstName;
+                cmd.Parameters.Add("@address", SqlDbType.Text).Value = patient.Address;
+                cmd.Parameters.Add("@balance", SqlDbType.Decimal).Value = patient.Balance;
+
+                try
+                {
+                    connection.Open();
+                    MessageBox.Show("Patient added successfully!");
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Error when attempting to add new patient to database.");
+                }
+            }
         }
 
         private void AddNewAppointmentToDB(PatientAppointment appointment)
         {
+            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
+            string query = rcsql.AddNewAppointmentToDb();
 
+            DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
+
+            using (SqlConnection connection = dbConn.ConnectToDatabase())
+            {
+                SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
+                cmd.Parameters.Add("@visitId", SqlDbType.Int).Value = appointment.VisitId;
+                cmd.Parameters.Add("@patientId", SqlDbType.Int).Value = appointment.PatientId;
+                cmd.Parameters.Add("@apptDate", SqlDbType.Date).Value = appointment.ApptDate;
+                cmd.Parameters.Add("@apptTime", SqlDbType.Time).Value = appointment.ApptTime;
+                cmd.Parameters.Add("@cost", SqlDbType.Decimal).Value = appointment.Cost;
+                cmd.Parameters.Add("@receptNote", SqlDbType.Text).Value = appointment.ReceptNote;
+                cmd.Parameters.Add("@nurseNote", SqlDbType.Text).Value = appointment.NurseNote;
+                cmd.Parameters.Add("@doctorNote", SqlDbType.Text).Value = appointment.DoctorNote;
+
+                try
+                {
+                    connection.Open();
+                    MessageBox.Show("Appointment added successfully!");
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Error when attempting to add new appointment to database.");
+                }
+            }
         }
 
         private void BackBtn_Click(object sender, RoutedEventArgs e) {

@@ -49,5 +49,21 @@ namespace Project_2_EMS.App_Code
 
             return query;
         }
+
+        public string AddNewPatientToDb()
+        {
+            String query = "INSERT INTO PatientInfo ([PatientID], [LastName], [FirstName], [Address], [Balance]) " +
+                           "VALUES (@patientId,@lastName,@firstName,@address,@balance)";
+
+            return query;
+        }
+
+        public string AddNewAppointmentToDb()
+        {
+            String query = "INSERT INTO Appointments ([VisitID], [PatientID], [ApptDate], [ApptTime], [Cost], [ReceptNote], [NurseNote], [DoctorNote]) " +
+                           "VALUES (@visitId,@patientId,@apptDate,@apptTime,@cost,@receptNote,@nurseNote,@doctorNote)";
+
+            return query;
+        }
     }
 }
