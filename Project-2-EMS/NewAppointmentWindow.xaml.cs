@@ -17,6 +17,7 @@ namespace Project_2_EMS {
         public NewAppointmentWindow(Label srcLabel, Label timeLabel, DateTime date){
             InitializeComponent();
             InitializeComboBox();
+            InitialPage.Visibility = Visibility.Visible;
 
             ApptDate.Content = String.Format("{0} | {1}", date.ToString("ddd dd, yyyy"), timeLabel.Content);
             apptDate = date;

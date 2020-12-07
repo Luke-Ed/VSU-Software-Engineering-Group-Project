@@ -13,6 +13,7 @@ namespace Project_2_EMS.App_Code
             String query = "SELECT * " +
                            "FROM PatientInfo p FULL JOIN Appointments a ON p.PatientID = a.PatientID " +
                            "WHERE ApptDate BETWEEN '" + apptDate + "' AND '" + apptDate.AddDays(6) + "'";
+           
             return query;
         }
     }
