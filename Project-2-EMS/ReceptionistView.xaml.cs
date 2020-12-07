@@ -367,6 +367,7 @@ namespace Project_2_EMS
             else
             {
                 newApptWindow = new NewAppointmentWindow(srcLabel, timeLabel, date);
+                MessageBox.Show(timeLabel.Content.ToString());
                 newApptWindow.Show();
             }
         }

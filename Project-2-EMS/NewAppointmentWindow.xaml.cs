@@ -259,6 +259,13 @@ namespace Project_2_EMS {
                 // Remove AM/PM and space from apptTime in order to create a new PatientAppointment
                 string appointmentTime = apptTime.Content.ToString().Trim(' ', 'A', 'P', 'M');
                 TimeSpan time = TimeSpan.Parse(appointmentTime);
+
+                if (apptTime.Content.ToString().Contains("PM"))
+                {
+                    time = time.Add(new TimeSpan(12, 0, 0));
+                    MessageBox.Show("Time added correctly");
+                }
+
                 string receptNote = ReceptionNotesTb.Text;
 
                 if (receptNote != String.Empty)
@@ -297,13 +304,11 @@ namespace Project_2_EMS {
         private void ConfirmNewAppointment(PatientAppointment appointment)
         {
             MessageBoxResult result = MessageBox.Show("Confirm new appointment?", "Appointment Confirmation", MessageBoxButton.YesNo);
-            ReceptionistView recView = new ReceptionistView(null);
 
             switch (result)
             {
                 case MessageBoxResult.Yes:
                     AddNewAppointmentToDB(appointment);
-                    recView.UpdateCalendar();
                     this.Close();
                     break;
                 case MessageBoxResult.No:
@@ -314,14 +319,12 @@ namespace Project_2_EMS {
         private void ConfirmNewPatientAndAppointment(Patient patient, PatientAppointment appointment)
         {
             MessageBoxResult result = MessageBox.Show("Confirm new patient and appointment?", "Appointment Confirmation", MessageBoxButton.YesNo);
-            ReceptionistView recView = new ReceptionistView(null);
 
             switch (result)
             {
                 case MessageBoxResult.Yes:
                     AddNewPatientToDB(patient);
                     AddNewAppointmentToDB(appointment);
-                    recView.UpdateCalendar();
                     this.Close();
                     break;
                 case MessageBoxResult.No:
@@ -348,7 +351,7 @@ namespace Project_2_EMS {
                 try
                 {
                     connection.Open();
-                    //cmd.ExecuteNonQuery();
+                    cmd.ExecuteNonQuery();
                     MessageBox.Show("Patient added successfully!");
                 }
                 catch (Exception e)
@@ -377,16 +380,16 @@ namespace Project_2_EMS {
                 cmd.Parameters.Add("@nurseNote", SqlDbType.Text).Value = appointment.NurseNote;
                 cmd.Parameters.Add("@doctorNote", SqlDbType.Text).Value = appointment.DoctorNote;
 
-                try
-                {
+                //try
+                //{
                     connection.Open();
-                    //cmd.ExecuteNonQuery();
-                    MessageBox.Show("Appointment added successfully!");
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show("Error when attempting to add new appointment to database.");
-                }
+                    cmd.ExecuteNonQuery();
+                    //MessageBox.Show("Appointment added successfully!");
+               // }
+               // catch (Exception e)
+               // {
+               //     MessageBox.Show("Error when attempting to add new appointment to database.");
+               // }
             }
         }
 
@@ -439,7 +442,7 @@ namespace Project_2_EMS {
             int VisitId = 0;
 
             ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
-            string query = rcsql.NumberOfPatientsQuerier();
+            string query = rcsql.NumberOfAppointmentsQuerier();
 
             DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
 
