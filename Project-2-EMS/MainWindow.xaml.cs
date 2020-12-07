@@ -33,6 +33,13 @@ namespace Project_2_EMS {
       Hide();
     }
 
+    private void MoveToDoctorView()
+        {
+            Window doctorWindow = new DoctorView(this);
+            doctorWindow.Show();
+            Hide();
+        }
+
     private void StaffLoginButton_Click(object sender, RoutedEventArgs e) {
       String username = Staff_TbUsername.Text;
       String password = Staff_TbPassword.Password;
@@ -73,6 +80,9 @@ namespace Project_2_EMS {
                   break;
                 case 2:
                   MoveToNurseView();
+                  break;
+                case 3:
+                  MoveToDoctorView();
                   break;
                 default:
                   throw new InvalidOperationException("You broke it");
