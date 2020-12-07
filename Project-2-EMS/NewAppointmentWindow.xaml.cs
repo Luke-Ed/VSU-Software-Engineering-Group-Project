@@ -297,10 +297,13 @@ namespace Project_2_EMS {
         private void ConfirmNewAppointment(PatientAppointment appointment)
         {
             MessageBoxResult result = MessageBox.Show("Confirm new appointment?", "Appointment Confirmation", MessageBoxButton.YesNo);
+            ReceptionistView recView = new ReceptionistView(null);
+
             switch (result)
             {
                 case MessageBoxResult.Yes:
                     AddNewAppointmentToDB(appointment);
+                    recView.UpdateCalendar();
                     this.Close();
                     break;
                 case MessageBoxResult.No:
@@ -311,11 +314,14 @@ namespace Project_2_EMS {
         private void ConfirmNewPatientAndAppointment(Patient patient, PatientAppointment appointment)
         {
             MessageBoxResult result = MessageBox.Show("Confirm new patient and appointment?", "Appointment Confirmation", MessageBoxButton.YesNo);
+            ReceptionistView recView = new ReceptionistView(null);
+
             switch (result)
             {
                 case MessageBoxResult.Yes:
                     AddNewPatientToDB(patient);
                     AddNewAppointmentToDB(appointment);
+                    recView.UpdateCalendar();
                     this.Close();
                     break;
                 case MessageBoxResult.No:
@@ -342,6 +348,7 @@ namespace Project_2_EMS {
                 try
                 {
                     connection.Open();
+                    //cmd.ExecuteNonQuery();
                     MessageBox.Show("Patient added successfully!");
                 }
                 catch (Exception e)
@@ -373,6 +380,7 @@ namespace Project_2_EMS {
                 try
                 {
                     connection.Open();
+                    //cmd.ExecuteNonQuery();
                     MessageBox.Show("Appointment added successfully!");
                 }
                 catch (Exception e)

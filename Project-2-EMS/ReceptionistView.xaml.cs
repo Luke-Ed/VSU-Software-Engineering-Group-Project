@@ -36,6 +36,18 @@ namespace Project_2_EMS
             Closing += OnWindowClosing;
         }
 
+        public void UpdateCalendar()
+        {
+            GetPatientAppointments();
+
+            foreach (PatientAppointment pa in appointments)
+            {
+                GetPatient(pa.PatientId);
+            }
+
+            PopulateAppointmentGrid(patients, appointments);
+        }
+
         private void LogOutButton_Click(object sender, RoutedEventArgs e)
         {
             Hide();
