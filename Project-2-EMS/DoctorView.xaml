@@ -31,7 +31,7 @@
             <Button Content="Log Out" Grid.Row="4" Height="50" FontSize="18" Click="LogOutButton_Click"  />
 
         </Grid>
-        <Grid Name="Grid1" Grid.Column="1" Visibility="Visible">
+        <Grid Name="Patient_Information_Grid" Grid.Column="1" Visibility="Visible">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
@@ -68,7 +68,7 @@
 
 
         </Grid>
-        <Grid Name="Grid2" Grid.Column="1" Background="Cyan" Visibility="Hidden">
+        <Grid Name="Update_Patient_Info_Grid" Grid.Column="1" Background="Cyan" Visibility="Hidden">
             
         </Grid>
 
