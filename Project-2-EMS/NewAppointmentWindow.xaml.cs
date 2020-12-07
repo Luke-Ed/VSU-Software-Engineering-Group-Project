@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,8 @@ namespace Project_2_EMS {
         private DateTime apptDate;
         private Label apptTime;
         private Grid patientInfoPage;
-        private SqlConnection connection;
 
-        public NewAppointmentWindow(Label srcLabel, Label timeLabel, DateTime date, SqlConnection conn) {
+        public NewAppointmentWindow(Label srcLabel, Label timeLabel, DateTime date) {
             InitializeComponent();
             InitializeComboBox();
             InitialPage.Visibility = Visibility.Visible;
@@ -24,10 +24,9 @@ namespace Project_2_EMS {
             ApptDate.Content = String.Format("{0} | {1}", date.ToString("ddd dd, yyyy"), timeLabel.Content);
             apptDate = date;
             apptTime = timeLabel;
-            connection = conn;
         }
 
-        public NewAppointmentWindow(string firstName, string lastName, string receptNote, Label srcLabel, Label timeLabel, DateTime date)
+        public NewAppointmentWindow(string firstName, string lastName, string receptNote, Label timeLabel, DateTime date)
         {
             InitializeComponent();
             InitializeAppointmentInfo(firstName, lastName, receptNote);
@@ -93,7 +92,8 @@ namespace Project_2_EMS {
 
             if (child as DataGrid != null)
             {
-              (child as DataGrid).Items.Clear();
+              (child as DataGrid).ItemsSource = null;
+              (child as DataGrid).Items.Refresh();
             }
           }
 
@@ -192,25 +192,44 @@ namespace Project_2_EMS {
         {
             List<Patient> patients = new List<Patient>();
 
+            string findFirstName = FirstNameExistingTextbox.Text.ToString();
+            string findLastName = LastNameExistingTextbox.Text.ToString();
+
             ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
-            string query = rcsql.PatientQuerier();
+            string query = rcsql.PatientNameQuerier();
 
-            SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
-            SqlDataReader dataReader = cmd.ExecuteReader();
+            DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
 
-            while (dataReader.Read())
+            using (SqlConnection connection = dbConn.ConnectToDatabase())
             {
-                int patientId = dataReader.GetInt32(0);
-                string lastName = dataReader.GetString(1);
-                string firstName = dataReader.GetString(2);
-                string address = dataReader.GetString(3);
+                SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
+                cmd.Parameters.Add("@firstName", SqlDbType.Text).Value = findFirstName;
+                cmd.Parameters.Add("@lastName", SqlDbType.Text).Value = findLastName;
 
-                Patient patient = new Patient(patientId, firstName, lastName, address);
-                patients.Add(patient);
+                //try
+                //{
+                    connection.Open();
+                    SqlDataReader dataReader = cmd.ExecuteReader();
+
+                    while (dataReader.Read())
+                    {
+                        int patientId = dataReader.GetInt32(0);
+                        string lastName = dataReader.GetString(1);
+                        string firstName = dataReader.GetString(2);
+                        string address = dataReader.GetString(3);
+
+                        Patient patient = new Patient(patientId, firstName, lastName, address);
+                        patients.Add(patient);
+                    }
+
+                    dataReader.Close();
+                    patientDataGrid.ItemsSource = patients;
+                //}
+                //catch (Exception e)
+                //{
+                   //MessageBox.Show("Error reading from database.");
+                //}
             }
-            dataReader.Close();
-
-            patientDataGrid.ItemsSource = patients;
         }
 
         private void ConfirmBtn_Click(object sender, RoutedEventArgs e)
@@ -218,44 +237,40 @@ namespace Project_2_EMS {
             int patientId = GeneratePatientId();
             int visitId = GenerateVisitId();
 
-            if (patientInfoPage == NewPatientPage)
-            {
-                string firstName = FirstNameLabel.Content.ToString();
-                string lastName = LastNameLabel.Content.ToString();
+            if (patientId > 0 && visitId > 0) {
+                if (patientInfoPage == NewPatientPage)
+                {
+                    string firstName = FirstNameLabel.Content.ToString();
+                    string lastName = LastNameLabel.Content.ToString();
 
-                string street = StreetLabel.Content.ToString();
-                string city = CityLabel.Content.ToString();
-                string state = StateLabel.Content.ToString().Substring(StateCb.Text.Length - 2);
-                string zip = ZipLabel.Content.ToString();
+                    string street = StreetLabel.Content.ToString();
+                    string city = CityLabel.Content.ToString();
+                    string state = StateLabel.Content.ToString().Substring(StateCb.Text.Length - 2);
+                    string zip = ZipLabel.Content.ToString();
 
-                string address = String.Format("{0}, {1}, {2} {3}", street, city, state, zip);
+                    string address = String.Format("{0}, {1}, {2} {3}", street, city, state, zip);
 
-                // Remove AM/PM and space from apptTime in order to create a new PatientAppointment
-                string appointmentTime = apptTime.Content.ToString().Trim(' ','A','P', 'M');
-                TimeSpan time = TimeSpan.Parse(appointmentTime);
+                    // Remove AM/PM and space from apptTime in order to create a new PatientAppointment
+                    string appointmentTime = apptTime.Content.ToString().Trim(' ', 'A', 'P', 'M');
+                    TimeSpan time = TimeSpan.Parse(appointmentTime);
 
-                string receptNote = ReceptionNotesTb.Text;
+                    string receptNote = ReceptionNotesTb.Text;
 
-                Patient patient = new Patient(patientId, firstName, lastName, address, (decimal)0.0);
-                PatientAppointment appointment = new PatientAppointment(visitId, patientId, apptDate, time, (decimal)50, receptNote, "", "");
+                    Patient patient = new Patient(patientId, firstName, lastName, address, (decimal)0.0);
+                    PatientAppointment appointment = new PatientAppointment(visitId, patientId, apptDate, time, (decimal)50, receptNote, "", "");
 
-                AddNewPatientToDB(patient);
-                AddNewAppointmentToDB(appointment);
+                    AddNewPatientToDB(patient);
+                    AddNewAppointmentToDB(appointment);
+                }
+                else
+                {
+
+                }
             }
             else
             {
-
-            }
-        }
-
-        private void BackBtn_Click(object sender, RoutedEventArgs e) {
-          NewAppointmentPage.Visibility = Visibility.Hidden;
-          patientInfoPage.Visibility = Visibility.Visible;
-        }
-
-        private void CloseApptView_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
+                MessageBox.Show("An error occurred when trying to generate Id's");
+            }            
         }
 
         private void AddNewPatientToDB(Patient patient)
@@ -268,6 +283,16 @@ namespace Project_2_EMS {
 
         }
 
+        private void BackBtn_Click(object sender, RoutedEventArgs e) {
+          NewAppointmentPage.Visibility = Visibility.Hidden;
+          patientInfoPage.Visibility = Visibility.Visible;
+        }
+
+        private void CloseApptView_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
         private int GeneratePatientId()
         {
             int patientId = 0;
@@ -275,16 +300,31 @@ namespace Project_2_EMS {
             ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
             string query = rcsql.NumberOfPatientsQuerier();
 
-            SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
-            SqlDataReader dataReader = cmd.ExecuteReader();
+            DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
 
-            while (dataReader.Read())
+            using (SqlConnection connection = dbConn.ConnectToDatabase())
             {
-                patientId = dataReader.GetInt32(0);
-            }
-            dataReader.Close();
+                SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
 
-            return (patientId + 1);
+                try
+                {
+                    connection.Open();
+                    SqlDataReader dataReader = cmd.ExecuteReader();
+
+                    while (dataReader.Read())
+                    {
+                        patientId = dataReader.GetInt32(0);
+                    }
+                    dataReader.Close();
+
+                    return (patientId + 1);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Error reading from database.");
+                }
+            }
+            return patientId - 1;
         }
 
         private int GenerateVisitId()
@@ -292,18 +332,33 @@ namespace Project_2_EMS {
             int VisitId = 0;
 
             ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
-            string query = rcsql.NumberOfAppointmentsQuerier();
+            string query = rcsql.NumberOfPatientsQuerier();
 
-            SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
-            SqlDataReader dataReader = cmd.ExecuteReader();
+            DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
 
-            while (dataReader.Read())
+            using (SqlConnection connection = dbConn.ConnectToDatabase())
             {
-                VisitId = dataReader.GetInt32(0);
-            }
-            dataReader.Close();
+                SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
 
-            return (VisitId + 1);
+                try
+                {
+                    connection.Open();
+                    SqlDataReader dataReader = cmd.ExecuteReader();
+
+                    while (dataReader.Read())
+                    {
+                        VisitId = dataReader.GetInt32(0);
+                    }
+                    dataReader.Close();
+
+                    return (VisitId + 1);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Error reading from database.");
+                }
+            }
+            return VisitId - 1;
         }
     }
 }

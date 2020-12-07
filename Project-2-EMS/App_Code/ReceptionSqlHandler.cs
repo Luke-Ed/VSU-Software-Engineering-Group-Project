@@ -8,18 +8,28 @@ namespace Project_2_EMS.App_Code
 {
     class ReceptionSqlHandler
     {
-        public string AppointmentQuerier(DateTime apptDate)
+        public string AppointmentQuerier()
         {
             String query = "SELECT * " +
-                           "FROM PatientInfo p FULL JOIN Appointments a ON p.PatientID = a.PatientID " +
-                           "WHERE ApptDate BETWEEN '" + apptDate + "' AND '" + apptDate.AddDays(6) + "'";
+                           "FROM Appointments " +
+                           "WHERE ApptDate BETWEEN @ApptStartDate AND @ApptEndDate;";
             return query;
         }
 
-        public string PatientQuerier()
+        public string PatientNameQuerier()
         {
-            string query = "SELECT PatientID, LastName, FirstName, Address " +
-                           "FROM PatientInfo ";
+            string query = "SELECT * " +
+                           "FROM PatientInfo " +
+                           "WHERE FirstName LIKE @firstName OR LastName LIKE @lastName;";
+
+            return query;
+        }
+
+        public string PatientIdQuerier()
+        {
+            string query = "SELECT * " +
+                           "FROM PatientInfo " +
+                           "WHERE PatientID = @PatientId;";
 
             return query;
         }
@@ -27,7 +37,7 @@ namespace Project_2_EMS.App_Code
         public string NumberOfPatientsQuerier()
         {
             String query = "SELECT COUNT(*) " +
-                           "FROM PatientInfo";
+                           "FROM PatientInfo;";
 
             return query;
         }

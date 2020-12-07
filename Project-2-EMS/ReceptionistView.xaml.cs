@@ -1,5 +1,6 @@
 ﻿using Project_2_EMS.App_Code;
 using System;
+using System.Data;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,7 +18,6 @@ namespace Project_2_EMS
     {
         private readonly Window _parentWindow;
         private Window newApptWindow;
-        private SqlConnection connection;
 
         private List<PatientAppointment> appointments = new List<PatientAppointment>();
         private List<Patient> patients = new List<Patient>();
@@ -29,19 +29,11 @@ namespace Project_2_EMS
         {
             _parentWindow = parentWindow;
             InitializeComponent();
-            InitializeDBConnection();
 
             weekDate = DateTime.Now.AddDays(Convert.ToDouble(DateTime.Now.DayOfWeek.ToString("d")) * -1.0);
             AppointmentWeek.Content = weekDate.ToString("Week o\\f MMMM dd, yyyy");
 
             Closing += OnWindowClosing;
-        }
-
-        private void InitializeDBConnection()
-        {
-            String connectionString = ConfigurationManager.ConnectionStrings["MDR_ConnStr"].ConnectionString;
-            connection = new SqlConnection(connectionString);
-            connection.Open();
         }
 
         private void LogOutButton_Click(object sender, RoutedEventArgs e)
@@ -50,7 +42,6 @@ namespace Project_2_EMS
 
             if (newApptWindow != null) newApptWindow.Close();
 
-            connection.Close();
             var mainWindow = _parentWindow;
             mainWindow.Show();
         }
@@ -61,7 +52,6 @@ namespace Project_2_EMS
 
             if (newApptWindow != null) newApptWindow.Close();
 
-            connection.Close();
             mainWindow.Close();
         }
 
@@ -98,37 +88,13 @@ namespace Project_2_EMS
                     appointments.Clear();
                     patients.Clear();
 
-                    ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
-                    string query = rcsql.AppointmentQuerier(weekDate);
+                    GetPatientAppointments();
 
-                    SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
-                    SqlDataReader dataReader = cmd.ExecuteReader();
-
-                    while (dataReader.Read())
+                    foreach (PatientAppointment pa in appointments)
                     {
-                        int patientId = dataReader.GetInt32(0);
-                        string lastName = dataReader.GetString(1);
-                        string firstName = dataReader.GetString(2);
-                        string address = dataReader.GetString(3);
-                        //decimal balance = dataReader.GetDecimal(4);
-
-                        Patient p = new Patient(patientId, lastName, firstName, address, (decimal)1.0);
-                        patients.Add(p);
-
-                        int visitId = dataReader.GetInt32(5);
-                        patientId = dataReader.GetInt32(6);
-                        DateTime apptDate = dataReader.GetDateTime(7);
-                        TimeSpan apptTime = dataReader.GetTimeSpan(8);
-                        decimal cost = dataReader.GetDecimal(9);
-                        string receptNote = dataReader.GetString(10);
-                        string nurseNote = dataReader.GetString(11);
-                        string doctorNote = dataReader.GetString(12);
-
-                        PatientAppointment pa = new PatientAppointment(visitId, patientId, apptDate, apptTime, cost, receptNote, nurseNote, doctorNote);
-                        appointments.Add(pa);
+                        GetPatient(pa.PatientId);
                     }
 
-                    dataReader.Close();
                     PopulateAppointmentGrid(patients, appointments);
                 }
             }
@@ -145,6 +111,83 @@ namespace Project_2_EMS
             if (originalElement is CalendarDayButton || originalElement is CalendarItem)
             {
                 originalElement.ReleaseMouseCapture();
+            }
+        }
+
+        private void GetPatientAppointments()
+        {
+            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
+            string query = rcsql.AppointmentQuerier();
+
+            DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
+
+            using (SqlConnection connection = dbConn.ConnectToDatabase())
+            {
+                SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
+                cmd.Parameters.Add("@ApptStartDate", SqlDbType.DateTime).Value = weekDate;
+                cmd.Parameters.Add("@ApptEndDate", SqlDbType.DateTime).Value = weekDate.AddDays(6);
+           
+                try
+                {
+                    connection.Open();
+                    SqlDataReader dataReader = cmd.ExecuteReader();
+
+                    while (dataReader.Read())
+                    {
+                        int visitId = dataReader.GetInt32(0);
+                        int patientId = dataReader.GetInt32(1);
+                        DateTime apptDate = dataReader.GetDateTime(2);
+                        TimeSpan apptTime = dataReader.GetTimeSpan(3);
+                        decimal cost = dataReader.GetDecimal(4);
+                        string receptNote = dataReader.GetString(5);
+                        string nurseNote = dataReader.GetString(6);
+                        string doctorNote = dataReader.GetString(7);
+
+                        PatientAppointment appointment = new PatientAppointment(visitId, patientId, apptDate, apptTime, cost, receptNote, nurseNote, doctorNote);
+                        appointments.Add(appointment);
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Error reading from database.");
+                } 
+            }
+        }
+
+        private void GetPatient(int patId)
+        {
+            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
+            string query = rcsql.PatientIdQuerier();
+
+            DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
+
+            using (SqlConnection connection = dbConn.ConnectToDatabase())
+            {
+                SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
+                cmd.Parameters.Add("@PatientId", SqlDbType.Int);
+                cmd.Parameters["@PatientId"].Value = patId;
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader dataReader = cmd.ExecuteReader();
+
+                    while (dataReader.Read())
+                    {
+                        int patientId = dataReader.GetInt32(0);
+                        string lastName = dataReader.GetString(1);
+                        string firstName = dataReader.GetString(2);
+                        string address = dataReader.GetString(3);
+                        decimal balance = dataReader.GetDecimal(4);
+
+                        Patient patient = new Patient(patientId, lastName, firstName, address, balance);
+                        patients.Add(patient);
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Error reading from database.");
+                }
             }
         }
 
@@ -299,19 +342,19 @@ namespace Project_2_EMS
                     }
                 }
 
-                Patient pat = patients.ElementAt(patientIndex);
-                PatientAppointment appt = appointments.ElementAt(patientIndex);
+                Patient patient = patients.ElementAt(patientIndex);
+                PatientAppointment appointment = appointments.ElementAt(patientIndex);
 
-                string firstName = pat.FirstName;
-                string lastName = pat.LastName;
-                string notes = appt.ReceptNote;
+                string firstName = patient.FirstName;
+                string lastName = patient.LastName;
+                string notes = appointment.ReceptNote;
 
-                newApptWindow = new NewAppointmentWindow(firstName, lastName, notes, srcLabel, timeLabel, date);
+                newApptWindow = new NewAppointmentWindow(firstName, lastName, notes, timeLabel, date);
                 newApptWindow.Show();
             }
             else
             {
-                newApptWindow = new NewAppointmentWindow(srcLabel, timeLabel, date, connection);
+                newApptWindow = new NewAppointmentWindow(srcLabel, timeLabel, date);
                 newApptWindow.Show();
             }
         }
