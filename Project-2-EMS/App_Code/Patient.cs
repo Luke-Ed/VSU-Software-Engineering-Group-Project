@@ -14,5 +14,12 @@
       Balance = balance;
     }
 
+    public Patient(int patientId, string firstName, string lastName, string address)
+    {
+        PatientId = patientId;
+        FirstName = firstName;
+        LastName = lastName;
+        Address = address;
+    }
   }
 }

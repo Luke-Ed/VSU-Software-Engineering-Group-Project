@@ -1,5 +1,6 @@
 ﻿using Project_2_EMS.App_Code;
 using System;
+using System.Data;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,8 +18,10 @@ namespace Project_2_EMS
     {
         private readonly Window _parentWindow;
         private Window newApptWindow;
-        private SqlConnection connection;
-        private DateTime prevDate;
+
+        private List<PatientAppointment> appointments = new List<PatientAppointment>();
+        private List<Patient> patients = new List<Patient>();
+
         private DateTime weekDate;
         private DateTime prevWeekDate;
 
@@ -26,19 +29,11 @@ namespace Project_2_EMS
         {
             _parentWindow = parentWindow;
             InitializeComponent();
-            InitializeDBConnection();
 
             weekDate = DateTime.Now.AddDays(Convert.ToDouble(DateTime.Now.DayOfWeek.ToString("d")) * -1.0);
             AppointmentWeek.Content = weekDate.ToString("Week o\\f MMMM dd, yyyy");
 
             Closing += OnWindowClosing;
-        }
-
-        private void InitializeDBConnection()
-        {
-            String connectionString = ConfigurationManager.ConnectionStrings["MDR_ConnStr"].ConnectionString;
-            connection = new SqlConnection(connectionString);
-            connection.Open();
         }
 
         private void LogOutButton_Click(object sender, RoutedEventArgs e)
@@ -47,7 +42,6 @@ namespace Project_2_EMS
 
             if (newApptWindow != null) newApptWindow.Close();
 
-            connection.Close();
             var mainWindow = _parentWindow;
             mainWindow.Show();
         }
@@ -58,16 +52,14 @@ namespace Project_2_EMS
 
             if (newApptWindow != null) newApptWindow.Close();
 
-            connection.Close();
             mainWindow.Close();
         }
 
         // Change which view is visible when you select buttons from the control panel
         private void ControlButton_Click(object sender, RoutedEventArgs e)
         {
-            List<UIElement> views = GetChildren(ViewPanel);
             Button btn = e.Source as Button;
-            foreach (Grid grid in views)
+            foreach (Grid grid in ViewPanel.Children)
             {
                 _ = grid.Name.Contains(btn.Name) ? grid.Visibility = Visibility.Visible : grid.Visibility = Visibility.Hidden;
             }
@@ -85,52 +77,24 @@ namespace Project_2_EMS
                 weekDate = date.AddDays(dayNum * -1.0);
                 AppointmentWeek.Content = weekDate.ToString("Week o\\f MMMM dd, yyyy");
 
-                if (prevDate != date)
-                {
-                    prevDate = date;
-                    var apptDays = GetChildren(AppointmentDays);
-                    HighlightDay(apptDays, 0, (int)dayNum + 1);
-                }
+                //var apptDays = GetChildren(AppointmentDays);
+                HighlightCalendarDay(AppointmentDays, 0, (int)dayNum + 1);
 
                 if (prevWeekDate != weekDate)
                 {
                     prevWeekDate = weekDate;
                     ClearAppointmentGrid();
 
-                    List<PatientAppointment> appointments = new List<PatientAppointment>();
-                    List<Patient> patients = new List<Patient>();
+                    appointments.Clear();
+                    patients.Clear();
 
-                    ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
-                    string query = rcsql.AppointmentQuerier(weekDate);
+                    GetPatientAppointments();
 
-                    SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
-                    SqlDataReader dataReader = cmd.ExecuteReader();
-
-                    while (dataReader.Read())
+                    foreach (PatientAppointment pa in appointments)
                     {
-                        int patientId = dataReader.GetInt32(0);
-                        string lastName = dataReader.GetString(1);
-                        string firstName = dataReader.GetString(2);
-                        string address = dataReader.GetString(3);
-                        //decimal balance = dataReader.GetDecimal(4);
-
-                        Patient p = new Patient(patientId, lastName, firstName, address, (decimal)1.0);
-                        patients.Add(p);
-
-                        int visitId = dataReader.GetInt32(5);
-                        patientId = dataReader.GetInt32(6);
-                        DateTime apptDate = dataReader.GetDateTime(7);
-                        TimeSpan apptTime = dataReader.GetTimeSpan(8);
-                        decimal cost = dataReader.GetDecimal(9);
-                        string receptNote = dataReader.GetString(10);
-                        string nurseNote = dataReader.GetString(11);
-                        string doctorNote = dataReader.GetString(12);
-
-                        PatientAppointment pa = new PatientAppointment(visitId, patientId, apptDate, apptTime, cost, receptNote, nurseNote, doctorNote);
-                        appointments.Add(pa);
+                        GetPatient(pa.PatientId);
                     }
 
-                    dataReader.Close();
                     PopulateAppointmentGrid(patients, appointments);
                 }
             }
@@ -150,13 +114,80 @@ namespace Project_2_EMS
             }
         }
 
-        // Clear the appointment grids (Used when changing week view)
-        private void ClearAppointmentGrid()
+        private void GetPatientAppointments()
         {
-            foreach (Label child in AppointmentGrids.Children)
+            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
+            string query = rcsql.AppointmentQuerier();
+
+            DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
+
+            using (SqlConnection connection = dbConn.ConnectToDatabase())
             {
-                child.Background = Brushes.White;
-                child.Content = String.Empty;
+                SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
+                cmd.Parameters.Add("@ApptStartDate", SqlDbType.DateTime).Value = weekDate;
+                cmd.Parameters.Add("@ApptEndDate", SqlDbType.DateTime).Value = weekDate.AddDays(6);
+           
+                try
+                {
+                    connection.Open();
+                    SqlDataReader dataReader = cmd.ExecuteReader();
+
+                    while (dataReader.Read())
+                    {
+                        int visitId = dataReader.GetInt32(0);
+                        int patientId = dataReader.GetInt32(1);
+                        DateTime apptDate = dataReader.GetDateTime(2);
+                        TimeSpan apptTime = dataReader.GetTimeSpan(3);
+                        decimal cost = dataReader.GetDecimal(4);
+                        string receptNote = dataReader.GetString(5);
+                        string nurseNote = dataReader.GetString(6);
+                        string doctorNote = dataReader.GetString(7);
+
+                        PatientAppointment appointment = new PatientAppointment(visitId, patientId, apptDate, apptTime, cost, receptNote, nurseNote, doctorNote);
+                        appointments.Add(appointment);
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Error reading from database.");
+                } 
+            }
+        }
+
+        private void GetPatient(int patId)
+        {
+            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
+            string query = rcsql.PatientIdQuerier();
+
+            DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
+
+            using (SqlConnection connection = dbConn.ConnectToDatabase())
+            {
+                SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
+                cmd.Parameters.Add("@PatientId", SqlDbType.Int);
+                cmd.Parameters["@PatientId"].Value = patId;
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader dataReader = cmd.ExecuteReader();
+
+                    while (dataReader.Read())
+                    {
+                        int patientId = dataReader.GetInt32(0);
+                        string lastName = dataReader.GetString(1);
+                        string firstName = dataReader.GetString(2);
+                        string address = dataReader.GetString(3);
+                        decimal balance = dataReader.GetDecimal(4);
+
+                        Patient patient = new Patient(patientId, lastName, firstName, address, balance);
+                        patients.Add(patient);
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Error reading from database.");
+                }
             }
         }
 
@@ -166,7 +197,7 @@ namespace Project_2_EMS
             foreach (PatientAppointment appt in appointments)
             {
                 string apptTime = string.Format("{0:h\\:mm}", appt.ApptTime);
-                List<UIElement> apptTimes = GetChildren(AppointmentTimes);
+                //List<UIElement> apptTimes = GetChildren(AppointmentTimes);
 
                 double day = Convert.ToDouble(appt.ApptDate.DayOfWeek.ToString("d"));
 
@@ -176,7 +207,7 @@ namespace Project_2_EMS
                 _ = diff == 0 ? apptTime += " PM" : null;
                 _ = diff < 0 ? apptTime += " AM" : null;
 
-                foreach (Label child in apptTimes)
+                foreach (Label child in AppointmentTimes.Children)
                 {
                     if (apptTime.CompareTo(child.Content.ToString()) == 0)
                     {
@@ -187,23 +218,23 @@ namespace Project_2_EMS
 
                         string firstName = patients.ElementAt(index).FirstName;
                         string lastInitial = patients.ElementAt(index).LastName;
+                        string visitId = appt.VisitId.ToString();
 
-                        apptLabel.Content = String.Format("{0} {1}.", firstName, lastInitial.Substring(0,1));
+                        apptLabel.Content = String.Format("{0} {1}.\nVisit Id: {2}", firstName, lastInitial.Substring(0,1), visitId);
                         apptLabel.Background = Brushes.LightGreen;
                     }
                 }
             }
         }
 
-        // Return a list of the given grid's children
-        private static List<UIElement> GetChildren(Grid grid)
+        // Clear the appointment grids (Used when changing week view)
+        private void ClearAppointmentGrid()
         {
-            List<UIElement> children = new List<UIElement>();
-            foreach (UIElement child in grid.Children)
+            foreach (Label child in AppointmentGrids.Children)
             {
-                children.Add(child);
+                child.Background = Brushes.White;
+                child.Content = String.Empty;
             }
-            return children;
         }
 
         // Get individual child from UIElement
@@ -220,9 +251,9 @@ namespace Project_2_EMS
         }
 
         // Highlight the selected day on the appointments calendar
-        private static void HighlightDay(List<UIElement> days, int row, int column)
+        private static void HighlightCalendarDay(Grid grid, int row, int column)
         {
-            foreach (Label label in days)
+            foreach (Label label in grid.Children)
             {
                 Boolean labelMatch = Grid.GetRow(label) == row && Grid.GetColumn(label) == column;
                 _ = labelMatch ? label.Background = Brushes.CornflowerBlue : label.Background = Brushes.LightCyan;
@@ -230,7 +261,7 @@ namespace Project_2_EMS
         }
 
         // Highlight the selected cell on the appointments calendar     
-        private static void HighlightSelected(Grid grid, int row, int column)
+        private static void HighlightCalendarCell(Grid grid, int row, int column)
         {
             foreach (Label child in grid.Children)
             {
@@ -242,13 +273,11 @@ namespace Project_2_EMS
         // Called when a cell on the appointments calendar is selected
         private void ApptDate_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            // Highlight the selected cell
             Label srcLabel = e.Source as Label;
-            HighlightSelected(AppointmentGrids, Grid.GetRow(srcLabel), Grid.GetColumn(srcLabel));
 
-            // Highlight the day corresponding to the selected cell
-            List<UIElement> apptDays = GetChildren(AppointmentDays);
-            HighlightDay(apptDays, 0, Grid.GetColumn(srcLabel) + 2);
+            // Highlight the selected cell and day
+            HighlightCalendarCell(AppointmentGrids, Grid.GetRow(srcLabel), Grid.GetColumn(srcLabel));
+            HighlightCalendarDay(AppointmentDays, 0, Grid.GetColumn(srcLabel) + 2);
 
             // Show the selected date on the calendar view
             DateTime date = weekDate.AddDays(Grid.GetColumn(srcLabel) + 1);
@@ -263,13 +292,17 @@ namespace Project_2_EMS
         // Called when a cell on the appointments calendar has been double clicked
         private void ApptDate_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (newApptWindow != null) newApptWindow.Close();
+            if (newApptWindow != null)
+            {
+                newApptWindow.Close();
+            }
 
             Label srcLabel = e.Source as Label;
 
             OpenAppointmentView(srcLabel);
         }
 
+        // Button with similar functionality to double clicking a cell on the appointments calendar
         private void ViewApptButton_Click(object sender, RoutedEventArgs e)
         {
             if (newApptWindow != null)
@@ -280,6 +313,7 @@ namespace Project_2_EMS
             Label srcLabel = null;
             Thickness thc = new Thickness(2);
 
+            // Find the child corresponding to the selected cell on the appointments calendar
             foreach (Label child in AppointmentGrids.Children)
             {
                 _ = child.Margin.Equals(thc) ? srcLabel = child : null;
@@ -288,14 +322,41 @@ namespace Project_2_EMS
             OpenAppointmentView(srcLabel);
         }
 
+        // Open a separate window when viewing/adding appointments
         private void OpenAppointmentView(Label srcLabel)
         {
             Label timeLabel = GetChild(AppointmentTimes, Grid.GetRow(srcLabel), 0) as Label;
             DateTime date = weekDate.AddDays(Grid.GetColumn(srcLabel) + 1);
 
-            //ToString("ddd dd, yyyy")
-            newApptWindow = new NewAppointmentWindow(srcLabel, timeLabel, date);
-            newApptWindow.Show();
+            if (srcLabel.Content.ToString() != String.Empty)
+            {
+                int patientIndex = 0;
+                int visitId = Convert.ToInt32(string.Join("", srcLabel.Content.ToString().ToCharArray().Where(Char.IsDigit)));
+
+                foreach (PatientAppointment pa in appointments)
+                {
+                    if (pa.VisitId == visitId)
+                    {
+                        patientIndex = appointments.IndexOf(pa);
+                        break;
+                    }
+                }
+
+                Patient patient = patients.ElementAt(patientIndex);
+                PatientAppointment appointment = appointments.ElementAt(patientIndex);
+
+                string firstName = patient.FirstName;
+                string lastName = patient.LastName;
+                string notes = appointment.ReceptNote;
+
+                newApptWindow = new NewAppointmentWindow(firstName, lastName, notes, timeLabel, date);
+                newApptWindow.Show();
+            }
+            else
+            {
+                newApptWindow = new NewAppointmentWindow(srcLabel, timeLabel, date);
+                newApptWindow.Show();
+            }
         }
     }
 }
