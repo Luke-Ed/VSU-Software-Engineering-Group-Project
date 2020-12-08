@@ -27,13 +27,18 @@ namespace Project_2_EMS
 
         public ReceptionistView(Window parentWindow)
         {
-            _parentWindow = parentWindow;
             InitializeComponent();
+            InitializeHeadLabels();
 
+            _parentWindow = parentWindow;
+            Closing += OnWindowClosing;
+        }
+
+        private void InitializeHeadLabels()
+        {
             weekDate = DateTime.Now.AddDays(Convert.ToDouble(DateTime.Now.DayOfWeek.ToString("d")) * -1.0);
             AppointmentWeek.Content = weekDate.ToString("Week o\\f MMMM dd, yyyy");
-
-            Closing += OnWindowClosing;
+            SignInDate.Content = weekDate.ToLongDateString();
         }
 
         public void UpdateCalendar()

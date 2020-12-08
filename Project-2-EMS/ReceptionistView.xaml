@@ -320,11 +320,11 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 
-                <Grid Grid.Row="0" Background="LightCyan" >
+                <Grid Grid.Row="0" Background="Black" >
                     <Label Content="Patient Sign-in" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" />
                 </Grid>
 
-                <Grid Grid.Row="1" Background="Black" >
+                <Grid Grid.Row="1" Background="DimGray" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
                         <ColumnDefinition Width="8*" />
@@ -332,10 +332,227 @@
                     </Grid.ColumnDefinitions>
 
                     <Grid Grid.Column="1" Background="LightGray" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
                             <ColumnDefinition Width="3*" />
-                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Row="0" Grid.ColumnSpan="4" Background="DarkGray" >
+                            <Label Name="SignInDate" Content="Date Time" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" />
+                        </Grid>
+
+                        <Grid Grid.Row="1" Grid.Column="0" Margin="1" >
+                            <Label Content="Visit Id" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" />
+                        </Grid>
+                        <Grid Grid.Row="1" Grid.Column="1" Margin="1" >
+                            <Label Content="Last Name" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" />
+                        </Grid>
+                        <Grid Grid.Row="1" Grid.Column="2" Margin="1" >
+                            <Label Content="First Name" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" />
+                        </Grid>
+                        <Grid Grid.Row="1" Grid.Column="3" Margin="1" >
+                            <Label Content="Sign-in" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" />
+                        </Grid>
+
+                        <Grid Name="SignInVisitId" Grid.Row="2" Grid.Column="0" Background="DarkGray" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Row="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Gray" FontSize="18" />
+                            <Label Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Gray" FontSize="18" />
+                            <Label Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Gray" FontSize="18" />
+                            <Label Grid.Row="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Gray" FontSize="18" />
+                            <Label Grid.Row="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Gray" FontSize="18" />
+                            <Label Grid.Row="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Gray" FontSize="18" />
+                            <Label Grid.Row="6" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Gray" FontSize="18" />
+                            <Label Grid.Row="7" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Gray" FontSize="18" />
+                            <Label Grid.Row="8" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Gray" FontSize="18" />
+                            <Label Grid.Row="9" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Gray" FontSize="18" />
+                            <Label Grid.Row="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Gray" FontSize="18" />
+                            <Label Grid.Row="11" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Gray" FontSize="18" />
+                            <Label Grid.Row="12" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Gray" FontSize="18" />
+                        </Grid>
+
+                        <Grid Name="SignInLastName" Grid.Row="2" Grid.Column="1" Background="Gray" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Row="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
+                            <Label Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
+                            <Label Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
+                            <Label Grid.Row="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
+                            <Label Grid.Row="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
+                            <Label Grid.Row="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
+                            <Label Grid.Row="6" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
+                            <Label Grid.Row="7" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
+                            <Label Grid.Row="8" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
+                            <Label Grid.Row="9" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
+                            <Label Grid.Row="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
+                            <Label Grid.Row="11" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
+                            <Label Grid.Row="12" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
+                        </Grid>
+
+                        <Grid Name="SignInFirstName" Grid.Row="2" Grid.Column="2" Background="Gray" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Row="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
+                            <Label Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
+                            <Label Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
+                            <Label Grid.Row="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
+                            <Label Grid.Row="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
+                            <Label Grid.Row="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
+                            <Label Grid.Row="6" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
+                            <Label Grid.Row="7" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
+                            <Label Grid.Row="8" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
+                            <Label Grid.Row="9" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
+                            <Label Grid.Row="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
+                            <Label Grid.Row="11" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
+                            <Label Grid.Row="12" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
+                        </Grid>
+
+                        <Grid Name="SignInCheckBox" Grid.Row="2" Grid.Column="3" Background="DarkGray" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="1*" />
+                            </Grid.RowDefinitions>
+
+                            <CheckBox Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" >
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                </CheckBox.LayoutTransform>
+                            </CheckBox>
+
+                            <CheckBox Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" >
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                </CheckBox.LayoutTransform>
+                            </CheckBox>
+
+                            <CheckBox Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" >
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                </CheckBox.LayoutTransform>
+                            </CheckBox>
+
+                            <CheckBox Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" >
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                </CheckBox.LayoutTransform>
+                            </CheckBox>
+
+                            <CheckBox Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" >
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                </CheckBox.LayoutTransform>
+                            </CheckBox>
+
+                            <CheckBox Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" >
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                </CheckBox.LayoutTransform>
+                            </CheckBox>
+
+                            <CheckBox Grid.Row="6" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" >
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                </CheckBox.LayoutTransform>
+                            </CheckBox>
+
+                            <CheckBox Grid.Row="7" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" >
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                </CheckBox.LayoutTransform>
+                            </CheckBox>
+
+                            <CheckBox Grid.Row="8" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" >
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                </CheckBox.LayoutTransform>
+                            </CheckBox>
+
+                            <CheckBox Grid.Row="9" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" >
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                </CheckBox.LayoutTransform>
+                            </CheckBox>
+
+                            <CheckBox Grid.Row="10" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" >
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                </CheckBox.LayoutTransform>
+                            </CheckBox>
+
+                            <CheckBox Grid.Row="11" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" >
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                </CheckBox.LayoutTransform>
+                            </CheckBox>
+
+                            <CheckBox Grid.Row="12" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" >
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                </CheckBox.LayoutTransform>
+                            </CheckBox>
+                        </Grid>
                     </Grid>
                 </Grid>
             </Grid>
