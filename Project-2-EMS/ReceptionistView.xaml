@@ -474,80 +474,80 @@
                                 <RowDefinition Height="1*" />
                                 <RowDefinition Height="1*" />
                             </Grid.RowDefinitions>
-
-                            <CheckBox Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" >
+                            
+                            <CheckBox Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
                             </CheckBox>
 
-                            <CheckBox Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" >
+                            <CheckBox Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
                             </CheckBox>
 
-                            <CheckBox Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" >
+                            <CheckBox Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
                             </CheckBox>
 
-                            <CheckBox Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" >
+                            <CheckBox Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
                             </CheckBox>
 
-                            <CheckBox Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" >
+                            <CheckBox Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
                             </CheckBox>
 
-                            <CheckBox Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" >
+                            <CheckBox Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
                             </CheckBox>
 
-                            <CheckBox Grid.Row="6" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" >
+                            <CheckBox Grid.Row="6" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
                             </CheckBox>
 
-                            <CheckBox Grid.Row="7" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" >
+                            <CheckBox Grid.Row="7" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
                             </CheckBox>
 
-                            <CheckBox Grid.Row="8" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" >
+                            <CheckBox Grid.Row="8" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
                             </CheckBox>
 
-                            <CheckBox Grid.Row="9" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" >
+                            <CheckBox Grid.Row="9" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
                             </CheckBox>
 
-                            <CheckBox Grid.Row="10" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" >
+                            <CheckBox Grid.Row="10" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
                             </CheckBox>
 
-                            <CheckBox Grid.Row="11" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" >
+                            <CheckBox Grid.Row="11" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
                             </CheckBox>
 
-                            <CheckBox Grid.Row="12" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" >
+                            <CheckBox Grid.Row="12" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>

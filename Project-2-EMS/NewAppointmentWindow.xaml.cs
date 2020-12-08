@@ -46,7 +46,7 @@ namespace Project_2_EMS {
 
         private void OnWindowClosing(object sender, CancelEventArgs e)
         {
-            parentWindow.UpdateCalendar();
+            parentWindow.UpdateReceptionistView();
         }
 
         private void InitializeAppointmentDateTime(Label timeLabel, DateTime date)

@@ -29,6 +29,7 @@ namespace Project_2_EMS
         {
             InitializeComponent();
             InitializeHeadLabels();
+            InitializeSignInView();
 
             _parentWindow = parentWindow;
             Closing += OnWindowClosing;
@@ -38,13 +39,20 @@ namespace Project_2_EMS
         {
             weekDate = DateTime.Now.AddDays(Convert.ToDouble(DateTime.Now.DayOfWeek.ToString("d")) * -1.0);
             AppointmentWeek.Content = weekDate.ToString("Week o\\f MMMM dd, yyyy");
-            SignInDate.Content = weekDate.ToLongDateString();
         }
 
-        public void UpdateCalendar()
+        private void InitializeSignInView()
+        {
+            SignInDate.Content = DateTime.Now.Date.ToLongDateString();
+            UpdateReceptionistView();
+            PopulateSignInView();
+        }
+
+        public void UpdateReceptionistView()
         {
             ClearAppointmentGrid();
             PopulateAppointmentGrid(patients, appointments);
+            PopulateSignInView();
         }
 
         private void LogOutButton_Click(object sender, RoutedEventArgs e)
@@ -93,7 +101,7 @@ namespace Project_2_EMS
                 if (prevWeekDate != weekDate)
                 {
                     prevWeekDate = weekDate;
-                    UpdateCalendar();
+                    UpdateReceptionistView();
                 }
             }
         }
@@ -189,9 +197,42 @@ namespace Project_2_EMS
             }
         }
 
+        private void PopulateSignInView()
+        {
+            int rowIndex = 0;
+            foreach (PatientAppointment pa in appointments)
+            {
+                if (pa.ApptDate == DateTime.Now.Date)
+                {
+                    foreach (Patient p in patients)
+                    {
+                        if (pa.PatientId == p.PatientId)
+                        {
+                            Label visitId = GetChild(SignInVisitId, rowIndex, 0) as Label;
+                            Label lastName = GetChild(SignInLastName, rowIndex, 0) as Label;
+                            Label firstName = GetChild(SignInFirstName, rowIndex, 0) as Label;
+
+                            visitId.Content = pa.VisitId;
+                            lastName.Content = p.LastName;
+                            firstName.Content = p.FirstName;
+
+                            rowIndex += 1;
+                        }
+                    }
+                }
+            }
+        }
+
         // Populate the appointment grids with appropriate appointments
         private void PopulateAppointmentGrid(List<Patient> patients, List<PatientAppointment> appointments)
         {
+            GetPatientAppointments();
+
+            foreach (PatientAppointment pa in appointments)
+            {
+                GetPatient(pa.PatientId);
+            }
+
             foreach (PatientAppointment appt in appointments)
             {
                 string apptTime = String.Empty;
@@ -229,13 +270,6 @@ namespace Project_2_EMS
         {
             appointments.Clear();
             patients.Clear();
-
-            GetPatientAppointments();
-
-            foreach (PatientAppointment pa in appointments)
-            {
-                GetPatient(pa.PatientId);
-            }
 
             foreach (Label child in AppointmentGrids.Children)
             {
@@ -369,6 +403,16 @@ namespace Project_2_EMS
                     newApptWindow.Show();
                 }
             }
+        }
+
+        private void Signin_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Signin_Unchecked(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
