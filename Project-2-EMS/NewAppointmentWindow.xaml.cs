@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 
 using Project_2_EMS.App_Code;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace Project_2_EMS {
 
@@ -16,6 +17,7 @@ namespace Project_2_EMS {
         private ReceptionistView parentWindow;
         private DateTime apptDate;
         private Label apptTime;
+        private int visitId;
         private Grid patientInfoPage;
 
         public NewAppointmentWindow(ReceptionistView parent, Label timeLabel, DateTime date) {
@@ -29,7 +31,7 @@ namespace Project_2_EMS {
             Closing += OnWindowClosing;
         }
 
-        public NewAppointmentWindow(ReceptionistView parent, string firstName, string lastName, string receptNote, Label timeLabel, DateTime date)
+        public NewAppointmentWindow(ReceptionistView parent, int Id, string firstName, string lastName, string receptNote, Label timeLabel, DateTime date)
         {
             InitializeComponent();
             InitializeAppointmentInfo(firstName, lastName, receptNote);
@@ -37,6 +39,7 @@ namespace Project_2_EMS {
 
             ViewApptPage.Visibility = Visibility.Visible;
 
+            visitId = Id;
             parentWindow = parent;
             Closing += OnWindowClosing;
         }
@@ -488,7 +491,48 @@ namespace Project_2_EMS {
 
         private void RemoveBtn_Click(object sender, RoutedEventArgs e)
         {
+            if (DateTime.Compare(apptDate.Date, DateTime.Now.Date) >= 0) 
+            {
+                MessageBoxResult result = MessageBox.Show("Do you really want to remove appointment?", "Remove Appointment", MessageBoxButton.YesNo);
 
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+                        DeleteAppointment();
+                        this.Close();
+                        break;
+                    case MessageBoxResult.No:
+                        break;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Cannot remove past appointments.");
+            }
+        }
+
+        private void DeleteAppointment()
+        {
+            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
+            string query = rcsql.DeleteAppointmentFromDb();
+
+            DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
+
+            using (SqlConnection connection = dbConn.ConnectToDatabase())
+            {
+                SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
+                cmd.Parameters.Add("@visitId", SqlDbType.Int).Value = visitId;
+
+                try
+                {
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error when attempting to remove appointment.");
+                }
+            }
         }
     }
 }

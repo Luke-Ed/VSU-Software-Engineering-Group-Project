@@ -38,13 +38,7 @@ namespace Project_2_EMS
 
         public void UpdateCalendar()
         {
-            GetPatientAppointments();
-
-            foreach (PatientAppointment pa in appointments)
-            {
-                GetPatient(pa.PatientId);
-            }
-
+            ClearAppointmentGrid();
             PopulateAppointmentGrid(patients, appointments);
         }
 
@@ -94,19 +88,7 @@ namespace Project_2_EMS
                 if (prevWeekDate != weekDate)
                 {
                     prevWeekDate = weekDate;
-                    ClearAppointmentGrid();
-
-                    appointments.Clear();
-                    patients.Clear();
-
-                    GetPatientAppointments();
-
-                    foreach (PatientAppointment pa in appointments)
-                    {
-                        GetPatient(pa.PatientId);
-                    }
-
-                    PopulateAppointmentGrid(patients, appointments);
+                    UpdateCalendar();
                 }
             }
         }
@@ -240,6 +222,16 @@ namespace Project_2_EMS
         // Clear the appointment grids (Used when changing week view)
         private void ClearAppointmentGrid()
         {
+            appointments.Clear();
+            patients.Clear();
+
+            GetPatientAppointments();
+
+            foreach (PatientAppointment pa in appointments)
+            {
+                GetPatient(pa.PatientId);
+            }
+
             foreach (Label child in AppointmentGrids.Children)
             {
                 child.Background = Brushes.White;
@@ -360,15 +352,17 @@ namespace Project_2_EMS
                 string notes = appointment.ReceptNote;
 
                 ReceptionistView recView = this;
-
-                newApptWindow = new NewAppointmentWindow(recView, firstName, lastName, notes, timeLabel, date);
+                newApptWindow = new NewAppointmentWindow(recView, visitId, firstName, lastName, notes, timeLabel, date);
                 newApptWindow.Show();
             }
             else
-            {
-                ReceptionistView recView = this;
-                newApptWindow = new NewAppointmentWindow(recView, timeLabel, date);
-                newApptWindow.Show();
+            {   
+                if (DateTime.Compare(date.Date, DateTime.Now.Date) >= 0)
+                {
+                    ReceptionistView recView = this;
+                    newApptWindow = new NewAppointmentWindow(recView, timeLabel, date);
+                    newApptWindow.Show();
+                }
             }
         }
     }

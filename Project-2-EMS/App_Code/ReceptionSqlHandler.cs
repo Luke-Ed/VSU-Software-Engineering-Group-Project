@@ -65,5 +65,13 @@ namespace Project_2_EMS.App_Code
 
             return query;
         }
+
+        public string DeleteAppointmentFromDb()
+        {
+            String query = "DELETE FROM Appointments " +
+                           "WHERE VisitID = @visitId";
+
+            return query;
+        }
     }
 }
