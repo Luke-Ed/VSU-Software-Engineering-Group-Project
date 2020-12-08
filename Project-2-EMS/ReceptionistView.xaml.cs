@@ -29,7 +29,7 @@ namespace Project_2_EMS
         {
             InitializeComponent();
             InitializeHeadLabels();
-            InitializeSignInView();
+            UpdateReceptionistView();
 
             _parentWindow = parentWindow;
             Closing += OnWindowClosing;
@@ -39,13 +39,7 @@ namespace Project_2_EMS
         {
             weekDate = DateTime.Now.AddDays(Convert.ToDouble(DateTime.Now.DayOfWeek.ToString("d")) * -1.0);
             AppointmentWeek.Content = weekDate.ToString("Week o\\f MMMM dd, yyyy");
-        }
-
-        private void InitializeSignInView()
-        {
             SignInDate.Content = DateTime.Now.Date.ToLongDateString();
-            UpdateReceptionistView();
-            PopulateSignInView();
         }
 
         public void UpdateReceptionistView()
@@ -217,6 +211,7 @@ namespace Project_2_EMS
                             firstName.Content = p.FirstName;
 
                             rowIndex += 1;
+                            break;
                         }
                     }
                 }
@@ -407,12 +402,18 @@ namespace Project_2_EMS
 
         private void Signin_Checked(object sender, RoutedEventArgs e)
         {
+            CheckBox checkBox = e.Source as CheckBox;
+            Label visitId = GetChild(SignInVisitId, Grid.GetRow(checkBox), 0) as Label;
+
 
         }
 
         private void Signin_Unchecked(object sender, RoutedEventArgs e)
         {
-
+            CheckBox checkBox = e.Source as CheckBox;
+            Label visitId = GetChild(SignInVisitId, Grid.GetRow(checkBox), 0) as Label;
+        
+            
         }
     }
 }
