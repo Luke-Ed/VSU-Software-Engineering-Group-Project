@@ -8,31 +8,49 @@ using System.Windows.Controls;
 using System.Data.SqlClient;
 
 using Project_2_EMS.App_Code;
+using System.ComponentModel;
 
 namespace Project_2_EMS {
 
     public partial class NewAppointmentWindow {
+        private ReceptionistView parentWindow;
         private DateTime apptDate;
         private Label apptTime;
         private Grid patientInfoPage;
 
-        public NewAppointmentWindow(Label srcLabel, Label timeLabel, DateTime date) {
+        public NewAppointmentWindow(ReceptionistView parent, Label timeLabel, DateTime date) {
             InitializeComponent();
             InitializeComboBox();
+            InitializeAppointmentDateTime(timeLabel, date);
+
             InitialPage.Visibility = Visibility.Visible;
 
-            ApptDate.Content = String.Format("{0} | {1}", date.ToString("ddd dd, yyyy"), timeLabel.Content);
-            apptDate = date;
-            apptTime = timeLabel;
+            parentWindow = parent;
+            Closing += OnWindowClosing;
         }
 
-        public NewAppointmentWindow(string firstName, string lastName, string receptNote, Label timeLabel, DateTime date)
+        public NewAppointmentWindow(ReceptionistView parent, string firstName, string lastName, string receptNote, Label timeLabel, DateTime date)
         {
             InitializeComponent();
             InitializeAppointmentInfo(firstName, lastName, receptNote);
+            InitializeAppointmentDateTime(timeLabel, date);
+
             ViewApptPage.Visibility = Visibility.Visible;
 
+            parentWindow = parent;
+            Closing += OnWindowClosing;
+        }
+
+        private void OnWindowClosing(object sender, CancelEventArgs e)
+        {
+            parentWindow.UpdateCalendar();
+        }
+
+        private void InitializeAppointmentDateTime(Label timeLabel, DateTime date)
+        {
             ApptDate.Content = String.Format("{0} | {1}", date.ToString("ddd dd, yyyy"), timeLabel.Content);
+            apptDate = date;
+            apptTime = timeLabel;
         }
 
         private void InitializeAppointmentInfo(string firstName, string lastName, string receptNote)
@@ -260,10 +278,9 @@ namespace Project_2_EMS {
                 string appointmentTime = apptTime.Content.ToString().Trim(' ', 'A', 'P', 'M');
                 TimeSpan time = TimeSpan.Parse(appointmentTime);
 
-                if (apptTime.Content.ToString().Contains("PM"))
+                if (apptTime.Content.ToString().Contains("PM") && apptTime.Content.ToString() != "12:00 PM")
                 {
-                    time = time.Add(new TimeSpan(12, 0, 0));
-                    MessageBox.Show("Time added correctly");
+                    time = time.Add(TimeSpan.FromHours(12));
                 }
 
                 string receptNote = ReceptionNotesTb.Text;
@@ -352,7 +369,6 @@ namespace Project_2_EMS {
                 {
                     connection.Open();
                     cmd.ExecuteNonQuery();
-                    MessageBox.Show("Patient added successfully!");
                 }
                 catch (Exception e)
                 {
@@ -380,16 +396,15 @@ namespace Project_2_EMS {
                 cmd.Parameters.Add("@nurseNote", SqlDbType.Text).Value = appointment.NurseNote;
                 cmd.Parameters.Add("@doctorNote", SqlDbType.Text).Value = appointment.DoctorNote;
 
-                //try
-                //{
+                try
+                {
                     connection.Open();
                     cmd.ExecuteNonQuery();
-                    //MessageBox.Show("Appointment added successfully!");
-               // }
-               // catch (Exception e)
-               // {
-               //     MessageBox.Show("Error when attempting to add new appointment to database.");
-               // }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Error when attempting to add new appointment to database.");
+                }
             }
         }
 
@@ -469,6 +484,11 @@ namespace Project_2_EMS {
                 }
             }
             return VisitId - 1;
+        }
+
+        private void RemoveBtn_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

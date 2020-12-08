@@ -89,7 +89,6 @@ namespace Project_2_EMS
                 weekDate = date.AddDays(dayNum * -1.0);
                 AppointmentWeek.Content = weekDate.ToString("Week o\\f MMMM dd, yyyy");
 
-                //var apptDays = GetChildren(AppointmentDays);
                 HighlightCalendarDay(AppointmentDays, 0, (int)dayNum + 1);
 
                 if (prevWeekDate != weekDate)
@@ -208,16 +207,15 @@ namespace Project_2_EMS
         {
             foreach (PatientAppointment appt in appointments)
             {
-                string apptTime = string.Format("{0:h\\:mm}", appt.ApptTime);
-                //List<UIElement> apptTimes = GetChildren(AppointmentTimes);
-
+                string apptTime = String.Empty;
                 double day = Convert.ToDouble(appt.ApptDate.DayOfWeek.ToString("d"));
 
-                int diff = apptTime.CompareTo("12:00");
+                int diff = TimeSpan.Compare(appt.ApptTime, new TimeSpan(12,0,0));
 
                 _ = diff > 0 ? apptTime = string.Format("{0:h\\:mm} PM", appt.ApptTime.Subtract(TimeSpan.FromHours(12))) : null;
-                _ = diff == 0 ? apptTime += " PM" : null;
-                _ = diff < 0 ? apptTime += " AM" : null;
+                _ = diff == 0 ? apptTime = string.Format("{0:h\\:mm} PM", appt.ApptTime) : null;
+                _ = diff < 0 ? apptTime = string.Format("{0:h\\:mm} AM", appt.ApptTime) : null;
+
 
                 foreach (Label child in AppointmentTimes.Children)
                 {
@@ -361,13 +359,15 @@ namespace Project_2_EMS
                 string lastName = patient.LastName;
                 string notes = appointment.ReceptNote;
 
-                newApptWindow = new NewAppointmentWindow(firstName, lastName, notes, timeLabel, date);
+                ReceptionistView recView = this;
+
+                newApptWindow = new NewAppointmentWindow(recView, firstName, lastName, notes, timeLabel, date);
                 newApptWindow.Show();
             }
             else
             {
-                newApptWindow = new NewAppointmentWindow(srcLabel, timeLabel, date);
-                MessageBox.Show(timeLabel.Content.ToString());
+                ReceptionistView recView = this;
+                newApptWindow = new NewAppointmentWindow(recView, timeLabel, date);
                 newApptWindow.Show();
             }
         }
