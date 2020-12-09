@@ -221,18 +221,9 @@ namespace Project_2_EMS
 
         private void ClearSigninView()
         {
-            foreach (Label label in SignInVisitId.Children)
-            {
-                label.Content = String.Empty;
-            }
-            foreach (Label label in SignInLastName.Children) 
-            {
-                label.Content = String.Empty;
-            }
-            foreach (Label label in SignInFirstName.Children)
-            {
-                label.Content = String.Empty;
-            }
+            foreach (Label label in SignInVisitId.Children) { label.Content = String.Empty; }
+            foreach (Label label in SignInLastName.Children) { label.Content = String.Empty; }
+            foreach (Label label in SignInFirstName.Children) { label.Content = String.Empty; }
         }
 
         // Populate the appointment grids with appropriate appointments
@@ -432,10 +423,12 @@ namespace Project_2_EMS
             CheckBox checkBox = e.Source as CheckBox;
             Label Id = GetChild(SignInVisitId, Grid.GetRow(checkBox), 0) as Label;
 
-            int visitId = Convert.ToInt32(Id.Content);
-
-            bool isChecked = true;
-            ApplyApptCostToPatient(isChecked, visitId);
+            if (Id.Content.ToString() != String.Empty)
+            {
+                int visitId = Convert.ToInt32(Id.Content);
+                bool isChecked = true;
+                ApplyApptCostToPatient(isChecked, visitId);
+            }
         }
 
         private void Signin_Unchecked(object sender, RoutedEventArgs e)
@@ -443,10 +436,12 @@ namespace Project_2_EMS
             CheckBox checkBox = e.Source as CheckBox;
             Label Id = GetChild(SignInVisitId, Grid.GetRow(checkBox), 0) as Label;
 
-            int visitId = Convert.ToInt32(Id.Content);
-
-            bool isChecked = false;
-            ApplyApptCostToPatient(isChecked, visitId);
+            if (Id.Content.ToString() != String.Empty)
+            {
+                int visitId = Convert.ToInt32(Id.Content);
+                bool isChecked = false;
+                ApplyApptCostToPatient(isChecked, visitId);
+            }
         }
 
         private void ApplyApptCostToPatient(bool isChecked, int visitId)
