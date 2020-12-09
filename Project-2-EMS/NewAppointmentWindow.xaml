@@ -173,21 +173,27 @@
 
             <!-- Frist name textbox -->
             <Label Grid.Row="1" Grid.Column="0" Content="First Name :" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" />
-            <TextBox  Name="FirstNameExistingTextbox" Grid.Row="1" Grid.Column="1" Height="30" Width="250" MaxLength="15" HorizontalAlignment="Left" VerticalContentAlignment="Center" FontSize="18" />
+            <TextBox  Name="FirstNameExistingTextbox" Grid.Row="1" Grid.Column="1" Height="30" Width="250" MaxLength="15" HorizontalAlignment="Left" VerticalContentAlignment="Center" Background="#FF26282C" Foreground="White" FontSize="18" />
 
             <!-- Last name textbox -->
             <Label Grid.Row="2" Grid.Column="0" Content="Last Name :" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="18" />
-            <TextBox  Name="LastNameExistingTextbox" Grid.Row="2" Grid.Column="1" Height="30" Width="250" MaxLength="20" HorizontalAlignment="Left" VerticalContentAlignment="Center" FontSize="18"  />
+            <TextBox  Name="LastNameExistingTextbox" Grid.Row="2" Grid.Column="1" Height="30" Width="250" MaxLength="20" HorizontalAlignment="Left" VerticalContentAlignment="Center" Background="#FF26282C" Foreground="White" FontSize="18"  />
 
             <Button Grid.Row="3" Grid.Column="0" Content="Search" Height="30" Width="100" VerticalAlignment="Bottom" FontSize="18" Click="SearchBtn_Click" />
 
-            <DataGrid Grid.Row="4" Grid.ColumnSpan="2" Margin="12" AutoGenerateColumns="False" >
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Id" Width="50" CanUserResize="False" Binding="{Binding PatientId, Mode=OneWay}"/>
-                    <DataGridTextColumn Header="Last Name" Width="100" CanUserResize="False" Binding="{Binding LastName, Mode=OneWay}" />
-                    <DataGridTextColumn Header="First Name" Width="100" CanUserResize="False" Binding="{Binding FirstName, Mode=OneWay}" />
-                    <DataGridTextColumn Header="Address" Width="218" CanUserResize="False" Binding="{Binding Address, Mode=OneWay}" />
+            <DataGrid Grid.Row="4" Grid.ColumnSpan="2" Margin="12" AutoGenerateColumns="False" CanUserResizeRows="False" Background="#FF26282C" >
+                <DataGrid.Columns >
+                    <DataGridTextColumn Header="Id" Width="50" CanUserResize="False" CanUserReorder="False" Binding="{Binding PatientId, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Last Name" Width="100" CanUserResize="False" CanUserReorder="False" Binding="{Binding LastName, Mode=OneWay}" />
+                    <DataGridTextColumn Header="First Name" Width="100" CanUserResize="False" CanUserReorder="False" Binding="{Binding FirstName, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Address" Width="218" CanUserResize="False" CanUserReorder="False" Binding="{Binding Address, Mode=OneWay}" />
                 </DataGrid.Columns>
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Background" Value="#FF26282C" />
+                        <Setter Property="Foreground" Value="White" />
+                    </Style>
+                </DataGrid.RowStyle>
             </DataGrid>
 
             <Grid Grid.Row="5" Grid.ColumnSpan="2" Background="#FF26282C" Margin="0,0,7,0" >
@@ -202,7 +208,7 @@
             </Grid>
         </Grid>
 
-        <Grid Name="NewAppointmentPage" Grid.Row="1" Background="#FF30373E" Visibility="Hidden" >
+        <Grid Name="NewAppointmentPage" Grid.Row="1" Background="#FF30373E" Visibility="Visible" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*" />
                 <RowDefinition Height="1*" />
@@ -237,7 +243,7 @@
             <Label  Name="AddressLabel" Grid.Row="3" Grid.Column="1" Height="50" HorizontalAlignment="Left" VerticalContentAlignment="Center" FontSize="18" />
 
             <Label Grid.Row="5" Grid.Column="0" Content="Notes :" HorizontalAlignment="Right" VerticalAlignment="Center" />
-            <TextBox Name="ReceptionNotesTb" Grid.Row="5" Grid.Column="1" Grid.RowSpan="3" Height="148" Width="355" HorizontalAlignment="Left" TextWrapping="WrapWithOverflow" FontSize="18" />
+            <TextBox Name="ReceptionNotesTb" Grid.Row="5" Grid.Column="1" Grid.RowSpan="3" Height="148" Width="355" HorizontalAlignment="Left" TextWrapping="WrapWithOverflow" Background="#FF26282C" Foreground="White" FontSize="18" />
 
             <Grid Grid.Row="8" Grid.ColumnSpan="2" Background="#FF26282C" Margin="0,0,7,0" >
                 <Grid.ColumnDefinitions>

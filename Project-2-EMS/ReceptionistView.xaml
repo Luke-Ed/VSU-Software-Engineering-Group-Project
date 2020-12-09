@@ -547,8 +547,15 @@
             </Grid>
 
             <!-- This is the billing panel -->
-            <Grid Name="BillingPanel" Grid.Column="1" Visibility="Hidden" >
-                
+            <Grid Name="BillingPanel" Grid.Column="1" Visibility="Visible" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="65" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Background="#FF26282C" >
+                    <Label Content="Patient Billing" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" />
+                </Grid>
             </Grid>
         </Grid>
         

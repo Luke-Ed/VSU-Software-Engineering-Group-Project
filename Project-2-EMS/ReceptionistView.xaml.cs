@@ -206,7 +206,7 @@ namespace Project_2_EMS
                             Label lastName = GetChild(SignInLastName, rowIndex, 0) as Label;
                             Label firstName = GetChild(SignInFirstName, rowIndex, 0) as Label;
 
-                            visitId.Content = pa.VisitId;
+                            visitId.Content = "[ " + pa.VisitId + " ]";
                             lastName.Content = p.LastName;
                             firstName.Content = p.FirstName;
 
