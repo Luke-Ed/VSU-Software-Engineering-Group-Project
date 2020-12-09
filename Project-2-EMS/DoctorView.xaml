@@ -62,15 +62,36 @@
                 <Button Content="Search" Grid.Column="1" Margin="358,47,43,47" Grid.RowSpan="2" FontSize="32" Click="SearchBtn_Click"/>
 
             </Grid>
-            <DataGrid Grid.Row="2" Margin="15">
-                
-                
+            <DataGrid Grid.Row="2" Margin="15" AutoGenerateColumns="False" FontSize="20">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Width="75" CanUserResize="False" Binding="{Binding PatientId, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Last Name" Width="150" CanUserResize="False" Binding="{Binding LastName, Mode=OneWay}" />
+                    <DataGridTextColumn Header="First Name" Width="150" CanUserResize="False" Binding="{Binding FirstName, Mode=OneWay}" />
+                </DataGrid.Columns>
+
+
             </DataGrid>
 
 
         </Grid>
-        <Grid Name="Update_Patient_Info_Grid" Grid.Column="1" Background="Cyan" Visibility="Hidden">
-            
+        <Grid Name="ViewPatientInformation_Grid" Grid.Column="1" Background="White" Visibility="Visible">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="4*"/>
+
+                </Grid.RowDefinitions>
+
+
+                <Grid Grid.Row="0">
+                    <Label Content="Patient Information" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="45"/>
+                </Grid>
+                
+            </Grid>
         </Grid>
 
 

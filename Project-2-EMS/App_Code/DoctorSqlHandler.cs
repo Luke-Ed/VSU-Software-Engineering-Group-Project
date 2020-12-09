@@ -12,7 +12,7 @@ namespace Project_2_EMS.App_Code
         {
             string query = "SELECT * " +
                            "FROM PatientInfo " +
-                           "WHERE FirstName LIKE @firstName OR LastName LIKE @lastName;";
+                           "WHERE FirstName LIKE @firstName AND LastName LIKE @lastName;";
 
             return query;
         }

@@ -91,8 +91,18 @@ namespace Project_2_EMS
                     MessageBox.Show("Error reading from database.");
                 }
             }
+            DataGrid dataGrid = new DataGrid();
+            foreach(UIElement child in Patient_Information_Grid.Children)
+            {
+                if(child as DataGrid != null)
+                {
+                    dataGrid = child as DataGrid;
+                }
+            }
+            dataGrid.ItemsSource = patients;
 
-
+            Patient p = (Patient)dataGrid.SelectedItem;
+            
 
         }
 
