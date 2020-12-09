@@ -34,7 +34,7 @@
             <Button Name="Billing" Content="Billing"  Grid.Column="0" Grid.Row="3" Height="50" FontSize="18" Click="ControlButton_Click" />
             <Button Content="Log Out"  Grid.Column="0" Grid.Row="5" Height="50" FontSize="18" Click="LogOutButton_Click" />
 
-            <Grid Grid.Row="4" Name="CalendarSidePanel" Margin="10" Background="#FFBFBFBF" Visibility="Visible" >
+            <Grid Grid.Row="4" Name="CalendarSidePanel" Margin="10" Background="#FF30373E" Visibility="Visible" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="260" />
                     <RowDefinition Height="*" />
@@ -44,8 +44,8 @@
                     <Calendar Name="ApptCalendar" SelectedDatesChanged="ApptCalendar_SelectedDatesChanged" GotMouseCapture="ApptCalendar_GotMouseCapture" />
                 </Viewbox>
 
-                <Grid Name="ApptButtonGrid" Grid.Row="1" Visibility="Hidden" >
-                    <Button Name="ViewApptButton" VerticalAlignment="Top" Height="30" Width="200" FontSize="18" Click="ViewApptButton_Click" />
+                <Grid Name="ApptButtonGrid" Grid.Row="1" Background="#FF30373E" Visibility="Hidden" >
+                    <Button Name="ViewApptButton" VerticalAlignment="Center" Height="40" Width="200" FontSize="18" Click="ViewApptButton_Click" />
                 </Grid>
             </Grid>
         </Grid>
