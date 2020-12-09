@@ -84,7 +84,7 @@ namespace Project_2_EMS
                         patients.Add(patient);
                     }
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
                     MessageBox.Show("Error reading from database.");
                 }
