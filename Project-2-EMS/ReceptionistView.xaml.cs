@@ -193,6 +193,7 @@ namespace Project_2_EMS
 
         private void PopulateSignInView()
         {
+            ClearSigninView();
             int rowIndex = 0;
             foreach (PatientAppointment pa in appointments)
             {
@@ -215,6 +216,22 @@ namespace Project_2_EMS
                         }
                     }
                 }
+            }
+        }
+
+        private void ClearSigninView()
+        {
+            foreach (Label label in SignInVisitId.Children)
+            {
+                label.Content = String.Empty;
+            }
+            foreach (Label label in SignInLastName.Children) 
+            {
+                label.Content = String.Empty;
+            }
+            foreach (Label label in SignInFirstName.Children)
+            {
+                label.Content = String.Empty;
             }
         }
 
