@@ -418,6 +418,8 @@ namespace Project_2_EMS
             }
         }
 
+
+        
         private void Signin_Checked(object sender, RoutedEventArgs e)
         {
             CheckBox checkBox = e.Source as CheckBox;
@@ -425,7 +427,7 @@ namespace Project_2_EMS
 
             if (Id.Content.ToString() != String.Empty)
             {
-                int visitId = Convert.ToInt32(Id.Content);
+                int visitId = Convert.ToInt32(new String(Id.Content.ToString().Where(Char.IsDigit).ToArray()));
                 bool isChecked = true;
                 ApplyApptCostToPatient(isChecked, visitId);
             }
@@ -438,11 +440,13 @@ namespace Project_2_EMS
 
             if (Id.Content.ToString() != String.Empty)
             {
-                int visitId = Convert.ToInt32(Id.Content);
+                int visitId = Convert.ToInt32(new String(Id.Content.ToString().Where(Char.IsDigit).ToArray()));
                 bool isChecked = false;
                 ApplyApptCostToPatient(isChecked, visitId);
             }
         }
+
+        
 
         private void ApplyApptCostToPatient(bool isChecked, int visitId)
         {
