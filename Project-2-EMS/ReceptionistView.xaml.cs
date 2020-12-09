@@ -403,17 +403,64 @@ namespace Project_2_EMS
         private void Signin_Checked(object sender, RoutedEventArgs e)
         {
             CheckBox checkBox = e.Source as CheckBox;
-            Label visitId = GetChild(SignInVisitId, Grid.GetRow(checkBox), 0) as Label;
+            Label Id = GetChild(SignInVisitId, Grid.GetRow(checkBox), 0) as Label;
 
+            int visitId = Convert.ToInt32(Id.Content);
 
+            bool isChecked = true;
+            ApplyApptCostToPatient(isChecked, visitId);
         }
 
         private void Signin_Unchecked(object sender, RoutedEventArgs e)
         {
             CheckBox checkBox = e.Source as CheckBox;
-            Label visitId = GetChild(SignInVisitId, Grid.GetRow(checkBox), 0) as Label;
-        
-            
+            Label Id = GetChild(SignInVisitId, Grid.GetRow(checkBox), 0) as Label;
+
+            int visitId = Convert.ToInt32(Id.Content);
+
+            bool isChecked = false;
+            ApplyApptCostToPatient(isChecked, visitId);
+        }
+
+        private void ApplyApptCostToPatient(bool isChecked, int visitId)
+        {
+            foreach (PatientAppointment pa in appointments)
+            {
+                if (pa.VisitId == visitId)
+                {
+                    decimal cost;
+                    _ = isChecked ? cost = pa.Cost : cost = Decimal.Negate(pa.Cost);
+
+                    UpdateDbPatientBalance(visitId, cost);
+                    break;
+                }
+            }
+            UpdateReceptionistView();
+        }
+
+        private void UpdateDbPatientBalance(int visitId, decimal cost)
+        {
+            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
+            string query = rcsql.UpdatePatientBalance();
+
+            DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
+
+            using (SqlConnection connection = dbConn.ConnectToDatabase())
+            {
+                SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
+                cmd.Parameters.Add("@cost", SqlDbType.Decimal).Value = cost;
+                cmd.Parameters.Add("@visitId", SqlDbType.Int).Value = visitId;
+
+                try
+                {
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error when attempting to update patient balance.");
+                }
+            }
         }
     }
 }

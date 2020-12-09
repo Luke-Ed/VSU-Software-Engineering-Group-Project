@@ -66,6 +66,16 @@ namespace Project_2_EMS.App_Code
             return query;
         }
 
+        public string UpdatePatientBalance()
+        {
+            String query = "UPDATE PatientInfo " +
+                           "SET Balance = Balance + @cost " +
+                           "FROM PatientInfo p, Appointments a " +
+                           "WHERE p.PatientID = a.PatientID AND a.VisitID = @visitId";
+
+            return query;
+        }
+
         public string DeleteAppointmentFromDb()
         {
             String query = "DELETE FROM Appointments " +
