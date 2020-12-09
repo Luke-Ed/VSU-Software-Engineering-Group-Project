@@ -60,9 +60,9 @@
 
                 <TextBox Name="First_Name" Grid.Row="0" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="45"  Width="300" Margin="10,0,0,5" MaxLength="15"/>
                 <TextBox Name="Last_Name" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Height="45"  Width="300" Margin="10,5,0,0" MaxLength="15"/>
-                    
-        
-                       
+
+                <Button Content="Search" Grid.Column="1" Margin="358,47,43,47" Grid.RowSpan="2" FontSize="32" Click="SearchBtn_Click"/>
+
             </Grid>
             
 

@@ -16,6 +16,7 @@ using System.Configuration;
 using System.ComponentModel;
 using Project_2_EMS.App_Code;
 using System.Data.SqlClient;
+using System.Data;
 
 namespace Project_2_EMS
 {
@@ -24,68 +25,73 @@ namespace Project_2_EMS
     /// </summary>
     public partial class DoctorView : Window
     {
+        private List<Patient> patients = new List<Patient>();
+
         private readonly Window _parentWindow;
-        private SqlConnection connection;
 
         public DoctorView (Window parentWindow)
         {
             _parentWindow = parentWindow;
-            try
-            {
-                InitializeDBConnection();
-            }
-            catch (Exception e)
-            {
-
-            }
             InitializeComponent();
             Closing += OnWindowClosing;
             
         }
 
-        private void InitializeDBConnection()
-        {
-            String connectionString = ConfigurationManager.ConnectionStrings["MDR_ConnStr"].ConnectionString;
-            connection = new SqlConnection(connectionString);
-            connection.Open();
-        }
+
 
         private void LogOutButton_Click(object sender, RoutedEventArgs e)
         {
             Hide();
             var mainWindow = _parentWindow;
-            connection.Close();
             mainWindow.Show();
         }
 
         private void OnWindowClosing(object sender, CancelEventArgs e)
         {
             var mainWindow = _parentWindow;
-            connection.Close();
             mainWindow.Close();
         }
 
-        private void Patient_Information_Click(object sender, RoutedEventArgs e)
+        private void SearchBtn_Click(object sender, RoutedEventArgs e)
         {
-            Grid1.Visibility = Visibility.Visible;
-            Grid2.Visibility = Visibility.Hidden;
-
-            //First_Name.Text = " ";
-            //Last_Name.Text = " ";
-            String firstName = First_Name.Text;
-            String lastName = Last_Name.Text;
+            String first_Name = First_Name.Text;
+            String last_Name = Last_Name.Text;
             DoctorSqlHandler doctorSqlHandler = new DoctorSqlHandler();
-            String query = doctorSqlHandler.PatientQuerier(firstName, lastName);
-            
-            
+            String query = doctorSqlHandler.PatientQuerier(first_Name, last_Name);
+
+            DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
+
+            using (SqlConnection connection = dbConn.ConnectToDatabase())
+            {
+                SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
+                cmd.Parameters.Add("@firstName", SqlDbType.Text).Value = first_Name;
+                cmd.Parameters.Add("@lastName", SqlDbType.Text).Value = last_Name;
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader dataReader = cmd.ExecuteReader();
+
+                    while (dataReader.Read())
+                    {
+                        int patientId = dataReader.GetInt32(0);
+                        string lastName = dataReader.GetString(1);
+                        string firstName = dataReader.GetString(2);
+                        string address = dataReader.GetString(3);
+                        decimal balance = dataReader.GetDecimal(4);
+
+                        Patient patient = new Patient(patientId, lastName, firstName, address, balance);
+                        patients.Add(patient);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error reading from database.");
+                }
+            }
 
 
-        }
 
-        private void Update_Patient_Info_Click(object sender, RoutedEventArgs e)
-        {
-            Grid1.Visibility = Visibility.Hidden;
-            Grid2.Visibility = Visibility.Visible;
         }
 
     }
