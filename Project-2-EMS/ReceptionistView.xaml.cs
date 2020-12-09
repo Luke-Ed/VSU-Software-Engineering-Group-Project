@@ -268,7 +268,8 @@ namespace Project_2_EMS
 
             foreach (Label child in AppointmentGrids.Children)
             {
-                child.Background = Brushes.DimGray;
+                var bc = new BrushConverter();
+                child.Background = (Brush)bc.ConvertFrom("#FF30373E");
                 child.Content = String.Empty;
             }
         }
@@ -292,7 +293,16 @@ namespace Project_2_EMS
             foreach (Label label in grid.Children)
             {
                 Boolean labelMatch = Grid.GetRow(label) == row && Grid.GetColumn(label) == column;
-                _ = labelMatch ? label.Background = Brushes.Blue : label.Background = Brushes.Black;
+                if (labelMatch)
+                {
+                    var bc = new BrushConverter();
+                    label.Background = (Brush)bc.ConvertFrom("#FF4669B0");
+                }
+                else
+                {
+                    var bc = new BrushConverter();
+                    label.Background = (Brush)bc.ConvertFrom("#FF26282C");
+                }
             }
         }
 
