@@ -329,6 +329,7 @@ namespace Project_2_EMS {
             {
                 case MessageBoxResult.Yes:
                     AddNewAppointmentToDB(appointment);
+                    UpdateDbPatientBalance(appointment.VisitId, appointment.Cost);
                     this.Close();
                     break;
                 case MessageBoxResult.No:
@@ -345,6 +346,7 @@ namespace Project_2_EMS {
                 case MessageBoxResult.Yes:
                     AddNewPatientToDB(patient);
                     AddNewAppointmentToDB(appointment);
+                    UpdateDbPatientBalance(appointment.VisitId, appointment.Cost);
                     this.Close();
                     break;
                 case MessageBoxResult.No:
@@ -407,6 +409,31 @@ namespace Project_2_EMS {
                 catch (Exception e)
                 {
                     MessageBox.Show("Error when attempting to add new appointment to database.");
+                }
+            }
+        }
+
+        private void UpdateDbPatientBalance(int visitId, decimal cost)
+        {
+            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
+            string query = rcsql.UpdatePatientBalance();
+
+            DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
+
+            using (SqlConnection connection = dbConn.ConnectToDatabase())
+            {
+                SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
+                cmd.Parameters.Add("@cost", SqlDbType.Decimal).Value = cost;
+                cmd.Parameters.Add("@visitId", SqlDbType.Int).Value = visitId;
+
+                try
+                {
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error when attempting to update patient balance.");
                 }
             }
         }
@@ -495,9 +522,11 @@ namespace Project_2_EMS {
             {
                 MessageBoxResult result = MessageBox.Show("Do you really want to remove appointment?", "Remove Appointment", MessageBoxButton.YesNo);
 
+                PatientAppointment appointment = GetAppointment();
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
+                        UpdateDbPatientBalance(appointment.VisitId, Decimal.Negate(appointment.Cost));
                         DeleteAppointment();
                         this.Close();
                         break;
@@ -509,6 +538,47 @@ namespace Project_2_EMS {
             {
                 MessageBox.Show("Cannot remove past appointments.");
             }
+        }
+
+        private PatientAppointment GetAppointment()
+        {
+            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
+            string query = rcsql.AppointmentVisitIdQuerier();
+
+            PatientAppointment appointment = null;
+
+            DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
+
+            using (SqlConnection connection = dbConn.ConnectToDatabase())
+            {
+                SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
+                cmd.Parameters.Add("@visitId", SqlDbType.Int).Value = visitId;
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader dataReader = cmd.ExecuteReader();
+
+                    while (dataReader.Read())
+                    {
+                        int visitId = dataReader.GetInt32(0);
+                        int patientId = dataReader.GetInt32(1);
+                        DateTime apptDate = dataReader.GetDateTime(2);
+                        TimeSpan apptTime = dataReader.GetTimeSpan(3);
+                        decimal cost = dataReader.GetDecimal(4);
+                        string receptNote = dataReader.GetString(5);
+                        string nurseNote = dataReader.GetString(6);
+                        string doctorNote = dataReader.GetString(7);
+
+                        appointment = new PatientAppointment(visitId, patientId, apptDate, apptTime, cost, receptNote, nurseNote, doctorNote);
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Error reading from database.");
+                }
+            }
+            return appointment;
         }
 
         private void DeleteAppointment()
