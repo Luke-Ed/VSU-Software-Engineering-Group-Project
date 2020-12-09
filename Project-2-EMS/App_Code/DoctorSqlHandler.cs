@@ -8,11 +8,11 @@ namespace Project_2_EMS.App_Code
 {
     class DoctorSqlHandler
     {
-        public string PatientQuerier(String firstName, String lastName)
+        public string PatientNameQuerier()
         {
-            String query = "SELECT * " +
+            string query = "SELECT * " +
                            "FROM PatientInfo " +
-                           "WHERE FirstName = '" + firstName + "' OR LastName = '" + lastName + "'";
+                           "WHERE FirstName LIKE @firstName OR LastName LIKE @lastName;";
 
             return query;
         }

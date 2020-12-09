@@ -52,12 +52,13 @@ namespace Project_2_EMS
             mainWindow.Close();
         }
 
+
         private void SearchBtn_Click(object sender, RoutedEventArgs e)
         {
             String first_Name = First_Name.Text;
             String last_Name = Last_Name.Text;
             DoctorSqlHandler doctorSqlHandler = new DoctorSqlHandler();
-            String query = doctorSqlHandler.PatientQuerier(first_Name, last_Name);
+            String query = doctorSqlHandler.PatientNameQuerier();
 
             DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
 
@@ -82,9 +83,10 @@ namespace Project_2_EMS
 
                         Patient patient = new Patient(patientId, lastName, firstName, address, balance);
                         patients.Add(patient);
+                        MessageBox.Show("It Worked!!!!!!!!!!!!");
                     }
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
                     MessageBox.Show("Error reading from database.");
                 }
