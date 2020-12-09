@@ -254,7 +254,7 @@ namespace Project_2_EMS
                         string visitId = appt.VisitId.ToString();
 
                         apptLabel.Content = String.Format("{0} {1}.\nVisit Id: {2}", firstName, lastInitial.Substring(0,1), visitId);
-                        apptLabel.Background = Brushes.LightGreen;
+                        apptLabel.Background = Brushes.DarkGreen;
                     }
                 }
             }
@@ -268,7 +268,7 @@ namespace Project_2_EMS
 
             foreach (Label child in AppointmentGrids.Children)
             {
-                child.Background = Brushes.White;
+                child.Background = Brushes.DimGray;
                 child.Content = String.Empty;
             }
         }
@@ -292,7 +292,7 @@ namespace Project_2_EMS
             foreach (Label label in grid.Children)
             {
                 Boolean labelMatch = Grid.GetRow(label) == row && Grid.GetColumn(label) == column;
-                _ = labelMatch ? label.Background = Brushes.CornflowerBlue : label.Background = Brushes.LightCyan;
+                _ = labelMatch ? label.Background = Brushes.Blue : label.Background = Brushes.Black;
             }
         }
 

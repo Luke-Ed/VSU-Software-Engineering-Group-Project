@@ -50,12 +50,7 @@
             </Grid>
         </Grid>
 
-        <Grid Name="ViewPanel" Grid.Column="1" Background="#FF7C7C7C" >
-            <!-- This is the initial greetings grid -->
-            <Grid Name="GreetingGrid" Grid.Column="1" Background="#FF7C7C7C" Visibility="Hidden" >
-                <Label Name="GreetingLabel" Content="Greetings {insert name}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" Foreground="White" />
-            </Grid>
-
+        <Grid Name="ViewPanel" Grid.Column="1" >
             <!-- This is the calendar panel -->
             <Grid Name="CalendarPanel" Grid.Column="1" Visibility="Hidden" >
                 <Grid.RowDefinitions>
@@ -66,17 +61,17 @@
                 </Grid.RowDefinitions>
 
                 <!-- The appointment calendar label at the top of the window -->
-                <Grid Grid.Row="0" Background="LightCyan" Margin="0,0,0,0.5" >
+                <Grid Grid.Row="0" Background="Black" Margin="0,0,0,0.5" >
                     <Label Content="Appointment Calendar" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0" FontSize="36" />
                 </Grid>
 
                 <!-- The appointment week label below the appointment calendar label -->
-                <Grid Grid.Row="1" Background="White" Margin="0,0,0,0.5" >
+                <Grid Grid.Row="1" Background="DarkGray" Margin="0,0,0,0.5" >
                     <Label Name="AppointmentWeek" Content="Date Time" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0" FontSize="24" />
                 </Grid>
 
                 <!-- The row that holds the days of the week -->
-                <Grid Name="AppointmentDays" Grid.Row="2" Background="Gray" Margin="0,0,0,0.5" >
+                <Grid Name="AppointmentDays" Grid.Row="2" Background="White" Margin="0,0,0,0.5" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="9*" />
                         <ColumnDefinition Width="13*" />
@@ -88,18 +83,18 @@
                         <ColumnDefinition Width="13*" />
                     </Grid.ColumnDefinitions>
 
-                    <Label Grid.Column="0" Content="" Background="LightCyan" Margin="0.5" />
-                    <Label Grid.Column="1" Content="Sunday"    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="LightCyan" Margin="0.5" FontSize="18" />
-                    <Label Grid.Column="2" Content="Monday"    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="LightCyan" Margin="0.5" FontSize="18" />
-                    <Label Grid.Column="3" Content="Tuesday"   HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="LightCyan" Margin="0.5" FontSize="18" />
-                    <Label Grid.Column="4" Content="Wednesday" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="LightCyan" Margin="0.5" FontSize="18" />
-                    <Label Grid.Column="5" Content="Thursday"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="LightCyan" Margin="0.5" FontSize="18" />
-                    <Label Grid.Column="6" Content="Friday"    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="LightCyan" Margin="0.5" FontSize="18" />
-                    <Label Grid.Column="7" Content="Saturday"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="LightCyan" Margin="0.5" FontSize="18" />
+                    <Label Grid.Column="0" Content="" Background="Black" Margin="0.5" />
+                    <Label Grid.Column="1" Content="Sunday"    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Black" Margin="0.5" FontSize="18" />
+                    <Label Grid.Column="2" Content="Monday"    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Black" Margin="0.5" FontSize="18" />
+                    <Label Grid.Column="3" Content="Tuesday"   HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Black" Margin="0.5" FontSize="18" />
+                    <Label Grid.Column="4" Content="Wednesday" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Black" Margin="0.5" FontSize="18" />
+                    <Label Grid.Column="5" Content="Thursday"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Black" Margin="0.5" FontSize="18" />
+                    <Label Grid.Column="6" Content="Friday"    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Black" Margin="0.5" FontSize="18" />
+                    <Label Grid.Column="7" Content="Saturday"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Black" Margin="0.5" FontSize="18" />
                 </Grid>
 
                 <!-- The main grid showing appointment days and times -->
-                <Grid Grid.Row="3" >
+                <Grid Grid.Row="3" Background="White" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="9*" />
                         <ColumnDefinition Width="13*" />
@@ -126,19 +121,19 @@
                         </Grid.RowDefinitions>
 
                         <!-- Appointment Times Column -->
-                        <Label Grid.Row="0"  Content="6:00 AM"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="White" Margin="0.5" FontSize="16" />
-                        <Label Grid.Row="1"  Content="7:00 AM"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="White" Margin="0.5" FontSize="16" />
-                        <Label Grid.Row="2"  Content="8:00 AM"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="White" Margin="0.5" FontSize="16" />
-                        <Label Grid.Row="3"  Content="9:00 AM"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="White" Margin="0.5" FontSize="16" />
-                        <Label Grid.Row="4"  Content="10:00 AM" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="White" Margin="0.5" FontSize="16" />
-                        <Label Grid.Row="5"  Content="11:00 AM" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="White" Margin="0.5" FontSize="16" />
-                        <Label Grid.Row="6"  Content="12:00 PM" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="White" Margin="0.5" FontSize="16" />
-                        <Label Grid.Row="7"  Content="1:00 PM"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="White" Margin="0.5" FontSize="16" />
-                        <Label Grid.Row="8"  Content="2:00 PM"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="White" Margin="0.5" FontSize="16" />
-                        <Label Grid.Row="9"  Content="3:00 PM"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="White" Margin="0.5" FontSize="16" />
-                        <Label Grid.Row="10" Content="4:00 PM"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="White" Margin="0.5" FontSize="16" />
-                        <Label Grid.Row="11" Content="5:00 PM"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="White" Margin="0.5" FontSize="16" />
-                        <Label Grid.Row="12" Content="6:00 PM"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="White" Margin="0.5" FontSize="16" />
+                        <Label Grid.Row="0"  Content="6:00 AM"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="DimGray" Margin="0.5" FontSize="16" />
+                        <Label Grid.Row="1"  Content="7:00 AM"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="DimGray" Margin="0.5" FontSize="16" />
+                        <Label Grid.Row="2"  Content="8:00 AM"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="DimGray" Margin="0.5" FontSize="16" />
+                        <Label Grid.Row="3"  Content="9:00 AM"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="DimGray" Margin="0.5" FontSize="16" />
+                        <Label Grid.Row="4"  Content="10:00 AM" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="DimGray" Margin="0.5" FontSize="16" />
+                        <Label Grid.Row="5"  Content="11:00 AM" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="DimGray" Margin="0.5" FontSize="16" />
+                        <Label Grid.Row="6"  Content="12:00 PM" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="DimGray" Margin="0.5" FontSize="16" />
+                        <Label Grid.Row="7"  Content="1:00 PM"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="DimGray" Margin="0.5" FontSize="16" />
+                        <Label Grid.Row="8"  Content="2:00 PM"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="DimGray" Margin="0.5" FontSize="16" />
+                        <Label Grid.Row="9"  Content="3:00 PM"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="DimGray" Margin="0.5" FontSize="16" />
+                        <Label Grid.Row="10" Content="4:00 PM"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="DimGray" Margin="0.5" FontSize="16" />
+                        <Label Grid.Row="11" Content="5:00 PM"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="DimGray" Margin="0.5" FontSize="16" />
+                        <Label Grid.Row="12" Content="6:00 PM"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="DimGray" Margin="0.5" FontSize="16" />
                     </Grid>
 
                     <!-- Sunday Column -->
@@ -160,23 +155,23 @@
                         </Grid.RowDefinitions>
 
                         <!-- Sunday Column -->
-                        <Label Grid.Row="0"  Background="#FFDEDEDE" Margin="0.5" />
-                        <Label Grid.Row="1"  Background="#FFDEDEDE" Margin="0.5" />
-                        <Label Grid.Row="2"  Background="#FFDEDEDE" Margin="0.5" />
-                        <Label Grid.Row="3"  Background="#FFDEDEDE" Margin="0.5" />
-                        <Label Grid.Row="4"  Background="#FFDEDEDE" Margin="0.5" />
-                        <Label Grid.Row="5"  Background="#FFDEDEDE" Margin="0.5" />
-                        <Label Grid.Row="6"  Background="#FFDEDEDE" Margin="0.5" />
-                        <Label Grid.Row="7"  Background="#FFDEDEDE" Margin="0.5" />
-                        <Label Grid.Row="8"  Background="#FFDEDEDE" Margin="0.5" />
-                        <Label Grid.Row="9"  Background="#FFDEDEDE" Margin="0.5" />
-                        <Label Grid.Row="10" Background="#FFDEDEDE" Margin="0.5" />
-                        <Label Grid.Row="11" Background="#FFDEDEDE" Margin="0.5" />
-                        <Label Grid.Row="12" Background="#FFDEDEDE" Margin="0.5" />
+                        <Label Grid.Row="0"  Background="Black" Margin="0.5" />
+                        <Label Grid.Row="1"  Background="Black" Margin="0.5" />
+                        <Label Grid.Row="2"  Background="Black" Margin="0.5" />
+                        <Label Grid.Row="3"  Background="Black" Margin="0.5" />
+                        <Label Grid.Row="4"  Background="Black" Margin="0.5" />
+                        <Label Grid.Row="5"  Background="Black" Margin="0.5" />
+                        <Label Grid.Row="6"  Background="Black" Margin="0.5" />
+                        <Label Grid.Row="7"  Background="Black" Margin="0.5" />
+                        <Label Grid.Row="8"  Background="Black" Margin="0.5" />
+                        <Label Grid.Row="9"  Background="Black" Margin="0.5" />
+                        <Label Grid.Row="10" Background="Black" Margin="0.5" />
+                        <Label Grid.Row="11" Background="Black" Margin="0.5" />
+                        <Label Grid.Row="12" Background="Black" Margin="0.5" />
                     </Grid>
 
                     <!-- Cells that show the patient's scheduled appointments -->
-                    <Grid Name="AppointmentGrids" Grid.Column="2" >
+                    <Grid Name="AppointmentGrids" Grid.Column="2" Background="LightGray" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="14*" />
                             <ColumnDefinition Width="14*" />
@@ -202,79 +197,79 @@
                         </Grid.RowDefinitions>
 
                         <!-- Monday Appointments Column -->
-                        <Label Grid.Row="0"  Grid.Column="0" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="1"  Grid.Column="0" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="2"  Grid.Column="0" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="3"  Grid.Column="0" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="4"  Grid.Column="0" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="5"  Grid.Column="0" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="6"  Grid.Column="0" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="7"  Grid.Column="0" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="8"  Grid.Column="0" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="9"  Grid.Column="0" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="10" Grid.Column="0" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="11" Grid.Column="0" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="12" Grid.Column="0" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="0"  Grid.Column="0" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="1"  Grid.Column="0" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="2"  Grid.Column="0" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="3"  Grid.Column="0" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="4"  Grid.Column="0" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="5"  Grid.Column="0" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="6"  Grid.Column="0" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="7"  Grid.Column="0" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="8"  Grid.Column="0" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="9"  Grid.Column="0" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="10" Grid.Column="0" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="11" Grid.Column="0" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="12" Grid.Column="0" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
 
                         <!-- Tuesday Appointments Column -->
-                        <Label Grid.Row="0"  Grid.Column="1" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="1"  Grid.Column="1" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="2"  Grid.Column="1" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="3"  Grid.Column="1" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="4"  Grid.Column="1" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="5"  Grid.Column="1" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="6"  Grid.Column="1" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="7"  Grid.Column="1" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="8"  Grid.Column="1" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="9"  Grid.Column="1" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="10" Grid.Column="1" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="11" Grid.Column="1" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="12" Grid.Column="1" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="0"  Grid.Column="1" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="1"  Grid.Column="1" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="2"  Grid.Column="1" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="3"  Grid.Column="1" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="4"  Grid.Column="1" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="5"  Grid.Column="1" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="6"  Grid.Column="1" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="7"  Grid.Column="1" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="8"  Grid.Column="1" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="9"  Grid.Column="1" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="10" Grid.Column="1" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="11" Grid.Column="1" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="12" Grid.Column="1" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
 
                         <!-- Wednesday Appointments Column -->
-                        <Label Grid.Row="0"  Grid.Column="2" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="1"  Grid.Column="2" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="2"  Grid.Column="2" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="3"  Grid.Column="2" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="4"  Grid.Column="2" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="5"  Grid.Column="2" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="6"  Grid.Column="2" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="7"  Grid.Column="2" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="8"  Grid.Column="2" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="9"  Grid.Column="2" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="10" Grid.Column="2" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="11" Grid.Column="2" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="12" Grid.Column="2" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="0"  Grid.Column="2" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="1"  Grid.Column="2" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="2"  Grid.Column="2" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="3"  Grid.Column="2" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="4"  Grid.Column="2" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="5"  Grid.Column="2" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="6"  Grid.Column="2" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="7"  Grid.Column="2" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="8"  Grid.Column="2" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="9"  Grid.Column="2" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="10" Grid.Column="2" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="11" Grid.Column="2" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="12" Grid.Column="2" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
 
                         <!-- Thursday Appointments Column -->
-                        <Label Grid.Row="0"  Grid.Column="3" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="1"  Grid.Column="3" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="2"  Grid.Column="3" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="3"  Grid.Column="3" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="4"  Grid.Column="3" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="5"  Grid.Column="3" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="6"  Grid.Column="3" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="7"  Grid.Column="3" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="8"  Grid.Column="3" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="9"  Grid.Column="3" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="10" Grid.Column="3" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="11" Grid.Column="3" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="12" Grid.Column="3" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="0"  Grid.Column="3" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="1"  Grid.Column="3" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="2"  Grid.Column="3" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="3"  Grid.Column="3" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="4"  Grid.Column="3" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="5"  Grid.Column="3" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="6"  Grid.Column="3" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="7"  Grid.Column="3" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="8"  Grid.Column="3" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="9"  Grid.Column="3" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="10" Grid.Column="3" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="11" Grid.Column="3" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="12" Grid.Column="3" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
 
                         <!-- Friday Appointments Column -->
-                        <Label Grid.Row="0"  Grid.Column="4" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="1"  Grid.Column="4" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="2"  Grid.Column="4" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="3"  Grid.Column="4" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="4"  Grid.Column="4" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="5"  Grid.Column="4" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="6"  Grid.Column="4" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="7"  Grid.Column="4" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="8"  Grid.Column="4" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="9"  Grid.Column="4" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="10" Grid.Column="4" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="11" Grid.Column="4" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
-                        <Label Grid.Row="12" Grid.Column="4" Content="" Background="White" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="0"  Grid.Column="4" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="1"  Grid.Column="4" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="2"  Grid.Column="4" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="3"  Grid.Column="4" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="4"  Grid.Column="4" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="5"  Grid.Column="4" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="6"  Grid.Column="4" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="7"  Grid.Column="4" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="8"  Grid.Column="4" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="9"  Grid.Column="4" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="10" Grid.Column="4" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="11" Grid.Column="4" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
+                        <Label Grid.Row="12" Grid.Column="4" Content="" Background="DimGray" Margin="0.5" FontSize="14" MouseDown="ApptDate_MouseDown" MouseDoubleClick="ApptDate_MouseDoubleClick" />
                     </Grid>
 
                     <!-- Saturday Column -->
@@ -296,25 +291,25 @@
                         </Grid.RowDefinitions>
 
                         <!-- Saturday Column -->
-                        <Label Grid.Row="0"  Background="#FFDEDEDE" Margin="0.5" />
-                        <Label Grid.Row="1"  Background="#FFDEDEDE" Margin="0.5" />
-                        <Label Grid.Row="2"  Background="#FFDEDEDE" Margin="0.5" />
-                        <Label Grid.Row="3"  Background="#FFDEDEDE" Margin="0.5" />
-                        <Label Grid.Row="4"  Background="#FFDEDEDE" Margin="0.5" />
-                        <Label Grid.Row="5"  Background="#FFDEDEDE" Margin="0.5" />
-                        <Label Grid.Row="6"  Background="#FFDEDEDE" Margin="0.5" />
-                        <Label Grid.Row="7"  Background="#FFDEDEDE" Margin="0.5" />
-                        <Label Grid.Row="8"  Background="#FFDEDEDE" Margin="0.5" />
-                        <Label Grid.Row="9"  Background="#FFDEDEDE" Margin="0.5" />
-                        <Label Grid.Row="10" Background="#FFDEDEDE" Margin="0.5" />
-                        <Label Grid.Row="11" Background="#FFDEDEDE" Margin="0.5" />
-                        <Label Grid.Row="12" Background="#FFDEDEDE" Margin="0.5" />
+                        <Label Grid.Row="0"  Background="Black" Margin="0.5" />
+                        <Label Grid.Row="1"  Background="Black" Margin="0.5" />
+                        <Label Grid.Row="2"  Background="Black" Margin="0.5" />
+                        <Label Grid.Row="3"  Background="Black" Margin="0.5" />
+                        <Label Grid.Row="4"  Background="Black" Margin="0.5" />
+                        <Label Grid.Row="5"  Background="Black" Margin="0.5" />
+                        <Label Grid.Row="6"  Background="Black" Margin="0.5" />
+                        <Label Grid.Row="7"  Background="Black" Margin="0.5" />
+                        <Label Grid.Row="8"  Background="Black" Margin="0.5" />
+                        <Label Grid.Row="9"  Background="Black" Margin="0.5" />
+                        <Label Grid.Row="10" Background="Black" Margin="0.5" />
+                        <Label Grid.Row="11" Background="Black" Margin="0.5" />
+                        <Label Grid.Row="12" Background="Black" Margin="0.5" />
                     </Grid>
                 </Grid>
             </Grid>
 
             <!-- This is the sign-in panel -->
-            <Grid Name="SigninPanel" Grid.Column="1" Visibility="Visible" >
+            <Grid Name="SigninPanel" Grid.Column="1" Visibility="Hidden" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="65" />
                     <RowDefinition Height="*" />
@@ -324,14 +319,8 @@
                     <Label Content="Patient Sign-in" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" />
                 </Grid>
 
-                <Grid Grid.Row="1" Background="DimGray" >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="8*" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
-
-                    <Grid Grid.Column="1" Background="LightGray" >
+                <Grid Grid.Row="1" Background="Black" >
+                    <Grid Background="LightGray" >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto" />
                             <RowDefinition Height="50" />
@@ -349,16 +338,16 @@
                             <Label Name="SignInDate" Content="Date Time" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" />
                         </Grid>
 
-                        <Grid Grid.Row="1" Grid.Column="0" Margin="1" >
+                        <Grid Grid.Row="1" Grid.Column="0" Margin="1" Background="Black" >
                             <Label Content="Visit Id" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" />
                         </Grid>
-                        <Grid Grid.Row="1" Grid.Column="1" Margin="1" >
+                        <Grid Grid.Row="1" Grid.Column="1" Margin="1" Background="Black" >
                             <Label Content="Last Name" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" />
                         </Grid>
-                        <Grid Grid.Row="1" Grid.Column="2" Margin="1" >
+                        <Grid Grid.Row="1" Grid.Column="2" Margin="1" Background="Black" >
                             <Label Content="First Name" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" />
                         </Grid>
-                        <Grid Grid.Row="1" Grid.Column="3" Margin="1" >
+                        <Grid Grid.Row="1" Grid.Column="3" Margin="1" Background="Black" >
                             <Label Content="Sign-in" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" />
                         </Grid>
 
@@ -379,22 +368,22 @@
                                 <RowDefinition Height="1*" />
                             </Grid.RowDefinitions>
 
-                            <Label Grid.Row="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Gray" FontSize="18" />
-                            <Label Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Gray" FontSize="18" />
-                            <Label Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Gray" FontSize="18" />
-                            <Label Grid.Row="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Gray" FontSize="18" />
-                            <Label Grid.Row="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Gray" FontSize="18" />
-                            <Label Grid.Row="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Gray" FontSize="18" />
-                            <Label Grid.Row="6" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Gray" FontSize="18" />
-                            <Label Grid.Row="7" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Gray" FontSize="18" />
-                            <Label Grid.Row="8" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Gray" FontSize="18" />
-                            <Label Grid.Row="9" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Gray" FontSize="18" />
-                            <Label Grid.Row="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Gray" FontSize="18" />
-                            <Label Grid.Row="11" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Gray" FontSize="18" />
-                            <Label Grid.Row="12" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Gray" FontSize="18" />
+                            <Label Grid.Row="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Black" FontSize="18" />
+                            <Label Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Black" FontSize="18" />
+                            <Label Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Black" FontSize="18" />
+                            <Label Grid.Row="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Black" FontSize="18" />
+                            <Label Grid.Row="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Black" FontSize="18" />
+                            <Label Grid.Row="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Black" FontSize="18" />
+                            <Label Grid.Row="6" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Black" FontSize="18" />
+                            <Label Grid.Row="7" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Black" FontSize="18" />
+                            <Label Grid.Row="8" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Black" FontSize="18" />
+                            <Label Grid.Row="9" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Black" FontSize="18" />
+                            <Label Grid.Row="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Black" FontSize="18" />
+                            <Label Grid.Row="11" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Black" FontSize="18" />
+                            <Label Grid.Row="12" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="Black" FontSize="18" />
                         </Grid>
 
-                        <Grid Name="SignInLastName" Grid.Row="2" Grid.Column="1" Background="Gray" >
+                        <Grid Name="SignInLastName" Grid.Row="2" Grid.Column="1" Background="LightGray" >
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="1*" />
                                 <RowDefinition Height="1*" />
@@ -411,22 +400,22 @@
                                 <RowDefinition Height="1*" />
                             </Grid.RowDefinitions>
 
-                            <Label Grid.Row="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
-                            <Label Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
-                            <Label Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
-                            <Label Grid.Row="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
-                            <Label Grid.Row="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
-                            <Label Grid.Row="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
-                            <Label Grid.Row="6" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
-                            <Label Grid.Row="7" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
-                            <Label Grid.Row="8" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
-                            <Label Grid.Row="9" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
-                            <Label Grid.Row="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
-                            <Label Grid.Row="11" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
-                            <Label Grid.Row="12" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
+                            <Label Grid.Row="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="DimGray" FontSize="18" />
+                            <Label Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="DimGray" FontSize="18" />
+                            <Label Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="DimGray" FontSize="18" />
+                            <Label Grid.Row="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="DimGray" FontSize="18" />
+                            <Label Grid.Row="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="DimGray" FontSize="18" />
+                            <Label Grid.Row="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="DimGray" FontSize="18" />
+                            <Label Grid.Row="6" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="DimGray" FontSize="18" />
+                            <Label Grid.Row="7" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="DimGray" FontSize="18" />
+                            <Label Grid.Row="8" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="DimGray" FontSize="18" />
+                            <Label Grid.Row="9" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="DimGray" FontSize="18" />
+                            <Label Grid.Row="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="DimGray" FontSize="18" />
+                            <Label Grid.Row="11" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="DimGray" FontSize="18" />
+                            <Label Grid.Row="12" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="DimGray" FontSize="18" />
                         </Grid>
 
-                        <Grid Name="SignInFirstName" Grid.Row="2" Grid.Column="2" Background="Gray" >
+                        <Grid Name="SignInFirstName" Grid.Row="2" Grid.Column="2" Background="LightGray" >
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="1*" />
                                 <RowDefinition Height="1*" />
@@ -443,22 +432,22 @@
                                 <RowDefinition Height="1*" />
                             </Grid.RowDefinitions>
 
-                            <Label Grid.Row="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
-                            <Label Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
-                            <Label Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
-                            <Label Grid.Row="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
-                            <Label Grid.Row="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
-                            <Label Grid.Row="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
-                            <Label Grid.Row="6" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
-                            <Label Grid.Row="7" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
-                            <Label Grid.Row="8" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
-                            <Label Grid.Row="9" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
-                            <Label Grid.Row="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
-                            <Label Grid.Row="11" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
-                            <Label Grid.Row="12" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="LightGray" FontSize="18" />
+                            <Label Grid.Row="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="DimGray" FontSize="18" />
+                            <Label Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="DimGray" FontSize="18" />
+                            <Label Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="DimGray" FontSize="18" />
+                            <Label Grid.Row="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="DimGray" FontSize="18" />
+                            <Label Grid.Row="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="DimGray" FontSize="18" />
+                            <Label Grid.Row="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="DimGray" FontSize="18" />
+                            <Label Grid.Row="6" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="DimGray" FontSize="18" />
+                            <Label Grid.Row="7" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="DimGray" FontSize="18" />
+                            <Label Grid.Row="8" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="DimGray" FontSize="18" />
+                            <Label Grid.Row="9" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="DimGray" FontSize="18" />
+                            <Label Grid.Row="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="DimGray" FontSize="18" />
+                            <Label Grid.Row="11" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="DimGray" FontSize="18" />
+                            <Label Grid.Row="12" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="1" Background="DimGray" FontSize="18" />
                         </Grid>
 
-                        <Grid Name="SignInCheckBox" Grid.Row="2" Grid.Column="3" Background="DarkGray" >
+                        <Grid Name="SignInCheckBox" Grid.Row="2" Grid.Column="3" Background="Black" >
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="1*" />
                                 <RowDefinition Height="1*" />
@@ -475,79 +464,79 @@
                                 <RowDefinition Height="1*" />
                             </Grid.RowDefinitions>
                             
-                            <CheckBox Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
+                            <CheckBox Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
                             </CheckBox>
 
-                            <CheckBox Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
+                            <CheckBox Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
                             </CheckBox>
 
-                            <CheckBox Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
+                            <CheckBox Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
                             </CheckBox>
 
-                            <CheckBox Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
+                            <CheckBox Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
                             </CheckBox>
 
-                            <CheckBox Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
+                            <CheckBox Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
                             </CheckBox>
 
-                            <CheckBox Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
+                            <CheckBox Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
                             </CheckBox>
 
-                            <CheckBox Grid.Row="6" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
+                            <CheckBox Grid.Row="6" HorizontalAlignment="Center" VerticalAlignment="Center" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
                             </CheckBox>
 
-                            <CheckBox Grid.Row="7" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
+                            <CheckBox Grid.Row="7" HorizontalAlignment="Center" VerticalAlignment="Center" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
                             </CheckBox>
 
-                            <CheckBox Grid.Row="8" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
+                            <CheckBox Grid.Row="8" HorizontalAlignment="Center" VerticalAlignment="Center" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
                             </CheckBox>
 
-                            <CheckBox Grid.Row="9" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
+                            <CheckBox Grid.Row="9" HorizontalAlignment="Center" VerticalAlignment="Center" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
                             </CheckBox>
 
-                            <CheckBox Grid.Row="10" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
+                            <CheckBox Grid.Row="10" HorizontalAlignment="Center" VerticalAlignment="Center" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
                             </CheckBox>
 
-                            <CheckBox Grid.Row="11" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
+                            <CheckBox Grid.Row="11" HorizontalAlignment="Center" VerticalAlignment="Center" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
                             </CheckBox>
 
-                            <CheckBox Grid.Row="12" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
+                            <CheckBox Grid.Row="12" HorizontalAlignment="Center" VerticalAlignment="Center" Checked="Signin_Checked" Unchecked="Signin_Unchecked" >
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
@@ -558,8 +547,8 @@
             </Grid>
 
             <!-- This is the billing panel -->
-            <Grid Name="BillingPanel" Grid.Column="1" Visibility="Hidden" >
-
+            <Grid Name="BillingPanel" Grid.Column="1" Visibility="Visible" >
+                
             </Grid>
         </Grid>
         
