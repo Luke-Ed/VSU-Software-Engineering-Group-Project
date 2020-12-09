@@ -180,7 +180,7 @@ namespace Project_2_EMS
                         string address = dataReader.GetString(3);
                         decimal balance = dataReader.GetDecimal(4);
 
-                        Patient patient = new Patient(patientId, lastName, firstName, address, balance);
+                        Patient patient = new Patient(patientId, firstName, lastName, address, balance);
                         patients.Add(patient);
                     }
                 }

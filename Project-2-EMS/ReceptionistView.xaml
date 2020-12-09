@@ -45,7 +45,7 @@
                 </Viewbox>
 
                 <Grid Name="ApptButtonGrid" Grid.Row="1" Background="#FF30373E" Visibility="Hidden" >
-                    <Button Name="ViewApptButton" VerticalAlignment="Center" Height="40" Width="200" FontSize="18" Click="ViewApptButton_Click" />
+                    <Button Name="ViewApptButton" Height="40" Width="200" VerticalAlignment="Top" Margin="10" FontSize="18" Click="ViewApptButton_Click" />
                 </Grid>
             </Grid>
         </Grid>
@@ -547,14 +547,24 @@
             </Grid>
 
             <!-- This is the billing panel -->
-            <Grid Name="BillingPanel" Grid.Column="1" Visibility="Visible" >
+            <Grid Name="BillingPanel" Grid.Column="1" Background="#FF30373E" Visibility="Visible" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="65" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="65" />
                 </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="8*" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
 
-                <Grid Grid.Row="0" Background="#FF26282C" >
+                <Grid Grid.Row="0" Grid.ColumnSpan="3" Background="#FF26282C" >
                     <Label Content="Patient Billing" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" />
+                </Grid>
+
+                <Grid Grid.Row="1" Grid.Column="1" Background="#FF26282C" Margin="1" >
+                    
                 </Grid>
             </Grid>
         </Grid>

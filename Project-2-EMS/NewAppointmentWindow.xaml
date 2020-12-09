@@ -208,7 +208,7 @@
             </Grid>
         </Grid>
 
-        <Grid Name="NewAppointmentPage" Grid.Row="1" Background="#FF30373E" Visibility="Visible" >
+        <Grid Name="NewAppointmentPage" Grid.Row="1" Background="#FF30373E" Visibility="Hidden" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*" />
                 <RowDefinition Height="1*" />
