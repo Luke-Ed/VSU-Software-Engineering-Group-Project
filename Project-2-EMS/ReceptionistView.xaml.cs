@@ -417,8 +417,6 @@ namespace Project_2_EMS
                 }
             }
         }
-
-
         
         private void Signin_Checked(object sender, RoutedEventArgs e)
         {
@@ -445,8 +443,6 @@ namespace Project_2_EMS
                 ApplyApptCostToPatient(isChecked, visitId);
             }
         }
-
-        
 
         private void ApplyApptCostToPatient(bool isChecked, int visitId)
         {
