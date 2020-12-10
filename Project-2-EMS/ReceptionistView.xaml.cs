@@ -3,6 +3,7 @@ using System;
 using System.Data;
 using System.Linq;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -25,15 +26,31 @@ namespace Project_2_EMS
         private DateTime weekDate;
         private DateTime prevWeekDate;
 
-        public ReceptionistView(Window parentWindow)
+        public ReceptionistView(Window parentWindow, String staffMember)
         {
-            _parentWindow = parentWindow;
             InitializeComponent();
+            InitializeHeadLabels();
+            UpdateReceptionistView();
 
-            weekDate = DateTime.Now.AddDays(Convert.ToDouble(DateTime.Now.DayOfWeek.ToString("d")) * -1.0);
-            AppointmentWeek.Content = weekDate.ToString("Week o\\f MMMM dd, yyyy");
+            GreetingGrid.Content = "Greetings " + staffMember + "!";
 
+            _parentWindow = parentWindow;
             Closing += OnWindowClosing;
+        }
+
+        private void InitializeHeadLabels()
+        {
+            weekDate = DateTime.Now.AddDays(Convert.ToDouble(DateTime.Now.DayOfWeek.ToString("d")) * -1.0);
+            ApptCalendar.SelectedDate = DateTime.Now.Date;
+            AppointmentWeek.Content = weekDate.ToString("Week o\\f MMMM dd, yyyy");
+            SignInDate.Content = DateTime.Now.Date.ToLongDateString();
+        }
+
+        public void UpdateReceptionistView()
+        {
+            ClearAppointmentGrid();
+            PopulateAppointmentGrid(patients, appointments);
+            PopulateSignInView();
         }
 
         private void LogOutButton_Click(object sender, RoutedEventArgs e)
@@ -64,6 +81,7 @@ namespace Project_2_EMS
                 _ = grid.Name.Contains(btn.Name) ? grid.Visibility = Visibility.Visible : grid.Visibility = Visibility.Hidden;
             }
             ApptButtonGrid.Visibility = Visibility.Hidden;
+            ClearPatientBilling();
         }
 
         // Change the displayed date when you select a date on the calendar gui, highlight the day on the appointments calendar
@@ -77,25 +95,12 @@ namespace Project_2_EMS
                 weekDate = date.AddDays(dayNum * -1.0);
                 AppointmentWeek.Content = weekDate.ToString("Week o\\f MMMM dd, yyyy");
 
-                //var apptDays = GetChildren(AppointmentDays);
                 HighlightCalendarDay(AppointmentDays, 0, (int)dayNum + 1);
 
                 if (prevWeekDate != weekDate)
                 {
                     prevWeekDate = weekDate;
-                    ClearAppointmentGrid();
-
-                    appointments.Clear();
-                    patients.Clear();
-
-                    GetPatientAppointments();
-
-                    foreach (PatientAppointment pa in appointments)
-                    {
-                        GetPatient(pa.PatientId);
-                    }
-
-                    PopulateAppointmentGrid(patients, appointments);
+                    UpdateReceptionistView();
                 }
             }
         }
@@ -154,7 +159,7 @@ namespace Project_2_EMS
             }
         }
 
-        private void GetPatient(int patId)
+        private void GetPatientById(int patId)
         {
             ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
             string query = rcsql.PatientIdQuerier();
@@ -164,8 +169,7 @@ namespace Project_2_EMS
             using (SqlConnection connection = dbConn.ConnectToDatabase())
             {
                 SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
-                cmd.Parameters.Add("@PatientId", SqlDbType.Int);
-                cmd.Parameters["@PatientId"].Value = patId;
+                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = patId;
 
                 try
                 {
@@ -180,7 +184,7 @@ namespace Project_2_EMS
                         string address = dataReader.GetString(3);
                         decimal balance = dataReader.GetDecimal(4);
 
-                        Patient patient = new Patient(patientId, lastName, firstName, address, balance);
+                        Patient patient = new Patient(patientId, firstName, lastName, address, balance);
                         patients.Add(patient);
                     }
                 }
@@ -191,21 +195,131 @@ namespace Project_2_EMS
             }
         }
 
+        private Patient GetPatientByName()
+        {
+            Patient patient = null;
+
+            string findFirstName = BillingFirstNameTb.Text;
+            string findLastName = BillingLastNameTb.Text;
+
+            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
+            string query = rcsql.PatientNameExactQuerier();
+
+            DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
+
+            using (SqlConnection connection = dbConn.ConnectToDatabase())
+            {
+                SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
+                cmd.Parameters.Add("@firstName", SqlDbType.Text).Value = findFirstName.Trim(' ');
+                cmd.Parameters.Add("@lastName", SqlDbType.Text).Value = findLastName.Trim(' ');
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader dataReader = cmd.ExecuteReader();
+
+                    while (dataReader.Read())
+                    {
+                        int patientId = dataReader.GetInt32(0);
+                        string lastName = dataReader.GetString(1);
+                        string firstName = dataReader.GetString(2);
+                        string address = dataReader.GetString(3);
+                        Decimal balance = dataReader.GetDecimal(4);
+
+                        patient = new Patient(patientId, firstName, lastName, address, balance);
+                    }
+
+                    dataReader.Close();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Error reading from database.");
+                }
+            }
+            return patient;
+        }
+
+        private void PopulateSignInView()
+        {
+            ClearSigninView();
+            int rowIndex = 0;
+            foreach (PatientAppointment pa in appointments)
+            {
+                if (pa.ApptDate == DateTime.Now.Date)
+                {
+                    foreach (Patient p in patients)
+                    {
+                        if (pa.PatientId == p.PatientId)
+                        {
+                            Label visitId = GetChild(SignInVisitId, rowIndex, 0) as Label;
+                            Label lastName = GetChild(SignInLastName, rowIndex, 0) as Label;
+                            Label firstName = GetChild(SignInFirstName, rowIndex, 0) as Label;
+
+                            visitId.Content = "[ " + pa.VisitId + " ]";
+                            lastName.Content = p.LastName;
+                            firstName.Content = p.FirstName;
+
+                            rowIndex += 1;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void UpdateDbPatientBalance(int patientId, decimal cost)
+        {
+            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
+            string query = rcsql.UpdatePatientBalance();
+
+            DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
+
+            using (SqlConnection connection = dbConn.ConnectToDatabase())
+            {
+                SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
+                cmd.Parameters.Add("@cost", SqlDbType.Decimal).Value = cost;
+                cmd.Parameters.Add("@patientId", SqlDbType.Int).Value = patientId;
+
+                try
+                {
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error when attempting to update patient balance.");
+                }
+            }
+        }
+
+        private void ClearSigninView()
+        {
+            foreach (Label label in SignInVisitId.Children) { label.Content = String.Empty; }
+            foreach (Label label in SignInLastName.Children) { label.Content = String.Empty; }
+            foreach (Label label in SignInFirstName.Children) { label.Content = String.Empty; }
+        }
+
         // Populate the appointment grids with appropriate appointments
         private void PopulateAppointmentGrid(List<Patient> patients, List<PatientAppointment> appointments)
         {
+            GetPatientAppointments();
+
+            foreach (PatientAppointment pa in appointments)
+            {
+                GetPatientById(pa.PatientId);
+            }
+
             foreach (PatientAppointment appt in appointments)
             {
-                string apptTime = string.Format("{0:h\\:mm}", appt.ApptTime);
-                //List<UIElement> apptTimes = GetChildren(AppointmentTimes);
-
+                string apptTime = String.Empty;
                 double day = Convert.ToDouble(appt.ApptDate.DayOfWeek.ToString("d"));
 
-                int diff = apptTime.CompareTo("12:00");
+                int diff = TimeSpan.Compare(appt.ApptTime, new TimeSpan(12,0,0));
 
                 _ = diff > 0 ? apptTime = string.Format("{0:h\\:mm} PM", appt.ApptTime.Subtract(TimeSpan.FromHours(12))) : null;
-                _ = diff == 0 ? apptTime += " PM" : null;
-                _ = diff < 0 ? apptTime += " AM" : null;
+                _ = diff == 0 ? apptTime = string.Format("{0:h\\:mm} PM", appt.ApptTime) : null;
+                _ = diff < 0 ? apptTime = string.Format("{0:h\\:mm} AM", appt.ApptTime) : null;
+
 
                 foreach (Label child in AppointmentTimes.Children)
                 {
@@ -221,7 +335,7 @@ namespace Project_2_EMS
                         string visitId = appt.VisitId.ToString();
 
                         apptLabel.Content = String.Format("{0} {1}.\nVisit Id: {2}", firstName, lastInitial.Substring(0,1), visitId);
-                        apptLabel.Background = Brushes.LightGreen;
+                        apptLabel.Background = Brushes.DarkGreen;
                     }
                 }
             }
@@ -230,9 +344,13 @@ namespace Project_2_EMS
         // Clear the appointment grids (Used when changing week view)
         private void ClearAppointmentGrid()
         {
+            appointments.Clear();
+            patients.Clear();
+
             foreach (Label child in AppointmentGrids.Children)
             {
-                child.Background = Brushes.White;
+                var bc = new BrushConverter();
+                child.Background = (Brush)bc.ConvertFrom("#FF30373E");
                 child.Content = String.Empty;
             }
         }
@@ -256,7 +374,16 @@ namespace Project_2_EMS
             foreach (Label label in grid.Children)
             {
                 Boolean labelMatch = Grid.GetRow(label) == row && Grid.GetColumn(label) == column;
-                _ = labelMatch ? label.Background = Brushes.CornflowerBlue : label.Background = Brushes.LightCyan;
+                if (labelMatch)
+                {
+                    var bc = new BrushConverter();
+                    label.Background = (Brush)bc.ConvertFrom("#FF4669B0");
+                }
+                else
+                {
+                    var bc = new BrushConverter();
+                    label.Background = (Brush)bc.ConvertFrom("#FF26282C");
+                }
             }
         }
 
@@ -349,13 +476,139 @@ namespace Project_2_EMS
                 string lastName = patient.LastName;
                 string notes = appointment.ReceptNote;
 
-                newApptWindow = new NewAppointmentWindow(firstName, lastName, notes, timeLabel, date);
+                ReceptionistView recView = this;
+                newApptWindow = new NewAppointmentWindow(recView, visitId, firstName, lastName, notes, timeLabel, date);
                 newApptWindow.Show();
             }
             else
+            {   
+                if (DateTime.Compare(date.Date, DateTime.Now.Date) >= 0)
+                {
+                    ReceptionistView recView = this;
+                    newApptWindow = new NewAppointmentWindow(recView, timeLabel, date);
+                    newApptWindow.Show();
+                }
+            }
+        }
+
+        private void SearchPatientBtn_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateBillingInformation();
+        }
+
+        private void UpdateBillingInformation()
+        {
+            Patient patient = GetPatientByName();
+
+            if (patient != null)
             {
-                newApptWindow = new NewAppointmentWindow(srcLabel, timeLabel, date);
-                newApptWindow.Show();
+                BillingPatient.Content = patient.FirstName + " " + patient.LastName;
+                BillingPatientId.Content = patient.PatientId;
+
+                string balance = string.Format("${0:N2}", patient.Balance);
+
+                BillingPatientBalance.Content = balance;
+                BillingOwedAmount.Content = balance;
+            }
+            else
+            {
+                ClearPatientBilling();
+            }
+        }
+
+        private void ClearPatientBillingBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ClearPatientBilling();
+        }
+
+        private void ClearPatientBilling()
+        {
+            BillingFirstNameTb.Text = String.Empty;
+            BillingLastNameTb.Text = String.Empty;
+            BillingPatient.Content = String.Empty;
+            BillingPatientId.Content = String.Empty;
+            BillingPatientBalance.Content = String.Empty;
+            BillingOwedAmount.Content = String.Empty;
+            BillingPayAmount.Text = String.Empty;
+            BillingChange.Content = String.Empty;
+        }
+
+        private void PayPatientBillingBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (BillingPatientId.Content.ToString() != String.Empty)
+            {
+                decimal oweAmount = Convert.ToDecimal(BillingOwedAmount.Content.ToString().Substring(1));
+
+                if (oweAmount > 0)
+                {
+                    PaymentVerificationHandling(oweAmount);
+                }
+            }
+        }
+
+        private void PaymentVerificationHandling(decimal oweAmount)
+        {
+            if (IsValidPayment())
+            {
+                string stringPayAmount = string.Format("{0:N2}", Convert.ToDecimal(BillingPayAmount.Text)).Trim(' ');
+                decimal payAmount = Convert.ToDecimal(stringPayAmount);
+
+                decimal amountPaid = 0;
+                _ = oweAmount > payAmount ? (amountPaid = payAmount, null) : (amountPaid = oweAmount, BillingChange.Content = "$" + (payAmount - oweAmount).ToString());
+
+                int patientId = Convert.ToInt32(new String(BillingPatientId.Content.ToString().Where(Char.IsDigit).ToArray()).Trim(' '));
+
+                ConfirmPayment(patientId, amountPaid);
+                UpdateBillingInformation();
+            }
+            else
+            {
+                MessageBox.Show("Invalid payment.");
+            }
+        }
+
+        private Boolean IsValidPayment()
+        {
+            bool isValid = true;
+
+            _ = !Regex.IsMatch(BillingPayAmount.Text, @"^[0-9.]+$") ? isValid = false : true;
+
+            return isValid;
+        }
+
+        private void ConfirmPayment(int patientId, Decimal amountPaid) 
+        {
+            string confirmation = "Confirm payment amount of " + amountPaid.ToString() + "?";
+            MessageBoxResult result = MessageBox.Show(confirmation, "Payment Confirmation", MessageBoxButton.YesNo);
+
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    BillingPayAmount.Text = String.Empty;
+                    UpdateDbPatientBalance(patientId, Decimal.Negate(amountPaid));
+                    break;
+                case MessageBoxResult.No:
+                    break;
+            }
+        }
+
+        private void NextPrevWeekBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Button btn = e.Source as Button;
+
+            DateTime date = (DateTime)ApptCalendar.SelectedDate;
+            DateTime nextWeek = date.AddDays(7);
+            DateTime prevWeek = date.AddDays(-7);
+
+            if (btn.Content.ToString() == "Next")
+            {
+                ApptCalendar.SelectedDate = nextWeek;
+                ApptCalendar.DisplayDate = nextWeek;
+            }
+            else
+            {
+                ApptCalendar.SelectedDate = prevWeek;
+                ApptCalendar.DisplayDate = prevWeek;
             }
         }
     }

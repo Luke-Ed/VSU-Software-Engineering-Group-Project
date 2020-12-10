@@ -53,6 +53,7 @@ namespace Project_2_EMS
             var mainWindow = _parentWindow;
             mainWindow.Close();
         }
+        
         private Boolean IsPatientSelected()
         {
             Boolean isValid = true;
@@ -64,7 +65,6 @@ namespace Project_2_EMS
 
             return isValid;
         }
-
 
         private void SearchBtn_Click(object sender, RoutedEventArgs e)
         {
