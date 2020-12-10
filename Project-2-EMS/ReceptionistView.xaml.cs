@@ -3,6 +3,7 @@ using System;
 using System.Data;
 using System.Linq;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -25,11 +26,13 @@ namespace Project_2_EMS
         private DateTime weekDate;
         private DateTime prevWeekDate;
 
-        public ReceptionistView(Window parentWindow)
+        public ReceptionistView(Window parentWindow, String staffMember)
         {
             InitializeComponent();
             InitializeHeadLabels();
             UpdateReceptionistView();
+
+            GreetingGrid.Content = "Greetings " + staffMember + "!";
 
             _parentWindow = parentWindow;
             Closing += OnWindowClosing;
@@ -77,6 +80,7 @@ namespace Project_2_EMS
                 _ = grid.Name.Contains(btn.Name) ? grid.Visibility = Visibility.Visible : grid.Visibility = Visibility.Hidden;
             }
             ApptButtonGrid.Visibility = Visibility.Hidden;
+            ClearPatientBilling();
         }
 
         // Change the displayed date when you select a date on the calendar gui, highlight the day on the appointments calendar
@@ -164,8 +168,7 @@ namespace Project_2_EMS
             using (SqlConnection connection = dbConn.ConnectToDatabase())
             {
                 SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
-                cmd.Parameters.Add("@PatientId", SqlDbType.Int);
-                cmd.Parameters["@PatientId"].Value = patId;
+                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = patId;
 
                 try
                 {
@@ -263,7 +266,7 @@ namespace Project_2_EMS
             }
         }
 
-        private void UpdateDbPatientBalance(int visitId, decimal cost)
+        private void UpdateDbPatientBalance(int patientId, decimal cost)
         {
             ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
             string query = rcsql.UpdatePatientBalance();
@@ -274,7 +277,7 @@ namespace Project_2_EMS
             {
                 SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
                 cmd.Parameters.Add("@cost", SqlDbType.Decimal).Value = cost;
-                cmd.Parameters.Add("@visitId", SqlDbType.Int).Value = visitId;
+                cmd.Parameters.Add("@patientId", SqlDbType.Int).Value = patientId;
 
                 try
                 {
@@ -501,14 +504,23 @@ namespace Project_2_EMS
                 BillingPatient.Content = patient.FirstName + " " + patient.LastName;
                 BillingPatientId.Content = patient.PatientId;
 
-                string balance = string.Format("{0:N2}", patient.Balance);
+                string balance = string.Format("${0:N2}", patient.Balance);
 
                 BillingPatientBalance.Content = balance;
                 BillingOwedAmount.Content = balance;
             }
+            else
+            {
+                ClearPatientBilling();
+            }
         }
 
         private void ClearPatientBillingBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ClearPatientBilling();
+        }
+
+        private void ClearPatientBilling()
         {
             BillingFirstNameTb.Text = String.Empty;
             BillingLastNameTb.Text = String.Empty;
@@ -516,13 +528,66 @@ namespace Project_2_EMS
             BillingPatientId.Content = String.Empty;
             BillingPatientBalance.Content = String.Empty;
             BillingOwedAmount.Content = String.Empty;
+            BillingPayAmount.Text = String.Empty;
+            BillingChange.Content = String.Empty;
         }
 
         private void PayPatientBillingBtn_Click(object sender, RoutedEventArgs e)
         {
             if (BillingPatientId.Content.ToString() != String.Empty)
             {
-                //BillingPayAmount;
+                decimal oweAmount = Convert.ToDecimal(BillingOwedAmount.Content.ToString().Substring(1));
+
+                if (oweAmount > 0)
+                {
+                    PaymentVerificationHandling(oweAmount);
+                }
+            }
+        }
+
+        private void PaymentVerificationHandling(decimal oweAmount)
+        {
+            if (IsValidPayment())
+            {
+                string stringPayAmount = string.Format("{0:N2}", Convert.ToDecimal(BillingPayAmount.Text)).Trim(' ');
+                decimal payAmount = Convert.ToDecimal(stringPayAmount);
+
+                decimal amountPaid = 0;
+                _ = oweAmount > payAmount ? (amountPaid = payAmount, null) : (amountPaid = oweAmount, BillingChange.Content = "$" + (payAmount - oweAmount).ToString());
+
+                int patientId = Convert.ToInt32(new String(BillingPatientId.Content.ToString().Where(Char.IsDigit).ToArray()).Trim(' '));
+
+                ConfirmPayment(patientId, amountPaid);
+                UpdateBillingInformation();
+            }
+            else
+            {
+                MessageBox.Show("Invalid payment.");
+            }
+        }
+
+        private Boolean IsValidPayment()
+        {
+            bool isValid = true;
+
+            _ = !Regex.IsMatch(BillingPayAmount.Text, @"^[0-9.]+$") ? isValid = false : true;
+
+            return isValid;
+        }
+
+        private void ConfirmPayment(int patientId, Decimal amountPaid) 
+        {
+            string confirmation = "Confirm payment amount of " + amountPaid.ToString() + "?";
+            MessageBoxResult result = MessageBox.Show(confirmation, "Payment Confirmation", MessageBoxButton.YesNo);
+
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    BillingPayAmount.Text = String.Empty;
+                    UpdateDbPatientBalance(patientId, Decimal.Negate(amountPaid));
+                    break;
+                case MessageBoxResult.No:
+                    break;
             }
         }
     }

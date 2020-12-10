@@ -416,7 +416,7 @@ namespace Project_2_EMS {
         private void UpdateDbPatientBalance(int visitId, decimal cost)
         {
             ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
-            string query = rcsql.UpdatePatientBalance();
+            string query = rcsql.UpdatePatientBalanceNewAppointment();
 
             DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
 
