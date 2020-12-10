@@ -16,11 +16,28 @@ namespace Project_2_EMS.App_Code
             return query;
         }
 
+        public string AppointmentVisitIdQuerier()
+        {
+            String query = "SELECT * " +
+                           "FROM Appointments " +
+                           "WHERE VisitID = @visitId;";
+            return query;
+        }
+
         public string PatientNameQuerier()
         {
             string query = "SELECT * " +
                            "FROM PatientInfo " +
                            "WHERE FirstName LIKE @firstName OR LastName LIKE @lastName;";
+
+            return query;
+        }
+
+        public string PatientNameExactQuerier()
+        {
+            string query = "SELECT * " +
+                           "FROM PatientInfo " +
+                           "WHERE FirstName LIKE @firstName AND LastName LIKE @lastName;";
 
             return query;
         }
@@ -67,6 +84,16 @@ namespace Project_2_EMS.App_Code
         }
 
         public string UpdatePatientBalance()
+        {
+            String query = "UPDATE PatientInfo " +
+                           "SET Balance = Balance + @cost " +
+                           "FROM PatientInfo " +
+                           "WHERE PatientID = @patientId";
+
+            return query;
+        }
+
+        public string UpdatePatientBalanceNewAppointment()
         {
             String query = "UPDATE PatientInfo " +
                            "SET Balance = Balance + @cost " +
