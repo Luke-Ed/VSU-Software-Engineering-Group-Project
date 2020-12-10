@@ -14,14 +14,22 @@
       <HashCode>AgBAQAIoAgECABAoAIlAgAACDkgggAKgAACQAECCAAA=</HashCode>
       <FileName>NewAppointmentWindow.xaml.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="receptionSqlHandler" />
+      <Field Name="sharedSqlHandler" />
+    </ShowAsAssociation>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="Project_2_EMS.NurseView" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="0.5" Y="6.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAQCAAAAAAAAACAABEAAAAAAAAAgAAAAACQAAAQAAA=</HashCode>
+      <HashCode>AAAQCAAQAAAAAACAABEAAAAAAAAAgAAAAACQAAAQAAA=</HashCode>
       <FileName>NurseView.xaml.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_dbConnMgr" />
+      <Field Name="_sharedSqlHandler" />
+    </ShowAsAssociation>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="Project_2_EMS.ReceptionistView" Collapsed="true" BaseTypeListCollapsed="true">
@@ -30,6 +38,15 @@
       <HashCode>RAAAIgAwAKAAACCQBBND4gAAEAgniQAQAEBAAABBAEA=</HashCode>
       <FileName>ReceptionistView.xaml.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="dbConnMan" />
+      <Field Name="newApptWindow" />
+      <Field Name="sharedSqlHandler" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="patients" />
+      <Field Name="appointments" />
+    </ShowAsCollectionAssociation>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="Project_2_EMS.PatientView" Collapsed="true" BaseTypeListCollapsed="true">
@@ -38,14 +55,24 @@
       <HashCode>AAAAAAAQAAAAACDAAgAAAAABAAAAAAAAAAAAABIBAAA=</HashCode>
       <FileName>PatientView.xaml.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_patient" />
+    </ShowAsAssociation>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="Project_2_EMS.DoctorView" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="0.5" Y="7.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAIAAAwgAAiAACAAAEgAAEAAAAkAAAgEAAAAAAAABA=</HashCode>
+      <HashCode>AAAAAAAwgAAiAACAAAEgAAEAAAAkAAAgEAAAAAAAABA=</HashCode>
       <FileName>DoctorView.xaml.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="dbConnectionManager" />
+      <Field Name="sharedSqlHandler" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="patients" />
+    </ShowAsCollectionAssociation>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="System.Windows.Window" Collapsed="true">
@@ -67,56 +94,56 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Project_2_EMS.SharedSqlHandler" Collapsed="true">
-    <Position X="8.5" Y="0.5" Width="1.5" />
+    <Position X="12" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAEAAAAAAAACAAAgAAAAAAAAAAgAAAAAAIAAAAAA=</HashCode>
       <FileName>App_Code\SharedSqlHandler.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Project_2_EMS.ReceptionSqlHandler" Collapsed="true">
-    <Position X="8.5" Y="1.5" Width="1.75" />
+    <Position X="9.25" Y="1.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAgAAAIAAAAACAAAAAAAAAAAAAAAIAAAAAAASAACA=</HashCode>
       <FileName>App_Code\ReceptionSqlHandler.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Project_2_EMS.App_Code.DoctorSqlHandler" Collapsed="true">
-    <Position X="8.5" Y="3.5" Width="1.5" />
+    <Position X="9.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAECAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAACAAA=</HashCode>
       <FileName>App_Code\DoctorSqlHandler.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Project_2_EMS.NurseSqlHandler" Collapsed="true">
-    <Position X="8.5" Y="2.5" Width="1.5" />
+    <Position X="9.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>App_Code\NurseSqlHandler.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Project_2_EMS.App_Code.DatabaseConnectionManager" Collapsed="true">
-    <Position X="5.75" Y="0.5" Width="2.25" />
+    <Position X="6.5" Y="2.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>IgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>App_Code\DatabaseConnectionManager.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Project_2_EMS.Patient" Collapsed="true">
-    <Position X="12" Y="0.5" Width="1.5" />
+    <Position X="12" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAEAAAQAAAAAAAAgAAAAAAAAAAAACAAAAAAAAAAg=</HashCode>
       <FileName>App_Code\Patient.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Project_2_EMS.App_Code.Prescription" Collapsed="true">
-    <Position X="12" Y="2.5" Width="1.5" />
+    <Position X="14" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AACAAAAAAQAAAEAEAAAAAAAAAAQAAAAAAAAAgAEAAAA=</HashCode>
       <FileName>App_Code\Prescription.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Project_2_EMS.App_Code.PatientAppointment" Collapsed="true">
-    <Position X="12" Y="1.5" Width="1.75" />
+    <Position X="12" Y="6.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAQAAQQAAAAEUAAAAABAAAAAAEAIAAAAAAAAAAAA=</HashCode>
       <FileName>App_Code\PatientAppointment.cs</FileName>
