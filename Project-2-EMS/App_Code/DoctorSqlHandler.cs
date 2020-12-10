@@ -6,17 +6,8 @@ using System.Threading.Tasks;
 
 namespace Project_2_EMS.App_Code
 {
-    class DoctorSqlHandler
-    {
-        public string PatientNameQuerier()
-        {
-            string query = "SELECT * " +
-                           "FROM PatientInfo " +
-                           "WHERE FirstName LIKE @firstName AND LastName LIKE @lastName;";
-
-            return query;
-        }
-
+    class DoctorSqlHandler {
+      
         public string PerscriptionQuerier()
         {
             string query = "SELECT * " +

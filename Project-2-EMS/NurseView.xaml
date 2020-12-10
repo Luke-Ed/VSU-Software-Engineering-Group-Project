@@ -27,8 +27,8 @@
       <!-- Image can be filled with our logo -->
       <Image Grid.Column="0" Grid.Row="0" Height="50" Source="App_Resources/EdmondsonInternalMedicine.png" />
 
-      <Button Content="Today's Appointments" Grid.Column="0" Grid.Row="1" Height="50" FontSize="18" />
-      <Button Content="Patient Lookup" Grid.Column="0" Grid.Row="2" Height="50" FontSize="18" />
+      <Button Content="Today's Appointments" Grid.Column="0" Grid.Row="1" Height="50" FontSize="18" Visibility="Hidden"/>
+      <Button Content="Patient Lookup" Grid.Column="0" Grid.Row="1" Height="50" FontSize="18" />
       <!--<Button Content="Visit Lookup" Grid.Column="0" Grid.Row="3" Height="50" FontSize="18" /> -->
       <Button Content="Log Out" Grid.Column="0" Grid.Row="5" Height="50" FontSize="18" Click="LogOutButton_Click" />
     </Grid>

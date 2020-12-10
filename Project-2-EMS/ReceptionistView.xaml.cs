@@ -1,24 +1,23 @@
 ﻿using Project_2_EMS.App_Code;
 using System;
-using System.Data;
-using System.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.ComponentModel;
-using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace Project_2_EMS
-{
-    public partial class ReceptionistView : Window
-    {
+namespace Project_2_EMS {
+    public partial class ReceptionistView {
         private readonly Window _parentWindow;
         private Window newApptWindow;
+        private readonly SharedSqlHandler sharedSqlHandler = new SharedSqlHandler();
+        private readonly DatabaseConnectionManager dbConnMan = new DatabaseConnectionManager();
 
         private List<PatientAppointment> appointments = new List<PatientAppointment>();
         private List<Patient> patients = new List<Patient>();
@@ -26,8 +25,7 @@ namespace Project_2_EMS
         private DateTime weekDate;
         private DateTime prevWeekDate;
 
-        public ReceptionistView(Window parentWindow, String staffMember)
-        {
+        public ReceptionistView(Window parentWindow, String staffMember) {
             InitializeComponent();
             InitializeHeadLabels();
             UpdateReceptionistView();
@@ -53,8 +51,7 @@ namespace Project_2_EMS
             PopulateSignInView();
         }
 
-        private void LogOutButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void LogOutButton_Click(object sender, RoutedEventArgs e) {
             Hide();
 
             if (newApptWindow != null) newApptWindow.Close();
@@ -63,8 +60,7 @@ namespace Project_2_EMS
             mainWindow.Show();
         }
 
-        private void OnWindowClosing(object sender, CancelEventArgs e)
-        {
+        private void OnWindowClosing(object sender, CancelEventArgs e) {
             var mainWindow = _parentWindow;
 
             if (newApptWindow != null) newApptWindow.Close();
@@ -73,11 +69,9 @@ namespace Project_2_EMS
         }
 
         // Change which view is visible when you select buttons from the control panel
-        private void ControlButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void ControlButton_Click(object sender, RoutedEventArgs e) {
             Button btn = e.Source as Button;
-            foreach (Grid grid in ViewPanel.Children)
-            {
+            foreach (Grid grid in ViewPanel.Children) {
                 _ = grid.Name.Contains(btn.Name) ? grid.Visibility = Visibility.Visible : grid.Visibility = Visibility.Hidden;
             }
             ApptButtonGrid.Visibility = Visibility.Hidden;
@@ -85,10 +79,8 @@ namespace Project_2_EMS
         }
 
         // Change the displayed date when you select a date on the calendar gui, highlight the day on the appointments calendar
-        private void ApptCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (ApptCalendar.SelectedDate.HasValue)
-            {
+        private void ApptCalendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e) {
+            if (ApptCalendar.SelectedDate.HasValue) {
                 var date = ApptCalendar.SelectedDate.Value;
                 var dayNum = Convert.ToDouble(ApptCalendar.SelectedDate.Value.DayOfWeek.ToString("d"));
 
@@ -97,8 +89,7 @@ namespace Project_2_EMS
 
                 HighlightCalendarDay(AppointmentDays, 0, (int)dayNum + 1);
 
-                if (prevWeekDate != weekDate)
-                {
+                if (prevWeekDate != weekDate) {
                     prevWeekDate = weekDate;
                     UpdateReceptionistView();
                 }
@@ -110,35 +101,25 @@ namespace Project_2_EMS
          *  When clicking inside the calendar view, you would need to double click outside of it before being able
          *  to click on something outside of it. This code prevents that from happening
          */
-        private void ApptCalendar_GotMouseCapture(object sender, MouseEventArgs e)
-        {
+        private void ApptCalendar_GotMouseCapture(object sender, MouseEventArgs e) {
             UIElement originalElement = e.OriginalSource as UIElement;
-            if (originalElement is CalendarDayButton || originalElement is CalendarItem)
-            {
+            if (originalElement is CalendarDayButton || originalElement is CalendarItem) {
                 originalElement.ReleaseMouseCapture();
             }
         }
 
-        private void GetPatientAppointments()
-        {
-            SharedSqlHandler rcsql = new SharedSqlHandler();
-            string query = rcsql.AppointmentQuerier("DateRange");
-
-            DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
-
-            using (SqlConnection connection = dbConn.ConnectToDatabase())
-            {
+        private void GetPatientAppointments() {
+          string query = sharedSqlHandler.AppointmentQuerier("DateRange");
+          using (SqlConnection connection = dbConnMan.ConnectToDatabase()) {
                 SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
                 cmd.Parameters.Add("@ApptStartDate", SqlDbType.DateTime).Value = weekDate;
                 cmd.Parameters.Add("@ApptEndDate", SqlDbType.DateTime).Value = weekDate.AddDays(6);
            
-                try
-                {
+                try {
                     connection.Open();
                     SqlDataReader dataReader = cmd.ExecuteReader();
 
-                    while (dataReader.Read())
-                    {
+                    while (dataReader.Read()) {
                         int visitId = dataReader.GetInt32(0);
                         int patientId = dataReader.GetInt32(1);
                         DateTime apptDate = dataReader.GetDateTime(2);
@@ -152,32 +133,23 @@ namespace Project_2_EMS
                         appointments.Add(appointment);
                     }
                 }
-                catch (Exception e)
-                {
+                catch (Exception) {
                     MessageBox.Show("Error reading from database.");
                 } 
-            }
+          }
         }
 
-        private void GetPatientById(int patId)
-        {
-            SharedSqlHandler rcsql = new SharedSqlHandler();
-            string query = rcsql.PatientIdQuerier();
-
-            DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
-
-            using (SqlConnection connection = dbConn.ConnectToDatabase())
-            {
+        private void GetPatientById(int patId) {
+          string query = sharedSqlHandler.PatientIdQuerier();
+          using (SqlConnection connection = dbConnMan.ConnectToDatabase()) {
                 SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
                 cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = patId;
 
-                try
-                {
+                try {
                     connection.Open();
                     SqlDataReader dataReader = cmd.ExecuteReader();
 
-                    while (dataReader.Read())
-                    {
+                    while (dataReader.Read()) {
                         int patientId = dataReader.GetInt32(0);
                         string lastName = dataReader.GetString(1);
                         string firstName = dataReader.GetString(2);
@@ -188,15 +160,13 @@ namespace Project_2_EMS
                         patients.Add(patient);
                     }
                 }
-                catch (Exception e)
-                {
+                catch (Exception) {
                     MessageBox.Show("Error reading from database.");
                 }
-            }
+          }
         }
 
-        private Patient GetPatientByName()
-        {
+        private Patient GetPatientByName() {
             Patient patient = null;
 
             string findFirstName = BillingFirstNameTb.Text;
@@ -205,21 +175,16 @@ namespace Project_2_EMS
             ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
             string query = rcsql.PatientNameExactQuerier();
 
-            DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
-
-            using (SqlConnection connection = dbConn.ConnectToDatabase())
-            {
+            using (SqlConnection connection = dbConnMan.ConnectToDatabase()) {
                 SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
                 cmd.Parameters.Add("@firstName", SqlDbType.Text).Value = findFirstName.Trim(' ');
                 cmd.Parameters.Add("@lastName", SqlDbType.Text).Value = findLastName.Trim(' ');
 
-                try
-                {
+                try {
                     connection.Open();
                     SqlDataReader dataReader = cmd.ExecuteReader();
 
-                    while (dataReader.Read())
-                    {
+                    while (dataReader.Read()) {
                         int patientId = dataReader.GetInt32(0);
                         string lastName = dataReader.GetString(1);
                         string firstName = dataReader.GetString(2);
@@ -231,26 +196,20 @@ namespace Project_2_EMS
 
                     dataReader.Close();
                 }
-                catch (Exception e)
-                {
+                catch (Exception) {
                     MessageBox.Show("Error reading from database.");
                 }
             }
             return patient;
         }
 
-        private void PopulateSignInView()
-        {
+        private void PopulateSignInView() {
             ClearSigninView();
             int rowIndex = 0;
-            foreach (PatientAppointment pa in appointments)
-            {
-                if (pa.ApptDate == DateTime.Now.Date)
-                {
-                    foreach (Patient p in patients)
-                    {
-                        if (pa.PatientId == p.PatientId)
-                        {
+            foreach (PatientAppointment pa in appointments) {
+                if (pa.ApptDate == DateTime.Now.Date) {
+                    foreach (Patient p in patients) {
+                        if (pa.PatientId == p.PatientId) {
                             Label visitId = GetChild(SignInVisitId, rowIndex, 0) as Label;
                             Label lastName = GetChild(SignInLastName, rowIndex, 0) as Label;
                             Label firstName = GetChild(SignInFirstName, rowIndex, 0) as Label;
@@ -267,15 +226,11 @@ namespace Project_2_EMS
             }
         }
 
-        private void UpdateDbPatientBalance(int patientId, decimal cost)
-        {
+        private void UpdateDbPatientBalance(int patientId, decimal cost) {
             ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
             string query = rcsql.UpdatePatientBalance();
-
-            DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
-
-            using (SqlConnection connection = dbConn.ConnectToDatabase())
-            {
+            
+            using (SqlConnection connection = dbConnMan.ConnectToDatabase()) {
                 SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
                 cmd.Parameters.Add("@cost", SqlDbType.Decimal).Value = cost;
                 cmd.Parameters.Add("@patientId", SqlDbType.Int).Value = patientId;
@@ -300,17 +255,14 @@ namespace Project_2_EMS
         }
 
         // Populate the appointment grids with appropriate appointments
-        private void PopulateAppointmentGrid(List<Patient> patients, List<PatientAppointment> appointments)
-        {
+        private void PopulateAppointmentGrid(List<Patient> patients, List<PatientAppointment> appointments) {
             GetPatientAppointments();
 
-            foreach (PatientAppointment pa in appointments)
-            {
+            foreach (PatientAppointment pa in appointments) {
                 GetPatientById(pa.PatientId);
             }
 
-            foreach (PatientAppointment appt in appointments)
-            {
+            foreach (PatientAppointment appt in appointments) {
                 string apptTime = String.Empty;
                 double day = Convert.ToDouble(appt.ApptDate.DayOfWeek.ToString("d"));
 
@@ -321,10 +273,8 @@ namespace Project_2_EMS
                 _ = diff < 0 ? apptTime = string.Format("{0:h\\:mm} AM", appt.ApptTime) : null;
 
 
-                foreach (Label child in AppointmentTimes.Children)
-                {
-                    if (apptTime.CompareTo(child.Content.ToString()) == 0)
-                    {
+                foreach (Label child in AppointmentTimes.Children) {
+                    if (apptTime.CompareTo(child.Content.ToString()) == 0) {
                         Label apptLabel = GetChild(AppointmentGrids, Grid.GetRow(child), (int)day - 1) as Label;
 
                         // Grab the current appt index to be able to get the patient at the same index
@@ -342,13 +292,11 @@ namespace Project_2_EMS
         }
 
         // Clear the appointment grids (Used when changing week view)
-        private void ClearAppointmentGrid()
-        {
+        private void ClearAppointmentGrid() {
             appointments.Clear();
             patients.Clear();
 
-            foreach (Label child in AppointmentGrids.Children)
-            {
+            foreach (Label child in AppointmentGrids.Children) {
                 var bc = new BrushConverter();
                 child.Background = (Brush)bc.ConvertFrom("#FF30373E");
                 child.Content = String.Empty;
@@ -356,12 +304,9 @@ namespace Project_2_EMS
         }
 
         // Get individual child from UIElement
-        private static UIElement GetChild(Grid grid, int row, int column)
-        {
-            foreach (UIElement child in grid.Children)
-            {
-                if (Grid.GetRow(child) == row && Grid.GetColumn(child) == column)
-                {
+        private static UIElement GetChild(Grid grid, int row, int column) {
+            foreach (UIElement child in grid.Children) {
+                if (Grid.GetRow(child) == row && Grid.GetColumn(child) == column) {
                     return child;
                 }
             }
@@ -369,18 +314,14 @@ namespace Project_2_EMS
         }
 
         // Highlight the selected day on the appointments calendar
-        private static void HighlightCalendarDay(Grid grid, int row, int column)
-        {
-            foreach (Label label in grid.Children)
-            {
+        private static void HighlightCalendarDay(Grid grid, int row, int column) {
+            foreach (Label label in grid.Children) {
                 Boolean labelMatch = Grid.GetRow(label) == row && Grid.GetColumn(label) == column;
-                if (labelMatch)
-                {
+                if (labelMatch) {
                     var bc = new BrushConverter();
                     label.Background = (Brush)bc.ConvertFrom("#FF4669B0");
                 }
-                else
-                {
+                else {
                     var bc = new BrushConverter();
                     label.Background = (Brush)bc.ConvertFrom("#FF26282C");
                 }
@@ -388,18 +329,15 @@ namespace Project_2_EMS
         }
 
         // Highlight the selected cell on the appointments calendar     
-        private static void HighlightCalendarCell(Grid grid, int row, int column)
-        {
-            foreach (Label child in grid.Children)
-            {
+        private static void HighlightCalendarCell(Grid grid, int row, int column) {
+            foreach (Label child in grid.Children) {
                 Boolean childMatch = Grid.GetRow(child) == row && Grid.GetColumn(child) == column;
                 _ = childMatch ? child.Margin = new Thickness(2) : child.Margin = new Thickness(0.5);
             }
         }
 
         // Called when a cell on the appointments calendar is selected
-        private void ApptDate_MouseDown(object sender, MouseButtonEventArgs e)
-        {
+        private void ApptDate_MouseDown(object sender, MouseButtonEventArgs e) {
             Label srcLabel = e.Source as Label;
 
             // Highlight the selected cell and day
@@ -417,10 +355,8 @@ namespace Project_2_EMS
         }
 
         // Called when a cell on the appointments calendar has been double clicked
-        private void ApptDate_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (newApptWindow != null)
-            {
+        private void ApptDate_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
+            if (newApptWindow != null) {
                 newApptWindow.Close();
             }
 
@@ -430,10 +366,8 @@ namespace Project_2_EMS
         }
 
         // Button with similar functionality to double clicking a cell on the appointments calendar
-        private void ViewApptButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (newApptWindow != null)
-            {
+        private void ViewApptButton_Click(object sender, RoutedEventArgs e) {
+            if (newApptWindow != null) {
                 newApptWindow.Close();
             }
 
@@ -450,20 +384,16 @@ namespace Project_2_EMS
         }
 
         // Open a separate window when viewing/adding appointments
-        private void OpenAppointmentView(Label srcLabel)
-        {
+        private void OpenAppointmentView(Label srcLabel) {
             Label timeLabel = GetChild(AppointmentTimes, Grid.GetRow(srcLabel), 0) as Label;
             DateTime date = weekDate.AddDays(Grid.GetColumn(srcLabel) + 1);
 
-            if (srcLabel.Content.ToString() != String.Empty)
-            {
+            if (srcLabel.Content.ToString() != String.Empty) {
                 int patientIndex = 0;
                 int visitId = Convert.ToInt32(string.Join("", srcLabel.Content.ToString().ToCharArray().Where(Char.IsDigit)));
 
-                foreach (PatientAppointment pa in appointments)
-                {
-                    if (pa.VisitId == visitId)
-                    {
+                foreach (PatientAppointment pa in appointments) {
+                    if (pa.VisitId == visitId) {
                         patientIndex = appointments.IndexOf(pa);
                         break;
                     }
@@ -480,10 +410,8 @@ namespace Project_2_EMS
                 newApptWindow = new NewAppointmentWindow(recView, visitId, firstName, lastName, notes, timeLabel, date);
                 newApptWindow.Show();
             }
-            else
-            {   
-                if (DateTime.Compare(date.Date, DateTime.Now.Date) >= 0)
-                {
+            else {   
+                if (DateTime.Compare(date.Date, DateTime.Now.Date) >= 0) {
                     ReceptionistView recView = this;
                     newApptWindow = new NewAppointmentWindow(recView, timeLabel, date);
                     newApptWindow.Show();
@@ -491,17 +419,14 @@ namespace Project_2_EMS
             }
         }
 
-        private void SearchPatientBtn_Click(object sender, RoutedEventArgs e)
-        {
+        private void SearchPatientBtn_Click(object sender, RoutedEventArgs e) {
             UpdateBillingInformation();
         }
 
-        private void UpdateBillingInformation()
-        {
+        private void UpdateBillingInformation() {
             Patient patient = GetPatientByName();
 
-            if (patient != null)
-            {
+            if (patient != null) {
                 BillingPatient.Content = patient.FirstName + " " + patient.LastName;
                 BillingPatientId.Content = patient.PatientId;
 
@@ -510,19 +435,16 @@ namespace Project_2_EMS
                 BillingPatientBalance.Content = balance;
                 BillingOwedAmount.Content = balance;
             }
-            else
-            {
+            else {
                 ClearPatientBilling();
             }
         }
 
-        private void ClearPatientBillingBtn_Click(object sender, RoutedEventArgs e)
-        {
+        private void ClearPatientBillingBtn_Click(object sender, RoutedEventArgs e) {
             ClearPatientBilling();
         }
 
-        private void ClearPatientBilling()
-        {
+        private void ClearPatientBilling() {
             BillingFirstNameTb.Text = String.Empty;
             BillingLastNameTb.Text = String.Empty;
             BillingPatient.Content = String.Empty;
@@ -533,23 +455,18 @@ namespace Project_2_EMS
             BillingChange.Content = String.Empty;
         }
 
-        private void PayPatientBillingBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (BillingPatientId.Content.ToString() != String.Empty)
-            {
+        private void PayPatientBillingBtn_Click(object sender, RoutedEventArgs e) {
+            if (BillingPatientId.Content.ToString() != String.Empty) {
                 decimal oweAmount = Convert.ToDecimal(BillingOwedAmount.Content.ToString().Substring(1));
 
-                if (oweAmount > 0)
-                {
+                if (oweAmount > 0) {
                     PaymentVerificationHandling(oweAmount);
                 }
             }
         }
 
-        private void PaymentVerificationHandling(decimal oweAmount)
-        {
-            if (IsValidPayment())
-            {
+        private void PaymentVerificationHandling(decimal oweAmount) {
+            if (IsValidPayment()) {
                 string stringPayAmount = string.Format("{0:N2}", Convert.ToDecimal(BillingPayAmount.Text)).Trim(' ');
                 decimal payAmount = Convert.ToDecimal(stringPayAmount);
 
@@ -561,14 +478,12 @@ namespace Project_2_EMS
                 ConfirmPayment(patientId, amountPaid);
                 UpdateBillingInformation();
             }
-            else
-            {
+            else {
                 MessageBox.Show("Invalid payment.");
             }
         }
 
-        private Boolean IsValidPayment()
-        {
+        private Boolean IsValidPayment() {
             bool isValid = true;
 
             _ = !Regex.IsMatch(BillingPayAmount.Text, @"^[0-9.]+$") ? isValid = false : true;
@@ -576,13 +491,11 @@ namespace Project_2_EMS
             return isValid;
         }
 
-        private void ConfirmPayment(int patientId, Decimal amountPaid) 
-        {
+        private void ConfirmPayment(int patientId, Decimal amountPaid) {
             string confirmation = "Confirm payment amount of " + amountPaid.ToString() + "?";
             MessageBoxResult result = MessageBox.Show(confirmation, "Payment Confirmation", MessageBoxButton.YesNo);
 
-            switch (result)
-            {
+            switch (result) {
                 case MessageBoxResult.Yes:
                     BillingPayAmount.Text = String.Empty;
                     UpdateDbPatientBalance(patientId, Decimal.Negate(amountPaid));
@@ -592,21 +505,18 @@ namespace Project_2_EMS
             }
         }
 
-        private void NextPrevWeekBtn_Click(object sender, RoutedEventArgs e)
-        {
+        private void NextPrevWeekBtn_Click(object sender, RoutedEventArgs e) {
             Button btn = e.Source as Button;
 
             DateTime date = (DateTime)ApptCalendar.SelectedDate;
             DateTime nextWeek = date.AddDays(7);
             DateTime prevWeek = date.AddDays(-7);
 
-            if (btn.Content.ToString() == "Next")
-            {
+            if (btn.Content.ToString() == "Next") {
                 ApptCalendar.SelectedDate = nextWeek;
                 ApptCalendar.DisplayDate = nextWeek;
             }
-            else
-            {
+            else {
                 ApptCalendar.SelectedDate = prevWeek;
                 ApptCalendar.DisplayDate = prevWeek;
             }
