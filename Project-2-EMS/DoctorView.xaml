@@ -89,6 +89,11 @@
 
                 <Grid Grid.Row="0">
                     <Label Content="Patient Information" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="45"/>
+                    
+                </Grid>
+                <Grid Grid.Row="1">
+                    
+                    
                 </Grid>
                 
             </Grid>
