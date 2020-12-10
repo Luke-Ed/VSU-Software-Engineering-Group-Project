@@ -116,7 +116,7 @@ namespace Project_2_EMS
 
         private void GetPatientAppointments()
         {
-            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
+            SharedSqlHandler rcsql = new SharedSqlHandler();
             string query = rcsql.AppointmentQuerier();
 
             DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
@@ -156,7 +156,7 @@ namespace Project_2_EMS
 
         private void GetPatient(int patId)
         {
-            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
+            SharedSqlHandler rcsql = new SharedSqlHandler();
             string query = rcsql.PatientIdQuerier();
 
             DatabaseConnectionManager dbConn = new DatabaseConnectionManager();

@@ -195,7 +195,7 @@ namespace Project_2_EMS {
             string findFirstName = FirstNameExistingTextbox.Text.ToString();
             string findLastName = LastNameExistingTextbox.Text.ToString();
 
-            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
+            SharedSqlHandler rcsql = new SharedSqlHandler();
             string query = rcsql.PatientNameQuerier();
 
             DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
@@ -297,7 +297,7 @@ namespace Project_2_EMS {
         {
             int patientId = 0;
 
-            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
+            SharedSqlHandler rcsql = new SharedSqlHandler();
             string query = rcsql.NumberOfPatientsQuerier();
 
             DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
@@ -331,7 +331,7 @@ namespace Project_2_EMS {
         {
             int VisitId = 0;
 
-            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
+            SharedSqlHandler rcsql = new SharedSqlHandler();
             string query = rcsql.NumberOfPatientsQuerier();
 
             DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
