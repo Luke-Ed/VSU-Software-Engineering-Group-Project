@@ -41,6 +41,14 @@ namespace Project_2_EMS.App_Code
             return query;
         }
 
+        public string AppointmentQuerier()
+        {
+            String query = "SELECT * " +
+                           "FROM Appointments " +
+                           "WHERE ApptDate = @apptDate AND PatientID = @patientID";
+            return query;
+        }
+
 
     }
 }

@@ -79,7 +79,7 @@
             </Grid>
 
         </Grid>
-        <Grid Name="ViewPatientInformation_Grid" Grid.Column="1" Background="White" Visibility="Visible">
+        <Grid Name="ViewPatientInformation_Grid" Grid.Column="1" Background="White" Visibility="Hidden">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>

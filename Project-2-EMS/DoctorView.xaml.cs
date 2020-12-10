@@ -152,13 +152,65 @@ namespace Project_2_EMS
 
 
         }
+        private int GeneratePrescriptionId()
+        {
+            int prescriptionId = 0;
+
+            DoctorSqlHandler doctorSql = new DoctorSqlHandler();
+            String query = doctorSql.PrescriptionNumberQuerier();
+
+            DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
+
+            using (SqlConnection connection = dbConn.ConnectToDatabase())
+            {
+                SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader dataReader = cmd.ExecuteReader();
+
+                    while (dataReader.Read())
+                    {
+                        prescriptionId = dataReader.GetInt32(0);
+                    }
+                    dataReader.Close();
+
+                    return (prescriptionId + 1);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Error reading from database.");
+                }
+            }
+            return prescriptionId - 1;
+        }
 
         private void AddPerscription_Click(object sender, RoutedEventArgs e)
         {
+            int prescriptionID = GeneratePrescriptionId();
+            int patientId = patient.PatientId ;
+            PatientAppointment pA = GetPatientAppointment(patientId);
+            if(pA != null)
+            {
+                int visitID = pA.VisitId;
+                string prescriptionName = PrescriptionName_Text.Text;
+                string prescriptionNotes = PrescriptionNotes_Text.Text;
+                int refills = Convert.ToInt32(PrescriptionRefills_Text.Text);
+                Prescription prescription = new Prescription(prescriptionID, patientId, visitID, prescriptionName, prescriptionNotes, refills);
+                AddNewPrescription(prescription);
+            }
+            else
+            {
+                MessageBox.Show("No Appointment");            
+            }
 
+
+ 
 
 
         }
+
 
         private void PopulatePrescriptionDataGrid(int pID)
         {
@@ -210,11 +262,52 @@ namespace Project_2_EMS
             }
         }
 
+        private PatientAppointment GetPatientAppointment(int pID)
+        {
+            PatientAppointment patientAppointment = null;
+            DoctorSqlHandler doctorSql = new DoctorSqlHandler();
+            String query = doctorSql.AppointmentQuerier();
+
+            DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
+
+            using (SqlConnection connection = dbConn.ConnectToDatabase())
+            {
+                SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
+                cmd.Parameters.Add("@apptDate", SqlDbType.DateTime).Value = DateTime.Now.Date;
+                cmd.Parameters.Add("@patientID", SqlDbType.Int).Value = pID;
+                try
+                {
+                    connection.Open();
+                    SqlDataReader dataReader = cmd.ExecuteReader();
+
+                    while (dataReader.Read())
+                    {
+                        int visitId = dataReader.GetInt32(0);
+                        int patientId = dataReader.GetInt32(1);
+                        DateTime apptDate = dataReader.GetDateTime(2);
+                        TimeSpan apptTime = dataReader.GetTimeSpan(3);
+                        decimal cost = dataReader.GetDecimal(4);
+                        string receptNote = dataReader.GetString(5);
+                        string nurseNote = dataReader.GetString(6);
+                        string doctorNote = dataReader.GetString(7);
+
+                        patientAppointment = new PatientAppointment(visitId, patientId, apptDate, apptTime, cost, receptNote, nurseNote, doctorNote);
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Error reading from database.");
+                }
+
+
+            }
+            return patientAppointment;
+        }
+
         private void AddNewPrescription(Prescription prescription)
         {
             DoctorSqlHandler doctorSql = new DoctorSqlHandler();
             string query = doctorSql.UpdatePatientPrecriptionQuerier();
-
             DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
 
             using (SqlConnection connection = dbConn.ConnectToDatabase())
@@ -226,6 +319,7 @@ namespace Project_2_EMS
                 cmd.Parameters.Add("@prescriptionName", SqlDbType.Text).Value = prescription.PrescriptionName;
                 cmd.Parameters.Add("@prescriptionNotes", SqlDbType.Text).Value = prescription.PresciprtionNotes;
                 cmd.Parameters.Add("@refills", SqlDbType.TinyInt).Value = prescription.Refills;
+
 
 
                 try
