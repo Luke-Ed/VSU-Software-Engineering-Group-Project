@@ -41,6 +41,7 @@ namespace Project_2_EMS
         private void InitializeHeadLabels()
         {
             weekDate = DateTime.Now.AddDays(Convert.ToDouble(DateTime.Now.DayOfWeek.ToString("d")) * -1.0);
+            ApptCalendar.SelectedDate = DateTime.Now.Date;
             AppointmentWeek.Content = weekDate.ToString("Week o\\f MMMM dd, yyyy");
             SignInDate.Content = DateTime.Now.Date.ToLongDateString();
         }
@@ -588,6 +589,26 @@ namespace Project_2_EMS
                     break;
                 case MessageBoxResult.No:
                     break;
+            }
+        }
+
+        private void NextPrevWeekBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Button btn = e.Source as Button;
+
+            DateTime date = (DateTime)ApptCalendar.SelectedDate;
+            DateTime nextWeek = date.AddDays(7);
+            DateTime prevWeek = date.AddDays(-7);
+
+            if (btn.Content.ToString() == "Next")
+            {
+                ApptCalendar.SelectedDate = nextWeek;
+                ApptCalendar.DisplayDate = nextWeek;
+            }
+            else
+            {
+                ApptCalendar.SelectedDate = prevWeek;
+                ApptCalendar.DisplayDate = prevWeek;
             }
         }
     }
