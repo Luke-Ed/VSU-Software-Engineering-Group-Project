@@ -117,7 +117,7 @@ namespace Project_2_EMS
         private void GetPatientAppointments()
         {
             SharedSqlHandler rcsql = new SharedSqlHandler();
-            string query = rcsql.AppointmentQuerier();
+            string query = rcsql.AppointmentQuerier("DateRange");
 
             DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
 

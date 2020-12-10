@@ -36,9 +36,10 @@
     <!-- This is the main work panel -->
     <Grid Grid.Column="1" Background="#FF7C7C7C" Name="WorkPanel">
       <!-- Your views go here -->
-      <Grid Name="TodayAppointments">
+      <Grid Name="PatientLookup">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="5*" />
+          <ColumnDefinition Width="45*" />
           <ColumnDefinition Width="45*" />
           <ColumnDefinition Width="45*"/>
           <ColumnDefinition Width="5*"/>
@@ -46,20 +47,35 @@
         <Grid.RowDefinitions>
           <RowDefinition Height="2.5*" />
           <RowDefinition Height="5*"/>
-          <RowDefinition Height="90*" />
+          <RowDefinition Height="5*"/>
+          <RowDefinition Height="28*" />
+          <RowDefinition Height="28*" />
+          <RowDefinition Height="28*" />
           <RowDefinition Height="2.5*" />
         </Grid.RowDefinitions>
         
-        <Label Grid.Column="1" Grid.Row="1" Content="Patient Name:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-        <TextBox Grid.Column="2" Grid.Row="1" Name="Today_PatientSearch_TB" TextChanged="Today_PatientSearch_TB_OnTextChanged"/>
+        <Label Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Content="Patient Lookup" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
         
-        <DataGrid Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Name="Today_Dg_Patients" AutoGenerateColumns="False" Margin="15" >
+        <Label Grid.Column="1" Grid.Row="2" Content="Patient Name:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        
+        <TextBox Grid.Column="2" Grid.Row="2" Name="Today_PatientSearch_TB" TextChanged="Today_PatientSearch_TB_OnTextChanged"/>
+        
+        <DataGrid Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" Name="Lookup_Dg_Patients" AutoGenerateColumns="False" Margin="15" SelectionChanged="Lookup_Dg_Patients_OnSelectionChanged">
           <DataGrid.Columns>
             <DataGridTextColumn Header="Patient ID" Binding="{Binding PatientId, Mode=OneWay}" Width="70"/>
             <DataGridTextColumn Header="Last Name" Binding="{Binding LastName, Mode=OneWay}" Width="150"/>
             <DataGridTextColumn Header="First Name" Binding="{Binding FirstName, Mode=OneWay}" Width="150"/>
           </DataGrid.Columns>
         </DataGrid>
+        
+        <DataGrid Grid.Column="1" Grid.Row="4" Name="Lookup_Dg_Appointments" AutoGenerateColumns="False" Margin="15" >
+          <DataGrid.Columns>
+            <DataGridTextColumn Header="Visit ID" Binding="{Binding VisitId, Mode=OneWay}" Width="50"/>
+            <DataGridTextColumn Header="Date" Binding="{Binding ApptDate, Mode=OneWay}" Width="70"/>
+          </DataGrid.Columns>
+        </DataGrid>
+        
+        <TextBlock Grid.Column="2" Grid.Row="4" Name="ReceptNote_TA" />
         
       </Grid>
     </Grid>

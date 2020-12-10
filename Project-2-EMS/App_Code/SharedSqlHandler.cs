@@ -6,10 +6,22 @@ using System.Threading.Tasks;
 
 namespace Project_2_EMS.App_Code {
     class SharedSqlHandler {
-        public string AppointmentQuerier() {
-            String query = "SELECT * " +
-                           "FROM Appointments " +
-                           "WHERE ApptDate BETWEEN @ApptStartDate AND @ApptEndDate;";
+        public string AppointmentQuerier(String mode) {
+          String query = String.Empty;
+          switch (mode) {
+            case "DateRange":
+              query = "SELECT * " +
+                      "FROM Appointments " +
+                      "WHERE ApptDate BETWEEN @ApptStartDate AND @ApptEndDate;";
+              break;
+            case "PatientId":
+              query = "SELECT * " +
+                      "FROM Appointments " +
+                      "WHERE PatientID = @PatientId";
+              break;
+            default:
+              break;
+          }
             return query;
         }
 

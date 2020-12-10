@@ -13,8 +13,8 @@ namespace Project_2_EMS {
   /// </summary>
   public partial class NurseView {
     private readonly Window _parentWindow;
-    private DatabaseConnectionManager dbConnMgr = new DatabaseConnectionManager();
-    private SharedSqlHandler sharedSqlHandler = new SharedSqlHandler();
+    private readonly DatabaseConnectionManager _dbConnMgr = new DatabaseConnectionManager();
+    private readonly SharedSqlHandler _sharedSqlHandler = new SharedSqlHandler();
 
     public NurseView(Window parentWindow) {
       _parentWindow = parentWindow;
@@ -24,18 +24,17 @@ namespace Project_2_EMS {
 
     private void LogOutButton_Click(object sender, RoutedEventArgs e) {
       Hide();
-      var mainWindow = _parentWindow;
+      Window mainWindow = _parentWindow;
       mainWindow.Show();
     }
 
     private void OnWindowClosing(object sender, CancelEventArgs e) {
-      var mainWindow = _parentWindow;
+      Window mainWindow = _parentWindow;
       mainWindow.Close();
-      Close();
     }
     
     private void Today_PatientSearch_TB_OnTextChanged(object sender, TextChangedEventArgs e) {
-      DataGrid todayPatientsDg = Today_Dg_Patients;
+      DataGrid todayPatientsDg = Lookup_Dg_Patients;
       
       todayPatientsDg.ItemsSource = null;
       todayPatientsDg.Items.Refresh();
@@ -43,39 +42,83 @@ namespace Project_2_EMS {
       PopulateDataGrid(todayPatientsDg, "Name");
     }
 
-    private void PopulateDataGrid(DataGrid dataGrid, String filter) {
-      String query = String.Empty;
-      SqlConnection connection = dbConnMgr.ConnectToDatabase();
-      List<Patient> patients = new List<Patient>();
+    private void Lookup_Dg_Patients_OnSelectionChanged(object sender, SelectionChangedEventArgs e) {
+      DataGrid appointmentDataGrid = Lookup_Dg_Appointments;
+
+      Patient patient = (Patient) Lookup_Dg_Patients.SelectedItem;
+      
+      appointmentDataGrid.ItemsSource = null;
+      appointmentDataGrid.Items.Refresh();
+      
+      PopulateDataGrid(appointmentDataGrid, "AppointmentLookup", patient);
+    }
+    
+    private void PopulateDataGrid(DataGrid dataGrid, String filter, Patient patient = null) {
+      SqlConnection connection = _dbConnMgr.ConnectToDatabase();
+      SqlCommand cmd = new SqlCommand {Connection = connection};
+      SqlDataReader dataReader;
       
       switch (filter) {
+        case "AppointmentLookup": {
+          List<PatientAppointment> appointments = new List<PatientAppointment>();
+          if (patient == null) {
+            throw new Exception("No Patient Selected");
+          }
+          cmd.CommandText = _sharedSqlHandler.AppointmentQuerier("PatientID");
+          cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = patient.PatientId;
+
+          connection.Open();
+          dataReader = cmd.ExecuteReader();
+
+          while (dataReader.Read()) {
+            int visitId = dataReader.GetInt32(0);
+            int patientId = dataReader.GetInt32(1);
+            DateTime apptDate = dataReader.GetDateTime(2);
+            TimeSpan apptTime = dataReader.GetTimeSpan(3);
+            decimal cost = dataReader.GetDecimal(4);
+            string receptNote = dataReader.GetString(5);
+            string nurseNote = dataReader.GetString(6);
+            string doctorNote = dataReader.GetString(7);
+
+            PatientAppointment appointment = new PatientAppointment(visitId, patientId, apptDate, apptTime, cost, receptNote, nurseNote, doctorNote);
+            appointments.Add(appointment);
+          }
+          dataReader.Close();
+          dataGrid.ItemsSource = appointments;
+          
+          break;
+        }
         case "Date":
-          query = sharedSqlHandler.AppointmentQuerier();
+          cmd.CommandText = _sharedSqlHandler.AppointmentQuerier("DateRange");
           break;
         case "Name":
-          query = sharedSqlHandler.PatientNameQuerier();
-          SqlCommand cmd = new SqlCommand {Connection = connection, CommandText = query};
-          cmd.Parameters.Add("@firstName", SqlDbType.Text).Value = Today_PatientSearch_TB.Text;
-          cmd.Parameters.Add("@lastName", SqlDbType.Text).Value = Today_PatientSearch_TB;
+          List<Patient> patientsNames = new List<Patient>();
+          String input = "%" + Today_PatientSearch_TB.Text + "%";
+          
+          cmd.CommandText = _sharedSqlHandler.PatientNameQuerier();
+          cmd.Parameters.Add("@firstName", SqlDbType.Text).Value = input;
+          cmd.Parameters.Add("@lastName", SqlDbType.Text).Value = input;
           
           connection.Open();
-          SqlDataReader dataReader = cmd.ExecuteReader();
+          dataReader = cmd.ExecuteReader();
 
           while (dataReader.Read()) {
             int patientId = dataReader.GetInt32(0);
             String lastName = dataReader.GetString(1);
             String firstName = dataReader.GetString(2);
             
-            Patient patient = new Patient(patientId, firstName, lastName);
-            patients.Add(patient);
+            Patient patientFromDb = new Patient(patientId, firstName, lastName);
+            patientsNames.Add(patientFromDb);
           }
           
           dataReader.Close();
-          dataGrid.ItemsSource = patients;
+          dataGrid.ItemsSource = patientsNames;
           break;
         default:
           throw new Exception("This shouldn't be possible.");
       }
     }
+
+    
   }
 }
