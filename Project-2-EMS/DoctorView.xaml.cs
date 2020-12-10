@@ -209,5 +209,35 @@ namespace Project_2_EMS
                 dataGrid.ItemsSource = prescriptions;
             }
         }
+
+        private void AddNewPrescription(Prescription prescription)
+        {
+            DoctorSqlHandler doctorSql = new DoctorSqlHandler();
+            string query = doctorSql.UpdatePatientPrecriptionQuerier();
+
+            DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
+
+            using (SqlConnection connection = dbConn.ConnectToDatabase())
+            {
+                SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
+                cmd.Parameters.Add("@prescriptionID", SqlDbType.Int).Value = prescription.PrescriptionID;
+                cmd.Parameters.Add("@patientID", SqlDbType.Int).Value = prescription.PatientID;
+                cmd.Parameters.Add("@visitID", SqlDbType.Int).Value = prescription.VisitID;
+                cmd.Parameters.Add("@prescriptionName", SqlDbType.Text).Value = prescription.PrescriptionName;
+                cmd.Parameters.Add("@prescriptionNotes", SqlDbType.Text).Value = prescription.PresciprtionNotes;
+                cmd.Parameters.Add("@refills", SqlDbType.TinyInt).Value = prescription.Refills;
+
+
+                try
+                {
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Error when attempting to add new patient to database.");
+                }
+            }
+        }
     }
 }

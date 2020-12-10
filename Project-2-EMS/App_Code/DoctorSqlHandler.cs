@@ -28,8 +28,8 @@ namespace Project_2_EMS.App_Code
 
         public string UpdatePatientPrecriptionQuerier()
         {
-            String query = "INSERT INTO Preciption (" +
-                            "VALUES ";
+            String query = "INSERT INTO PatientInfo ([PrescriptionID], [PatientID], [VisitID], [PrescriptionName], [PrescriptionNotes], [Refills]) " +
+                           "VALUES (@prescriptionID,@patientID,@visitID,@prescriptionName,@prescriptionNotes,@refills)";
 
             return query;
         }
@@ -40,5 +40,7 @@ namespace Project_2_EMS.App_Code
                             "FROM Prescription";
             return query;
         }
+
+
     }
 }
