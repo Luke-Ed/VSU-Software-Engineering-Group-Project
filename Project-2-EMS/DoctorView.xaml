@@ -34,7 +34,7 @@
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="3*"/>
-                <RowDefinition Height="50"/> 
+                <RowDefinition Height="50"/>
 
             </Grid.RowDefinitions>
 
@@ -68,7 +68,7 @@
                     <DataGridTextColumn Header="Id" Width="75" CanUserResize="False" Binding="{Binding PatientId, Mode=OneWay}"/>
                     <DataGridTextColumn Header="Last Name" Width="150" CanUserResize="False" Binding="{Binding LastName, Mode=OneWay}" />
                     <DataGridTextColumn Header="First Name" Width="150" CanUserResize="False" Binding="{Binding FirstName, Mode=OneWay}" />
-                    
+
                 </DataGrid.Columns>
 
 
@@ -83,10 +83,10 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
-                    <RowDefinition Height="100"/>
-                    <RowDefinition Height="100"/>
-                    <RowDefinition Height="100"/>
-                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="80"/>
+                    <RowDefinition Height="80"/>
+                    <RowDefinition Height="150"/>
+                    <RowDefinition Height="150"/>
                     <RowDefinition Height="4*"/>
 
                 </Grid.RowDefinitions>
@@ -97,8 +97,8 @@
 
                 </Grid>
                 <Grid Grid.Row="1">
-                    <Label Content="First Name" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="24" Height="43" Margin="0,6,0,51"/>
-                    <Label Content="Last Name" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="24" Height="36" Margin="0,55,0,10"/>
+                    <Label Content="First Name" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="24" Height="43" Margin="0,5,0,50"/>
+                    <Label Content="Last Name" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="24" Height="36" Margin="0,30,0,10"/>
                     <Label Content=""/>
 
 
@@ -107,15 +107,37 @@
 
                 </Grid>
                 <Grid Grid.Row="2">
-                    <Label Content="Patient ID"  />
+                    <Label Content="Patient ID:" FontSize="24" Margin="0,0,0,0"  />
+                    <Label Content="Address:" FontSize="24" Margin="0,30,0,10" />
 
                 </Grid>
 
                 <Grid Grid.Row="3">
-                    
-                    
-                    
+                    <Label Content="Percriptions" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+                    <ListBox HorizontalAlignment="Left" Height="130" Margin="140,10,0,0" VerticalAlignment="Top" Width="720">
+                        
+                    </ListBox>
+
+
                 </Grid>
+                <Grid Grid.Row="4">
+                    <Label Content="Prescription ID:" FontSize="24"/>
+                    <Label Content="Prescription Name:" FontSize="24" Margin="0,35,0,0"/>
+                    <Label Content="Prescription Dosage:" FontSize="24" Margin="0,65,0,0"/>
+                    <Label Content="Prescription Refills:" FontSize="24" Margin="0,100,0,0"/>
+                    <TextBox Name="PrescriptionID_Text" Margin="225,0,345,120" FontSize="24"/>
+                    <TextBox Name="PrescriptionName_Text" Margin="225,35,345,85" FontSize="24"/>
+                    <TextBox Name="PrescriptionDosage_Text" Margin="225,70,345,50" FontSize="24"/>
+                    <TextBox Name="PrescriptionRefills_Text" Margin="225,105,345,15" FontSize="24"/>
+
+                </Grid>
+                <Grid Grid.Row="5">
+                    <Label Content="Doctors Note" FontSize="30" HorizontalAlignment="Center"/>
+                    <TextBox Name="DoctorNote_Text" Margin="5,50,5,5"/>
+
+                </Grid>
+
 
             </Grid>
         </Grid>
