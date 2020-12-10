@@ -34,20 +34,21 @@
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="3*"/>
-                
+                <RowDefinition Height="50"/> 
+
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0">
                 <Label  Content="Patient Information" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="45"/>
-                
+
             </Grid>
-            
+
             <Grid Grid.Row="1" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
-                
+
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
@@ -67,11 +68,15 @@
                     <DataGridTextColumn Header="Id" Width="75" CanUserResize="False" Binding="{Binding PatientId, Mode=OneWay}"/>
                     <DataGridTextColumn Header="Last Name" Width="150" CanUserResize="False" Binding="{Binding LastName, Mode=OneWay}" />
                     <DataGridTextColumn Header="First Name" Width="150" CanUserResize="False" Binding="{Binding FirstName, Mode=OneWay}" />
+                    
                 </DataGrid.Columns>
 
 
             </DataGrid>
 
+            <Grid Grid.Row="3">
+                <Button  Content="View" Width="80" Height="30" FontSize="24" Click="ViewPatient_Click"/>
+            </Grid>
 
         </Grid>
         <Grid Name="ViewPatientInformation_Grid" Grid.Column="1" Background="White" Visibility="Visible">
@@ -89,13 +94,29 @@
 
                 <Grid Grid.Row="0">
                     <Label Content="Patient Information" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="45"/>
-                    
+
                 </Grid>
                 <Grid Grid.Row="1">
+                    <Label Content="First Name" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="24" Height="43" Margin="0,6,0,51"/>
+                    <Label Content="Last Name" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="24" Height="36" Margin="0,55,0,10"/>
+                    <Label Content=""/>
+
+
+
+
+
+                </Grid>
+                <Grid Grid.Row="2">
+                    <Label Content="Patient ID"  />
+
+                </Grid>
+
+                <Grid Grid.Row="3">
+                    
                     
                     
                 </Grid>
-                
+
             </Grid>
         </Grid>
 

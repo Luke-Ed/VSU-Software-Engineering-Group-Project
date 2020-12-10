@@ -51,6 +51,17 @@ namespace Project_2_EMS
             var mainWindow = _parentWindow;
             mainWindow.Close();
         }
+        private Boolean IsPatientSelected()
+        {
+            Boolean isValid = true;
+
+            foreach (UIElement child in Patient_Information_Grid.Children)
+            {
+                _ = child as DataGrid != null ? (child as DataGrid).SelectedIndex < 0 ? isValid = false : true : true;
+            }
+
+            return isValid;
+        }
 
 
         private void SearchBtn_Click(object sender, RoutedEventArgs e)
@@ -106,5 +117,18 @@ namespace Project_2_EMS
 
         }
 
+        private void ViewPatient_Click(object sender, RoutedEventArgs e)
+        {
+            if (IsPatientSelected())
+            {
+                Patient_Information_Grid.Visibility = Visibility.Hidden;
+                ViewPatientInformation_Grid.Visibility = Visibility.Visible;
+
+
+            }
+
+
+
+        }
     }
 }
