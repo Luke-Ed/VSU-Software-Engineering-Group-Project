@@ -20,7 +20,7 @@ namespace Project_2_EMS.App_Code
         public string PerscriptionQuerier()
         {
             string query = "SELECT * " +
-                           "FROM Precription " +
+                           "FROM Prescription " +
                            "WHERE PatientID = @patientID";
 
             return query;
@@ -29,8 +29,15 @@ namespace Project_2_EMS.App_Code
         public string UpdatePatientPrecriptionQuerier()
         {
             String query = "INSERT INTO Preciption (" +
-                            "VALUES "
+                            "VALUES ";
 
+            return query;
+        }
+
+        public string PrescriptionNumberQuerier()
+        {
+            String query = "SELECT COUNT(*) " +
+                            "FROM Prescription";
             return query;
         }
     }

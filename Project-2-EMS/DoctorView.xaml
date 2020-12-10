@@ -115,14 +115,14 @@
 
                 </Grid>
 
-                <Grid Grid.Row="3">
+                <Grid Grid.Row="3" Name="PrescriptionDataGridParent">
                     <Label Content="Percriptions" FontSize="24" VerticalAlignment="Center" Height="134" Margin="300,-38,427,54"/>
                     <DataGrid Margin="15,10,15,15" AutoGenerateColumns="False" FontSize="20">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Id" Width="150" CanUserResize="False" Binding="{Binding PerscriptionID, Mode=OneWay}"/>
-                            <DataGridTextColumn Header="Name" Width="150" CanUserResize="False" Binding="{Binding PerscriptionName, Mode=OneWay}" />
-                            <DataGridTextColumn Header="Dosage" Width="150" CanUserResize="False" Binding="{Binding PerscriptionDosage, Mode=OneWay}" />
-                            <DataGridTextColumn Header="Refills" Width="150" CanUserResize="False" Binding="{Binding PerscriptionDosage, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Id" Width="150" CanUserResize="False" Binding="{Binding PrescriptionID, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Name" Width="150" CanUserResize="False" Binding="{Binding PrescriptionName, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Refills" Width="150" CanUserResize="False" Binding="{Binding Refills, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Notes" Width="1*" CanUserResize="False" Binding="{Binding PresciprtionNotes, Mode=OneWay}" />
                         </DataGrid.Columns>
 
 
@@ -132,14 +132,12 @@
 
                 </Grid>
                 <Grid Grid.Row="4">
-                    <Label Content="Prescription ID:" FontSize="24"/>
                     <Label Content="Prescription Name:" FontSize="24" Margin="0,35,0,0"/>
-                    <Label Content="Prescription Dosage:" FontSize="24" Margin="0,65,0,0"/>
+                    <Label Content="Prescription Notes:" FontSize="24" Margin="0,65,0,0"/>
                     <Label Content="Prescription Refills:" FontSize="24" Margin="0,100,0,0"/>
-                    <TextBox Name="PrescriptionID_Text" Margin="225,0,345,120" FontSize="24"/>
-                    <TextBox Name="PrescriptionName_Text" Margin="225,35,345,85" FontSize="24"/>
-                    <TextBox Name="PrescriptionDosage_Text" Margin="225,70,345,50" FontSize="24"/>
-                    <TextBox Name="PrescriptionRefills_Text" Margin="225,105,345,15" FontSize="24"/>
+                    <TextBox Name="PrescriptionName_Text" Margin="225,35,345,85" FontSize="24" MaxLength="25"/>
+                    <TextBox Name="PrescriptionNotes_Text" Margin="225,70,345,50" FontSize="24" MaxLength="50"/>
+                    <TextBox Name="PrescriptionRefills_Text" Margin="225,105,345,15" FontSize="24" MaxLength="1"/>
                     <Button Margin="588,45,108,50" Content="Add" FontSize="32" Click="AddPerscription_Click"/>
 
                 </Grid>

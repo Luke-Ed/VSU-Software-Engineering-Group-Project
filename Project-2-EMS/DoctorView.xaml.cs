@@ -143,6 +143,7 @@ namespace Project_2_EMS
                 address.Content = patient.Address;
                 patientID.Content = patient.PatientId;
 
+                PopulatePrescriptionDataGrid(patient.PatientId);
 
 
 
@@ -159,8 +160,9 @@ namespace Project_2_EMS
 
         }
 
-        private void PopulatePrecirptionDataGrid(int pID)
+        private void PopulatePrescriptionDataGrid(int pID)
         {
+            List<Prescription> prescriptions = new List<Prescription>();
             DoctorSqlHandler doctorSqlHandler = new DoctorSqlHandler();
             String query = doctorSqlHandler.PerscriptionQuerier();
 
@@ -172,8 +174,8 @@ namespace Project_2_EMS
                 cmd.Parameters.Add("@patientID", SqlDbType.Int).Value = pID;
                 
 
-                try
-                {
+                //try
+                //{
                     connection.Open();
                     SqlDataReader dataReader = cmd.ExecuteReader();
 
@@ -184,16 +186,27 @@ namespace Project_2_EMS
                         int visitID = dataReader.GetInt32(2);
                         string prescriptionName = dataReader.GetString(3);
                         string prescriptionNotes = dataReader.GetString(4);
-                        int refills = dataReader.GetInt32(5);
+                        int refills = dataReader.GetByte(5);
 
+                        Prescription prescription = new Prescription(prescriptionID, patientId, visitID, prescriptionName, prescriptionNotes, refills);
+                        prescriptions.Add(prescription);
                         
                     }
 
-                }
-                catch (Exception ex)
+                //}
+                //catch (Exception ex)
+                //{
+                    //MessageBox.Show("Error reading from database.");
+                //}
+                DataGrid dataGrid = new DataGrid();
+                foreach (UIElement child in PrescriptionDataGridParent.Children)
                 {
-                    MessageBox.Show("Error reading from database.");
+                    if (child as DataGrid != null)
+                    {
+                        dataGrid = child as DataGrid;
+                    }
                 }
+                dataGrid.ItemsSource = prescriptions;
             }
         }
     }
