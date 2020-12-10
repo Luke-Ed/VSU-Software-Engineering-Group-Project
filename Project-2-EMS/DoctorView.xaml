@@ -19,15 +19,13 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="60"   />
                 <RowDefinition Height="60"   />
-                <RowDefinition Height="60"   />
                 <RowDefinition Height="*"    />
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
 
             <!-- Image can be filled with our logo -->
             <Image Grid.Row="0" Height="50" Source="App_Resources/EdmondsonInternalMedicine.png"/>
-            <Button Name="Patient_Information" Content="Patient Information" Grid.Row="1" Height="50" FontSize="18" Click="Patient_Information_Click" />
-            <Button Name="Update_Patient_Info" Content="Update Patient Information" Grid.Row="2" Height="50" FontSize="18" Click="Update_Patient_Info_Click" />
+            <Button Name="Patient_Information" Content="Patient Information" Grid.Row="1" Height="50" FontSize="18" />
             <Button Content="Log Out" Grid.Row="4" Height="50" FontSize="18" Click="LogOutButton_Click"  />
 
         </Grid>
@@ -36,20 +34,21 @@
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="3*"/>
-                
+                <RowDefinition Height="50"/>
+
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0">
                 <Label  Content="Patient Information" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="45"/>
-                
+
             </Grid>
-            
+
             <Grid Grid.Row="1" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
-                
+
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
@@ -58,18 +57,98 @@
                 <Label Grid.Row="0" Grid.Column="0" Content="First Name" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="32" Margin="0,0,0,5" />
                 <Label Grid.Row="1" Grid.Column="0" Content="Last Name" VerticalAlignment="Top" HorizontalAlignment="Right" FontSize="32"  />
 
-                <TextBox Name="First_Name" Grid.Row="0" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="45"  Width="300" Margin="10,0,0,5" MaxLength="15"/>
-                <TextBox Name="Last_Name" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Height="45"  Width="300" Margin="10,5,0,0" MaxLength="15"/>
-                    
-        
-                       
-            </Grid>
-            
+                <TextBox Name="First_Name" Grid.Row="0" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="45"  Width="300" Margin="10,0,0,5" MaxLength="15" FontSize="30"/>
+                <TextBox Name="Last_Name" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Height="45"  Width="300" Margin="10,5,0,0" MaxLength="15" FontSize="30"/>
 
+                <Button Content="Search" Grid.Column="1" Margin="358,47,43,47" Grid.RowSpan="2" FontSize="32" Click="SearchBtn_Click"/>
+
+            </Grid>
+            <DataGrid Grid.Row="2" Margin="15" AutoGenerateColumns="False" FontSize="20">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Width="75" CanUserResize="False" Binding="{Binding PatientId, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="Last Name" Width="150" CanUserResize="False" Binding="{Binding LastName, Mode=OneWay}" />
+                    <DataGridTextColumn Header="First Name" Width="150" CanUserResize="False" Binding="{Binding FirstName, Mode=OneWay}" />
+
+                </DataGrid.Columns>
+
+
+            </DataGrid>
+
+            <Grid Grid.Row="3">
+                <Button  Content="View" Width="80" Height="40" FontSize="24" Click="ViewPatient_Click"/>
+            </Grid>
 
         </Grid>
-        <Grid Name="Update_Patient_Info_Grid" Grid.Column="1" Background="Cyan" Visibility="Hidden">
-            
+        <Grid Name="ViewPatientInformation_Grid" Grid.Column="1" Background="White" Visibility="Hidden">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="80"/>
+                    <RowDefinition Height="80"/>
+                    <RowDefinition Height="150"/>
+                    <RowDefinition Height="150"/>
+                    <RowDefinition Height="4*"/>
+
+                </Grid.RowDefinitions>
+
+
+                <Grid Grid.Row="0">
+                    <Label Content="Patient Information" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="45"/>
+
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Label Content="First Name:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="24" Height="43" Margin="0,5,0,50"/>
+                    <Label Content="Last Name:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="24" Height="36" Margin="0,30,0,10"/>
+                    <Label Name= "firstName" FontSize="24" Margin="129,-4,490,32" Content=""/>
+                    <Label Name= "lastName" FontSize="24" Margin="129,32,510,10" Content=""/>
+
+
+
+
+
+                </Grid>
+                <Grid Grid.Row="2">
+                    <Label Content="Patient ID:" FontSize="24" Margin="0,0,0,0"  />
+                    <Label Content="Address:" FontSize="24" Margin="0,30,0,10" />
+                    <Label Name= "patientID" FontSize="24" Margin="129,-4,490,32" Content=""/>
+                    <Label Name= "address" FontSize="24" Margin="129,32,510,10" Content=""/>
+
+                </Grid>
+
+                <Grid Grid.Row="3" Name="PrescriptionDataGridParent">
+                    <Label Content="Percriptions" FontSize="24" VerticalAlignment="Center" Height="134" Margin="300,-38,427,54"/>
+                    <DataGrid Margin="15,10,15,15" AutoGenerateColumns="False" FontSize="20">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id" Width="150" CanUserResize="False" Binding="{Binding PrescriptionID, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Name" Width="150" CanUserResize="False" Binding="{Binding PrescriptionName, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Refills" Width="150" CanUserResize="False" Binding="{Binding Refills, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Notes" Width="1*" CanUserResize="False" Binding="{Binding PresciprtionNotes, Mode=OneWay}" />
+                        </DataGrid.Columns>
+
+
+                    </DataGrid>
+
+
+
+                </Grid>
+                <Grid Grid.Row="4">
+                    <Label Content="Prescription Name:" FontSize="24" Margin="0,35,0,0"/>
+                    <Label Content="Prescription Notes:" FontSize="24" Margin="0,65,0,0"/>
+                    <Label Content="Prescription Refills:" FontSize="24" Margin="0,100,0,0"/>
+                    <TextBox Name="PrescriptionName_Text" Margin="225,35,345,85" FontSize="24" MaxLength="25"/>
+                    <TextBox Name="PrescriptionNotes_Text" Margin="225,70,345,50" FontSize="24" MaxLength="50"/>
+                    <TextBox Name="PrescriptionRefills_Text" Margin="225,105,345,15" FontSize="24" MaxLength="1"/>
+                    <Button Margin="588,45,108,50" Content="Add" FontSize="32" Click="AddPerscription_Click"/>
+
+                </Grid>
+                <Grid Grid.Row="5">
+                    <Label Content="Doctors Note" FontSize="30" HorizontalAlignment="Center"/>
+                    <TextBox Name="DoctorNote_Text" Margin="5,50,5,5" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"/>
+
+                </Grid>
+
+
+            </Grid>
         </Grid>
 
 
