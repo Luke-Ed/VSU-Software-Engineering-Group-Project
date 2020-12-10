@@ -79,7 +79,12 @@
     <Compile Include="App_Code\DoctorSqlHandler.cs" />
     <Compile Include="App_Code\PatientAppointment.cs" />
     <Compile Include="App_Code\PatientLogin.cs" />
+<<<<<<< HEAD
     <Compile Include="App_Code\SharedSqlHandler.cs" />
+=======
+    <Compile Include="App_Code\Prescription.cs" />
+    <Compile Include="App_Code\ReceptionSqlHandler.cs" />
+>>>>>>> master
     <Compile Include="App_Code\StaffMember.cs" />
     <Compile Include="App_Code\NurseSqlHandler.cs" />
     <Compile Include="App_Code\Patient.cs" />
