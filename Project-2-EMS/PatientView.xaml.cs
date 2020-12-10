@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Project_2_EMS.App_Code;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Windows;
-using Project_2_EMS.App_Code;
+
 
 namespace Project_2_EMS {
   /// <summary>
@@ -35,14 +36,14 @@ namespace Project_2_EMS {
 
     //Fills the Appointment List with appointments for the logged-in patient.
     private void FillAppointmentList(){
-      var items = new List<SimpleAppointment>();
+      var appointmentList = new List<PatientAppointment>();
       String connectionString = ConfigurationManager.ConnectionStrings["MDR_ConnStr"].ConnectionString;
       SqlConnection connection = new SqlConnection(connectionString);
-      SimpleAppointment appointment;
+      PatientAppointment appointment;
             
       SqlCommand cmd = new SqlCommand(){
         Connection = connection,
-        CommandText = "SELECT ApptDate, Cost, ReceptNote, NurseNote, DoctorNote, VisitID FROM Appointments WHERE PatientID = " + _patient.PatientId
+        CommandText = "SELECT * FROM Appointments WHERE PatientID = " + _patient.PatientId
       };
             
       connection.Open();
@@ -50,25 +51,22 @@ namespace Project_2_EMS {
       SqlDataReader dataReader = cmd.ExecuteReader();
 
       while (dataReader.Read()){
-        DateTime apptDate = dataReader.GetDateTime(0);
-        String apptDateString = apptDate.ToString();
-        decimal cost = dataReader.GetDecimal(1);
-        String receptionistNote = dataReader.GetString(2);
-        String nurseNote = dataReader.GetString(3);
-        String doctorNote = dataReader.GetString(4);
-        int visitID = dataReader.GetInt32(5);
+        int visitId = dataReader.GetInt32(0);
+        int patientId = dataReader.GetInt32(1);
+        DateTime apptDate = dataReader.GetDateTime(2);
+        TimeSpan apptTime = dataReader.GetTimeSpan(3);
+        decimal cost = dataReader.GetDecimal(4);
+        String receptionistNote = dataReader.GetString(5);
+        String nurseNote = dataReader.GetString(6);
+        String doctorNote = dataReader.GetString(7);
 
-        appointment = new SimpleAppointment() {ApptDate = apptDateString, Cost = cost, ReceptionistNotes = receptionistNote,
-          NurseNotes = nurseNote, DoctorNotes = doctorNote, VisitID = visitID};
-        items.Add(appointment);
+        appointment = new PatientAppointment(visitId, patientId, apptDate, apptTime, cost, receptionistNote, nurseNote, doctorNote);
+        appointmentList.Add(appointment);
       }
 
       connection.Close();
 
-      AppointmentList.ItemsSource = items;
-
-      AppointmentList.Visibility = Visibility.Hidden;
-      AppointmentList.Visibility = Visibility.Visible;
+      AppointmentList.ItemsSource = appointmentList;
     }
 
     //Fills the Prescription List for medicines prescribed from the selected appointment.
@@ -80,7 +78,7 @@ namespace Project_2_EMS {
 
       SqlCommand cmd = new SqlCommand(){
         Connection = connection,
-        CommandText = "SELECT PrescriptionName, PrescriptionNotes, Refills FROM Prescription WHERE VisitID = " + visitID
+        CommandText = "SELECT * FROM Prescription WHERE VisitID = " + visitID
       };
 
       connection.Open();
@@ -88,11 +86,14 @@ namespace Project_2_EMS {
       SqlDataReader dataReader = cmd.ExecuteReader();
 
       while (dataReader.Read()){
-        String prescriptionName = dataReader.GetString(0);
-        String prescriptionNotes = dataReader.GetString(1);
-        int refills = dataReader.GetByte(2);
+        int prescriptionId = dataReader.GetInt32(0);
+        int patientId = dataReader.GetInt32(1);
+        int visitId = dataReader.GetInt32(2);
+        String prescriptionName = dataReader.GetString(3);
+        String prescriptionNotes = dataReader.GetString(4);
+        byte refills = dataReader.GetByte(5);
 
-        prescription = new Prescription() {Name = prescriptionName, Notes = prescriptionNotes, Refills = refills };
+        prescription = new Prescription(prescriptionId, patientId, visitId, prescriptionName, prescriptionNotes, refills);
         items.Add(prescription);
       }
 
@@ -107,10 +108,10 @@ namespace Project_2_EMS {
 
     //Event handler that fills and shows the Prescription List upon clicking an appointment from the list.
     private void AppointmentList_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e){
-      SimpleAppointment appt = (SimpleAppointment)AppointmentList.SelectedItem;
+      PatientAppointment appt = (PatientAppointment)AppointmentList.SelectedItem;
       if (appt != null){
-        int visitID = appt.VisitID;
-        FillPrescriptionList(visitID);
+        int visitId = appt.VisitId;
+        FillPrescriptionList(visitId);
       }
     }
 
@@ -131,35 +132,6 @@ namespace Project_2_EMS {
     private void SetGreeting(){
       if(_patient.FirstName != "")
         WelcomeLabel.Content = "Welcome, " + _patient.FirstName + "!";
-    }
-
-    public class Prescription {
-      public string Name { get; set; }
-      public string Notes { get; set; }
-      public int Refills { get; set; }
-
-      public override string ToString() {
-        return "Prescription Name: " + Name +
-               "\n Doctor's Notes: " + Notes +
-               "\n Refills Remaining: " + Refills + "\n\n\n";
-      }
-    }
-
-    public class SimpleAppointment{
-      public int VisitID { get; set; }
-      public string ApptDate { get; set;  }
-      public decimal Cost { get; set; }
-      public string ReceptionistNotes { get; set; }
-      public string NurseNotes { get; set; }
-      public string DoctorNotes { get; set; }
-
-      public override string ToString(){
-        return "Date: " + ApptDate +
-               "\n Cost: $" + Cost +
-               "\n Receptionist Notes: " + ReceptionistNotes +
-               "\n Nurse Notes: " + NurseNotes +
-               "\n Doctor Notes: " + DoctorNotes + "\n\n\n";    
-      }
     }
   }
 }

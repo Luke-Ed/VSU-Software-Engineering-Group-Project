@@ -4,12 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="PatientView" Height="802" Width="700" WindowStartupLocation="CenterScreen" Background="#ADD8E6"
+        Title="PatientView" Height="800" Width="700" WindowStartupLocation="CenterScreen" Background="#ADD8E6"
         MinWidth="600" MinHeight="700">
     <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Margin="8,25,8,46" Width="668" Height="688">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="333*"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="10*" />
@@ -19,12 +19,12 @@
             <RowDefinition Height="347*" />
         </Grid.RowDefinitions>
 
-        <Image x:Name="Logo" Height="28" Margin="257.958,30,242,30" VerticalAlignment="Center"
+        <Image x:Name="Logo" Height="28" VerticalAlignment="Center"
            Source="App_Resources/EdmondsonInternalMedicine.png" RenderTransformOrigin="-0.142,-0.164" HorizontalAlignment="Center"
            Width="166" Grid.Row="1" Grid.Column="1" />
 
         <Label x:Name="WelcomeLabel" Content="Welcome to Edmondson Internal Medicine!" HorizontalAlignment="Center"
-           Margin="159.958,16,130,15" Grid.Row="2" VerticalAlignment="Center" Grid.Column="1" />
+           Margin="0" Grid.Row="2" VerticalAlignment="Center" Grid.Column="1" />
 
         <Grid x:Name="AppointmentsGrid" HorizontalAlignment="Left" Height="347" VerticalAlignment="Top" Width="590"
           Grid.Row="4" Visibility="Hidden" Grid.ColumnSpan="2">
@@ -35,15 +35,15 @@
         <ScrollViewer x:Name="PrescriptionScrollViewer" VerticalScrollBarVisibility="Auto"
                   HorizontalScrollBarVisibility="Auto" Margin="-10,0,0,0" Grid.Row="4" Grid.ColumnSpan="2"/>
 
-        <Button x:Name="LogOutButton" Content="Log Out" HorizontalAlignment="Center" Height="26" Margin="292.958,0,296,-36"
-            Grid.Row="4" VerticalAlignment="Bottom" Width="77" Click="LogOutButton_Click" Grid.Column="1" FontSize="14" />
+        <Button x:Name="LogOutButton" Content="Log Out" HorizontalAlignment="Center" Height="26" Margin="0,0,0,12"
+            Grid.Row="4" VerticalAlignment="Bottom" Width="78" Click="LogOutButton_Click" Grid.Column="1" FontSize="14" />
 
         <Grid x:Name="WelcomeGrid" Height="363" VerticalAlignment="Top" Grid.Row="4"
           Visibility="Visible" Grid.ColumnSpan="2">
             <ListBox x:Name="AppointmentList" HorizontalAlignment="Left" Height="363" Margin="10,0,0,0" VerticalAlignment="Top" Width="648" SelectionChanged="AppointmentList_SelectionChanged"/>
             <ListBox x:Name="PrescriptionList" HorizontalAlignment="Left" Margin="10,0,0,0" Width="648" Visibility="Hidden"/>
         </Grid>
-        <Label x:Name="InfoLabel" Content="Select an appointment to view its prescriptions." HorizontalAlignment="Center" Margin="150.958,33,130,35" Grid.Row="3" VerticalAlignment="Center" RenderTransformOrigin="0.106,-0.27" Width="385" Grid.Column="1"/>
+        <Label x:Name="InfoLabel" Content="Select an appointment to view its prescriptions." HorizontalAlignment="Center" Margin="0" Grid.Row="3" VerticalAlignment="Center" RenderTransformOrigin="0.106,-0.27" Width="385" Grid.Column="1"/>
         <Button x:Name="GoBackButton" Content="Return to Appointments" RenderTransformOrigin="1.797,0.906" Grid.Column="1" Margin="258,380,242,11" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Width="166" Click="GoBackButton_Click" Visibility="Hidden"/>
 
     </Grid>
