@@ -242,8 +242,8 @@ namespace Project_2_EMS {
             using (SqlConnection connection = dbConn.ConnectToDatabase())
             {
                 SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
-                cmd.Parameters.Add("@firstName", SqlDbType.Text).Value = findFirstName;
-                cmd.Parameters.Add("@lastName", SqlDbType.Text).Value = findLastName;
+                cmd.Parameters.Add("@firstName", SqlDbType.Text).Value = findFirstName.Trim(' ');
+                cmd.Parameters.Add("@lastName", SqlDbType.Text).Value = findLastName.Trim(' ');
 
                 try
                 {

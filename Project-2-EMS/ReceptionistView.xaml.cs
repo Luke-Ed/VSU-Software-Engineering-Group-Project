@@ -154,7 +154,7 @@ namespace Project_2_EMS
             }
         }
 
-        private void GetPatient(int patId)
+        private void GetPatientById(int patId)
         {
             ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
             string query = rcsql.PatientIdQuerier();
@@ -191,6 +191,50 @@ namespace Project_2_EMS
             }
         }
 
+        private Patient GetPatientByName()
+        {
+            Patient patient = null;
+
+            string findFirstName = BillingFirstNameTb.Text;
+            string findLastName = BillingLastNameTb.Text;
+
+            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
+            string query = rcsql.PatientNameExactQuerier();
+
+            DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
+
+            using (SqlConnection connection = dbConn.ConnectToDatabase())
+            {
+                SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
+                cmd.Parameters.Add("@firstName", SqlDbType.Text).Value = findFirstName.Trim(' ');
+                cmd.Parameters.Add("@lastName", SqlDbType.Text).Value = findLastName.Trim(' ');
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader dataReader = cmd.ExecuteReader();
+
+                    while (dataReader.Read())
+                    {
+                        int patientId = dataReader.GetInt32(0);
+                        string lastName = dataReader.GetString(1);
+                        string firstName = dataReader.GetString(2);
+                        string address = dataReader.GetString(3);
+                        Decimal balance = dataReader.GetDecimal(4);
+
+                        patient = new Patient(patientId, firstName, lastName, address, balance);
+                    }
+
+                    dataReader.Close();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Error reading from database.");
+                }
+            }
+            return patient;
+        }
+
         private void PopulateSignInView()
         {
             ClearSigninView();
@@ -219,6 +263,31 @@ namespace Project_2_EMS
             }
         }
 
+        private void UpdateDbPatientBalance(int visitId, decimal cost)
+        {
+            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
+            string query = rcsql.UpdatePatientBalance();
+
+            DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
+
+            using (SqlConnection connection = dbConn.ConnectToDatabase())
+            {
+                SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
+                cmd.Parameters.Add("@cost", SqlDbType.Decimal).Value = cost;
+                cmd.Parameters.Add("@visitId", SqlDbType.Int).Value = visitId;
+
+                try
+                {
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error when attempting to update patient balance.");
+                }
+            }
+        }
+
         private void ClearSigninView()
         {
             foreach (Label label in SignInVisitId.Children) { label.Content = String.Empty; }
@@ -233,7 +302,7 @@ namespace Project_2_EMS
 
             foreach (PatientAppointment pa in appointments)
             {
-                GetPatient(pa.PatientId);
+                GetPatientById(pa.PatientId);
             }
 
             foreach (PatientAppointment appt in appointments)
@@ -415,6 +484,45 @@ namespace Project_2_EMS
                     newApptWindow = new NewAppointmentWindow(recView, timeLabel, date);
                     newApptWindow.Show();
                 }
+            }
+        }
+
+        private void SearchPatientBtn_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateBillingInformation();
+        }
+
+        private void UpdateBillingInformation()
+        {
+            Patient patient = GetPatientByName();
+
+            if (patient != null)
+            {
+                BillingPatient.Content = patient.FirstName + " " + patient.LastName;
+                BillingPatientId.Content = patient.PatientId;
+
+                string balance = string.Format("{0:N2}", patient.Balance);
+
+                BillingPatientBalance.Content = balance;
+                BillingOwedAmount.Content = balance;
+            }
+        }
+
+        private void ClearPatientBillingBtn_Click(object sender, RoutedEventArgs e)
+        {
+            BillingFirstNameTb.Text = String.Empty;
+            BillingLastNameTb.Text = String.Empty;
+            BillingPatient.Content = String.Empty;
+            BillingPatientId.Content = String.Empty;
+            BillingPatientBalance.Content = String.Empty;
+            BillingOwedAmount.Content = String.Empty;
+        }
+
+        private void PayPatientBillingBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (BillingPatientId.Content.ToString() != String.Empty)
+            {
+                //BillingPayAmount;
             }
         }
     }
