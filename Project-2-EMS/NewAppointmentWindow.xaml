@@ -181,7 +181,7 @@
 
             <Button Grid.Row="3" Grid.Column="0" Content="Search" Height="30" Width="100" VerticalAlignment="Bottom" Background="#FF26282C" FontSize="18" Click="SearchBtn_Click" />
 
-            <DataGrid Grid.Row="4" Grid.ColumnSpan="2" Margin="12" AutoGenerateColumns="False" CanUserResizeRows="False" Background="#FF26282C" >
+            <DataGrid Grid.Row="4" Grid.ColumnSpan="2" Margin="12" AutoGenerateColumns="False" CanUserResizeRows="False" Background="#FF26282C" Name="ExistingPatients_Dg">
                 <DataGrid.Columns >
                     <DataGridTextColumn Header="Id" Width="50" CanUserResize="False" CanUserReorder="False" Binding="{Binding PatientId, Mode=OneWay}"/>
                     <DataGridTextColumn Header="Last Name" Width="100" CanUserResize="False" CanUserReorder="False" Binding="{Binding LastName, Mode=OneWay}" />

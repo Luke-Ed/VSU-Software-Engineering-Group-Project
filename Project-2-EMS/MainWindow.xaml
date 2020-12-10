@@ -37,10 +37,10 @@
 
       <Label Grid.Row="1" Grid.Column="1" Content="Staff Login" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" FontWeight="Bold"/>
       <TextBox Grid.Row="3" Grid.Column="1" Name="Staff_TbUsername" Text="Username" Width="300" Height="40"
-               VerticalAlignment="Center" VerticalContentAlignment="Center" />
+               VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="10"/>
 
       <PasswordBox Grid.Row="4" Grid.Column="1" Width="300" Height="40" VerticalAlignment="Center"
-                   VerticalContentAlignment="Center" Name="Staff_TbPassword"/>
+                   VerticalContentAlignment="Center" Name="Staff_TbPassword" Padding="10"/>
 
       <Button Content="Login" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="5" Grid.Column="1"
               Click="StaffLoginButton_Click" Height="30" Width="50"/>
@@ -68,10 +68,10 @@
 
       
       <TextBox Grid.Row="3" Grid.Column="1" Name="Patient_TbUsername" Text="Username" Width="300" Height="40"
-               VerticalAlignment="Center" VerticalContentAlignment="Center" />
+               VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="10"/>
 
       <PasswordBox Grid.Row="4" Grid.Column="1" Width="300" Height="40" VerticalAlignment="Center"
-                   VerticalContentAlignment="Center" Name="Patient_TbPassword"/>
+                   VerticalContentAlignment="Center" Name="Patient_TbPassword" Padding="10"/>
 
       <Button Grid.Row="5" Grid.Column="1" Content="Login" HorizontalAlignment="Center" VerticalAlignment="Center"
               Click="PatientLoginButton_Click" Height="30" Width="50"/>

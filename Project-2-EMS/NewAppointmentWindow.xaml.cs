@@ -9,16 +9,16 @@ using System.Data.SqlClient;
 
 using Project_2_EMS.App_Code;
 using System.ComponentModel;
-using System.Threading.Tasks;
 
 namespace Project_2_EMS {
-
-    public partial class NewAppointmentWindow {
-        private ReceptionistView parentWindow;
+  public partial class NewAppointmentWindow {
+        private readonly ReceptionistView parentWindow;
         private DateTime apptDate;
         private Label apptTime;
         private int visitId;
         private Grid patientInfoPage;
+        private readonly SharedSqlHandler sharedSqlHandler = new SharedSqlHandler();
+        private readonly ReceptionSqlHandler receptionSqlHandler = new ReceptionSqlHandler();
 
         public NewAppointmentWindow(ReceptionistView parent, Label timeLabel, DateTime date) {
             InitializeComponent();
@@ -31,7 +31,7 @@ namespace Project_2_EMS {
             Closing += OnWindowClosing;
         }
 
-        public NewAppointmentWindow(ReceptionistView parent, int Id, string firstName, string lastName, string receptNote, Label timeLabel, DateTime date)
+        public NewAppointmentWindow(ReceptionistView parent, int id, string firstName, string lastName, string receptNote, Label timeLabel, DateTime date)
         {
             InitializeComponent();
             InitializeAppointmentInfo(firstName, lastName, receptNote);
@@ -39,32 +39,29 @@ namespace Project_2_EMS {
 
             ViewApptPage.Visibility = Visibility.Visible;
 
-            visitId = Id;
+            visitId = id;
             parentWindow = parent;
             Closing += OnWindowClosing;
         }
 
-        private void OnWindowClosing(object sender, CancelEventArgs e)
-        {
+        private void OnWindowClosing(object sender, CancelEventArgs e) {
             parentWindow.UpdateReceptionistView();
         }
 
-        private void InitializeAppointmentDateTime(Label timeLabel, DateTime date)
-        {
+        private void InitializeAppointmentDateTime(Label timeLabel, DateTime date) {
             ApptDate.Content = String.Format("{0} | {1}", date.ToString("ddd dd, yyyy"), timeLabel.Content);
             apptDate = date;
             apptTime = timeLabel;
         }
 
-        private void InitializeAppointmentInfo(string firstName, string lastName, string receptNote)
-        {
+        private void InitializeAppointmentInfo(string firstName, string lastName, string receptNote) {
             ViewApptFirstName.Content = firstName;
             ViewApptLastName.Content = lastName;
             ViewApptNotes.Text = receptNote;
         }
 
         private void InitializeComboBox() {
-            String[] states = new String[] { "Alabama, AL", "Alaska, AK", "Arizona, AZ", "Arkansas, AR", "California, CA", "Colorado, CO", "Connecticut, CT",
+            String[] states = { "Alabama, AL", "Alaska, AK", "Arizona, AZ", "Arkansas, AR", "California, CA", "Colorado, CO", "Connecticut, CT",
                                              "Delaware, DE", "Florida, FL", "Georgia, GA", "Hawaii, HI", "Idaho, ID", "Illinois, IL", "Indiana, IN", "Iowa, IA",
                                              "Kansas, KS", "Kentucky, KY", "Louisiana, LA", "Maine, ME", "Maryland, MD", "Massachusetts, MA", "Michigan, MI",
                                              "Minnesota, MN", "Mississippi, MS", "Missouri, MO", "Montana, MT", "Nebraska, NE", "Nevada, NV", "New Hampshire, NH",
@@ -94,12 +91,10 @@ namespace Project_2_EMS {
             return isValid;
         }
 
-        private Boolean IsPatientSelected()
-        {
+        private Boolean IsPatientSelected() {
             Boolean isValid = true;
 
-            foreach (UIElement child in patientInfoPage.Children)
-            {
+            foreach (UIElement child in patientInfoPage.Children) {
                 _ = child as DataGrid != null ? (child as DataGrid).SelectedIndex < 0 ? isValid = false : true : true;
             }
 
@@ -147,42 +142,34 @@ namespace Project_2_EMS {
             _ = patientInfoPage == NewPatientPage ? NewAppointmentNewPatient() : NewAppointmentExistingPatient();
         }
 
-        private Boolean NewAppointmentNewPatient()
-        {
-            if (ValidNewPatientInfo())
-            {
+        private Boolean NewAppointmentNewPatient() {
+            if (ValidNewPatientInfo()) {
                 patientInfoPage.Visibility = Visibility.Hidden;
                 NewAppointmentPage.Visibility = Visibility.Visible;
 
                 FillNewAppointmentInfo();
             }
-            else
-            {
+            else {
                 MessageBox.Show("One or more fields are filled out incorrectly.");
             }
             return true;
         }
 
-        private Boolean NewAppointmentExistingPatient()
-        {
-            if (IsPatientSelected())
-            {
+        private Boolean NewAppointmentExistingPatient() {
+            if (IsPatientSelected()) {
                 patientInfoPage.Visibility = Visibility.Hidden;
                 NewAppointmentPage.Visibility = Visibility.Visible;
 
                 FillNewAppointmentInfo();
             }
-            else
-            {
+            else {
                 MessageBox.Show("No patient selected, please select a patient before continuing.");
             }
             return true;
         }
 
-        private void FillNewAppointmentInfo()
-        {
-            if (patientInfoPage == NewPatientPage)
-            {
+        private void FillNewAppointmentInfo() {
+            if (patientInfoPage == NewPatientPage) {
                 FirstNameLabel.Content = NewFirstNameTb.Text;
                 LastNameLabel.Content = NewLastNameTb.Text;
 
@@ -190,20 +177,18 @@ namespace Project_2_EMS {
                 string address = String.Format("{0}, {1}, {2} {3}", StreetTb.Text, CityTb.Text, state, ZipTb.Text);
                 AddressLabel.Content = address;
             }
-            else
-            {
-                DataGrid patientDataGrid = GetDataGrid();
-                Patient patient = (Patient)patientDataGrid.SelectedItem;
+            else {
+              DataGrid patientDataGrid = ExistingPatients_Dg;
+              Patient patient = (Patient)patientDataGrid.SelectedItem;
 
-                FirstNameLabel.Content = patient.FirstName;
-                LastNameLabel.Content = patient.LastName;
-                AddressLabel.Content = patient.Address;
+              FirstNameLabel.Content = patient.FirstName;
+              LastNameLabel.Content = patient.LastName;
+              AddressLabel.Content = patient.Address;
             }
         }
 
-        private void SearchBtn_Click(object sender, RoutedEventArgs e)
-        {
-            DataGrid patientDataGrid = GetDataGrid();
+        private void SearchBtn_Click(object sender, RoutedEventArgs e) {
+          DataGrid patientDataGrid = ExistingPatients_Dg; 
 
             patientDataGrid.ItemsSource = null;
             patientDataGrid.Items.Refresh();
@@ -211,47 +196,28 @@ namespace Project_2_EMS {
             PopulateDataGrid(patientDataGrid);
         }
 
-        private DataGrid GetDataGrid()
-        {
-            DataGrid dataGrid = new DataGrid();
-            foreach (UIElement child in ExistingPatientPage.Children)
-            {
-                if (child as DataGrid != null)
-                {
-                    dataGrid = (child as DataGrid);
-                    break;
-                }
-            }
-            return dataGrid;
-        }
-
-        private void PopulateDataGrid(DataGrid patientDataGrid)
-        {
+        private void PopulateDataGrid(DataGrid patientDataGrid) {
             List<Patient> patients = new List<Patient>();
 
-            string findFirstName = FirstNameExistingTextbox.Text.ToString();
-            string findLastName = LastNameExistingTextbox.Text.ToString();
+            string findFirstName = FirstNameExistingTextbox.Text;
+            string findLastName = LastNameExistingTextbox.Text;
 
             _ = findFirstName == String.Empty && findLastName == String.Empty ? (findFirstName = "%%", findLastName = "%%") : (null, null);
 
-            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
-            string query = rcsql.PatientNameQuerier();
+            string query = sharedSqlHandler.PatientNameQuerier();
 
             DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
 
-            using (SqlConnection connection = dbConn.ConnectToDatabase())
-            {
+            using (SqlConnection connection = dbConn.ConnectToDatabase()) {
                 SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
                 cmd.Parameters.Add("@firstName", SqlDbType.Text).Value = findFirstName.Trim(' ');
                 cmd.Parameters.Add("@lastName", SqlDbType.Text).Value = findLastName.Trim(' ');
 
-                try
-                {
+                try {
                     connection.Open();
                     SqlDataReader dataReader = cmd.ExecuteReader();
 
-                    while (dataReader.Read())
-                    {
+                    while (dataReader.Read()) {
                         int patientId = dataReader.GetInt32(0);
                         string lastName = dataReader.GetString(1);
                         string firstName = dataReader.GetString(2);
@@ -264,15 +230,13 @@ namespace Project_2_EMS {
                     dataReader.Close();
                     patientDataGrid.ItemsSource = patients;
                 }
-                catch (Exception e)
-                {
+                catch (Exception) {
                    MessageBox.Show("Error reading from database.");
                 }
             }
         }
 
-        private void ConfirmBtn_Click(object sender, RoutedEventArgs e)
-        {
+        private void ConfirmBtn_Click(object sender, RoutedEventArgs e) {
             int patientId = GeneratePatientId();
             int visitId = GenerateVisitId();
 
@@ -281,54 +245,46 @@ namespace Project_2_EMS {
                 string appointmentTime = apptTime.Content.ToString().Trim(' ', 'A', 'P', 'M');
                 TimeSpan time = TimeSpan.Parse(appointmentTime);
 
-                if (apptTime.Content.ToString().Contains("PM") && apptTime.Content.ToString() != "12:00 PM")
-                {
+                if (apptTime.Content.ToString().Contains("PM") && apptTime.Content.ToString() != "12:00 PM") {
                     time = time.Add(TimeSpan.FromHours(12));
                 }
 
                 string receptNote = ReceptionNotesTb.Text;
 
-                if (receptNote != String.Empty)
-                {
-                    if (patientInfoPage == NewPatientPage)
-                    {
+                if (receptNote != String.Empty) {
+                    if (patientInfoPage == NewPatientPage) {
                         string firstName = FirstNameLabel.Content.ToString();
                         string lastName = LastNameLabel.Content.ToString();
                         string address = AddressLabel.Content.ToString();
 
-                        Patient patient = new Patient(patientId, firstName, lastName, address, (decimal)0.0);
+                        Patient patient = new Patient(patientId, firstName, lastName, address);
                         PatientAppointment appointment = new PatientAppointment(visitId, patientId, apptDate, time, (decimal)50, receptNote, "", "");
 
                         ConfirmNewPatientAndAppointment(patient, appointment);
                     }
-                    else if (patientInfoPage == ExistingPatientPage)
-                    {
-                        DataGrid patientDataGrid = GetDataGrid();
-                        Patient patient = (Patient)patientDataGrid.SelectedItem;
-                        PatientAppointment appointment = new PatientAppointment(visitId, patient.PatientId, apptDate, time, (decimal)50, receptNote, "", "");
+                    else if (patientInfoPage == ExistingPatientPage) {
+                      DataGrid patientDataGrid = ExistingPatients_Dg;
+                      Patient patient = (Patient)patientDataGrid.SelectedItem;
+                      PatientAppointment appointment = new PatientAppointment(visitId, patient.PatientId, apptDate, time, (decimal)50, receptNote, "", "");
 
                         ConfirmNewAppointment(appointment);
                     }
                 }
-                else
-                {
+                else {
                     MessageBox.Show("Please fill out the reason for this visit.");
                 }
             }
-            else
-            {
+            else {
                 MessageBox.Show("An error occurred when trying to generate Id's");
             }            
         }
 
-        private void ConfirmNewAppointment(PatientAppointment appointment)
-        {
+        private void ConfirmNewAppointment(PatientAppointment appointment) {
             MessageBoxResult result = MessageBox.Show("Confirm new appointment?", "Appointment Confirmation", MessageBoxButton.YesNo);
 
-            switch (result)
-            {
+            switch (result) {
                 case MessageBoxResult.Yes:
-                    AddNewAppointmentToDB(appointment);
+                    AddNewAppointmentToDb(appointment);
                     UpdateDbPatientBalance(appointment.VisitId, appointment.Cost);
                     this.Close();
                     break;
@@ -344,20 +300,18 @@ namespace Project_2_EMS {
             switch (result)
             {
                 case MessageBoxResult.Yes:
-                    AddNewPatientToDB(patient);
-                    AddNewAppointmentToDB(appointment);
+                    AddNewPatientToDb(patient);
+                    AddNewAppointmentToDb(appointment);
                     UpdateDbPatientBalance(appointment.VisitId, appointment.Cost);
-                    this.Close();
+                    Close();
                     break;
                 case MessageBoxResult.No:
                     break;
             }
         }
 
-        private void AddNewPatientToDB(Patient patient)
-        {
-            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
-            string query = rcsql.AddNewPatientToDb();
+        private void AddNewPatientToDb(Patient patient) {
+          string query = receptionSqlHandler.AddNewPatientToDb();
 
             DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
 
@@ -382,15 +336,12 @@ namespace Project_2_EMS {
             }
         }
 
-        private void AddNewAppointmentToDB(PatientAppointment appointment)
-        {
-            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
-            string query = rcsql.AddNewAppointmentToDb();
+        private void AddNewAppointmentToDb(PatientAppointment appointment) {
+          string query = receptionSqlHandler.AddNewAppointmentToDb();
 
             DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
 
-            using (SqlConnection connection = dbConn.ConnectToDatabase())
-            {
+            using (SqlConnection connection = dbConn.ConnectToDatabase()) {
                 SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
                 cmd.Parameters.Add("@visitId", SqlDbType.Int).Value = appointment.VisitId;
                 cmd.Parameters.Add("@patientId", SqlDbType.Int).Value = appointment.PatientId;
@@ -401,38 +352,31 @@ namespace Project_2_EMS {
                 cmd.Parameters.Add("@nurseNote", SqlDbType.Text).Value = appointment.NurseNote;
                 cmd.Parameters.Add("@doctorNote", SqlDbType.Text).Value = appointment.DoctorNote;
 
-                try
-                {
+                try {
                     connection.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch (Exception e)
-                {
+                catch (Exception) {
                     MessageBox.Show("Error when attempting to add new appointment to database.");
                 }
             }
         }
 
-        private void UpdateDbPatientBalance(int visitId, decimal cost)
-        {
-            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
-            string query = rcsql.UpdatePatientBalanceNewAppointment();
+        private void UpdateDbPatientBalance(int visitId, decimal cost) {
+          string query = receptionSqlHandler.UpdatePatientBalanceNewAppointment();
 
             DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
 
-            using (SqlConnection connection = dbConn.ConnectToDatabase())
-            {
+            using (SqlConnection connection = dbConn.ConnectToDatabase()) {
                 SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
                 cmd.Parameters.Add("@cost", SqlDbType.Decimal).Value = cost;
                 cmd.Parameters.Add("@visitId", SqlDbType.Int).Value = visitId;
 
-                try
-                {
+                try {
                     connection.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception) {
                     MessageBox.Show("Error when attempting to update patient balance.");
                 }
             }
@@ -443,60 +387,49 @@ namespace Project_2_EMS {
           patientInfoPage.Visibility = Visibility.Visible;
         }
 
-        private void CloseApptView_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
+        private void CloseApptView_Click(object sender, RoutedEventArgs e) {
+            Close();
         }
 
-        private int GeneratePatientId()
-        {
+        private int GeneratePatientId() {
             int patientId = 0;
 
-            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
-            string query = rcsql.NumberOfPatientsQuerier();
+            string query = sharedSqlHandler.NumberOfPatientsQuerier();
 
             DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
 
-            using (SqlConnection connection = dbConn.ConnectToDatabase())
-            {
+            using (SqlConnection connection = dbConn.ConnectToDatabase()) {
                 SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
 
-                try
-                {
+                try {
                     connection.Open();
                     SqlDataReader dataReader = cmd.ExecuteReader();
 
-                    while (dataReader.Read())
-                    {
+                    while (dataReader.Read()) {
                         patientId = dataReader.GetInt32(0);
                     }
                     dataReader.Close();
 
                     return (patientId + 1);
                 }
-                catch (Exception e)
-                {
+                catch (Exception) {
                     MessageBox.Show("Error reading from database.");
                 }
             }
             return patientId - 1;
         }
 
-        private int GenerateVisitId()
-        {
+        private int GenerateVisitId() {
             int VisitId = 0;
-
-            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
-            string query = rcsql.NumberOfAppointmentsQuerier();
+            
+            string query = sharedSqlHandler.NumberOfAppointmentsQuerier();
 
             DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
 
-            using (SqlConnection connection = dbConn.ConnectToDatabase())
-            {
+            using (SqlConnection connection = dbConn.ConnectToDatabase()) {
                 SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
 
-                try
-                {
+                try {
                     connection.Open();
                     SqlDataReader dataReader = cmd.ExecuteReader();
 
@@ -508,8 +441,7 @@ namespace Project_2_EMS {
 
                     return (VisitId + 1);
                 }
-                catch (Exception e)
-                {
+                catch (Exception) {
                     MessageBox.Show("Error reading from database.");
                 }
             }
@@ -542,25 +474,22 @@ namespace Project_2_EMS {
 
         private PatientAppointment GetAppointment()
         {
-            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
-            string query = rcsql.AppointmentVisitIdQuerier();
+          
+            string query = sharedSqlHandler.AppointmentQuerier("VisitId");
 
             PatientAppointment appointment = null;
 
             DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
 
-            using (SqlConnection connection = dbConn.ConnectToDatabase())
-            {
+            using (SqlConnection connection = dbConn.ConnectToDatabase()) {
                 SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
                 cmd.Parameters.Add("@visitId", SqlDbType.Int).Value = visitId;
 
-                try
-                {
+                try {
                     connection.Open();
                     SqlDataReader dataReader = cmd.ExecuteReader();
 
-                    while (dataReader.Read())
-                    {
+                    while (dataReader.Read()) {
                         int visitId = dataReader.GetInt32(0);
                         int patientId = dataReader.GetInt32(1);
                         DateTime apptDate = dataReader.GetDateTime(2);
@@ -573,18 +502,15 @@ namespace Project_2_EMS {
                         appointment = new PatientAppointment(visitId, patientId, apptDate, apptTime, cost, receptNote, nurseNote, doctorNote);
                     }
                 }
-                catch (Exception e)
-                {
+                catch (Exception) {
                     MessageBox.Show("Error reading from database.");
                 }
             }
             return appointment;
         }
 
-        private void DeleteAppointment()
-        {
-            ReceptionSqlHandler rcsql = new ReceptionSqlHandler();
-            string query = rcsql.DeleteAppointmentFromDb();
+        private void DeleteAppointment() {
+          string query = receptionSqlHandler.DeleteAppointmentFromDb();
 
             DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
 
@@ -598,8 +524,7 @@ namespace Project_2_EMS {
                     connection.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
+                catch (Exception) {
                     MessageBox.Show("Error when attempting to remove appointment.");
                 }
             }
