@@ -16,5 +16,14 @@ namespace Project_2_EMS.App_Code
 
             return query;
         }
+
+        public string PerscriptionQuerier()
+        {
+            string query = "SELECT * " +
+                           "FROM Precription " +
+                           "WHERE PatientID = @ ";
+
+            return query;
+        }
     }
 }
