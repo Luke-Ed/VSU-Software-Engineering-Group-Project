@@ -97,9 +97,10 @@
 
                 </Grid>
                 <Grid Grid.Row="1">
-                    <Label Content="First Name" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="24" Height="43" Margin="0,5,0,50"/>
-                    <Label Content="Last Name" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="24" Height="36" Margin="0,30,0,10"/>
-                    <Label Content=""/>
+                    <Label Content="First Name:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="24" Height="43" Margin="0,5,0,50"/>
+                    <Label Content="Last Name:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="24" Height="36" Margin="0,30,0,10"/>
+                    <Label Name= "firstName" FontSize="24" Margin="129,-4,490,32" Content="Name here"/>
+                    <Label Name= "lastName" FontSize="24" Margin="129,32,510,10" Content="Name here"/>
 
 
 
@@ -113,11 +114,18 @@
                 </Grid>
 
                 <Grid Grid.Row="3">
-                    <Label Content="Percriptions" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <Label Content="Percriptions" FontSize="24" VerticalAlignment="Center" Height="134" Margin="300,-38,427,54"/>
+                    <DataGrid Margin="15,10,15,15" AutoGenerateColumns="False" FontSize="20">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id" Width="150" CanUserResize="False" Binding="{Binding PerscriptionID, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Name" Width="150" CanUserResize="False" Binding="{Binding PerscriptionName, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Dosage" Width="150" CanUserResize="False" Binding="{Binding PerscriptionDosage, Mode=OneWay}" />
+                            <DataGridTextColumn Header="Refills" Width="150" CanUserResize="False" Binding="{Binding PerscriptionDosage, Mode=OneWay}" />
+                        </DataGrid.Columns>
 
-                    <ListBox HorizontalAlignment="Left" Height="130" Margin="140,10,0,0" VerticalAlignment="Top" Width="720">
-                        
-                    </ListBox>
+
+                    </DataGrid>
+
 
 
                 </Grid>
@@ -130,11 +138,12 @@
                     <TextBox Name="PrescriptionName_Text" Margin="225,35,345,85" FontSize="24"/>
                     <TextBox Name="PrescriptionDosage_Text" Margin="225,70,345,50" FontSize="24"/>
                     <TextBox Name="PrescriptionRefills_Text" Margin="225,105,345,15" FontSize="24"/>
+                    <Button Margin="588,45,108,50" Content="Add" FontSize="32" Click="AddPerscription_Click"/>
 
                 </Grid>
                 <Grid Grid.Row="5">
                     <Label Content="Doctors Note" FontSize="30" HorizontalAlignment="Center"/>
-                    <TextBox Name="DoctorNote_Text" Margin="5,50,5,5"/>
+                    <TextBox Name="DoctorNote_Text" Margin="5,50,5,5" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"/>
 
                 </Grid>
 

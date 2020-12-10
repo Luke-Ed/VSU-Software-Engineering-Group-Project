@@ -18,6 +18,7 @@ using Project_2_EMS.App_Code;
 using System.Data.SqlClient;
 using System.Data;
 
+
 namespace Project_2_EMS
 {
     /// <summary>
@@ -94,7 +95,7 @@ namespace Project_2_EMS
 
                         Patient patient = new Patient(patientId, lastName, firstName, address, balance);
                         patients.Add(patient);
-                        MessageBox.Show("It Worked!!!!!!!!!!!!");
+                       
                     }
                 }
                 catch (Exception ex)
@@ -126,6 +127,13 @@ namespace Project_2_EMS
 
 
             }
+
+
+
+        }
+
+        private void AddPerscription_Click(object sender, RoutedEventArgs e)
+        {
 
 
 
