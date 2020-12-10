@@ -57,13 +57,13 @@
                 <Label Grid.Row="0" Grid.Column="0" Content="First Name" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="32" Margin="0,0,0,5" />
                 <Label Grid.Row="1" Grid.Column="0" Content="Last Name" VerticalAlignment="Top" HorizontalAlignment="Right" FontSize="32"  />
 
-                <TextBox Name="First_Name" Grid.Row="0" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="45"  Width="300" Margin="10,0,0,5" MaxLength="15" FontSize="30"/>
-                <TextBox Name="Last_Name" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Height="45"  Width="300" Margin="10,5,0,0" MaxLength="15" FontSize="30"/>
+                <TextBox Name="FirstName_Tb" Grid.Row="0" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="45"  Width="300" Margin="10,0,0,5" MaxLength="15" FontSize="30"/>
+                <TextBox Name="LastName_Tb" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Height="45"  Width="300" Margin="10,5,0,0" MaxLength="15" FontSize="30"/>
 
                 <Button Content="Search" Grid.Column="1" Margin="358,47,43,47" Grid.RowSpan="2" FontSize="32" Click="SearchBtn_Click"/>
 
             </Grid>
-            <DataGrid Grid.Row="2" Margin="15" AutoGenerateColumns="False" FontSize="20">
+            <DataGrid Grid.Row="2" Margin="15" AutoGenerateColumns="False" FontSize="20" Name="PatientLookup_Dg">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Id" Width="75" CanUserResize="False" Binding="{Binding PatientId, Mode=OneWay}"/>
                     <DataGridTextColumn Header="Last Name" Width="150" CanUserResize="False" Binding="{Binding LastName, Mode=OneWay}" />
@@ -99,8 +99,8 @@
                 <Grid Grid.Row="1">
                     <Label Content="First Name:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="24" Height="43" Margin="0,5,0,50"/>
                     <Label Content="Last Name:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="24" Height="36" Margin="0,30,0,10"/>
-                    <Label Name= "firstName" FontSize="24" Margin="129,-4,490,32" Content=""/>
-                    <Label Name= "lastName" FontSize="24" Margin="129,32,510,10" Content=""/>
+                    <Label Name= "firstName_Lbl" FontSize="24" Margin="129,-4,490,32" Content=""/>
+                    <Label Name= "lastName_Lbl" FontSize="24" Margin="129,32,510,10" Content=""/>
 
 
 
@@ -110,14 +110,14 @@
                 <Grid Grid.Row="2">
                     <Label Content="Patient ID:" FontSize="24" Margin="0,0,0,0"  />
                     <Label Content="Address:" FontSize="24" Margin="0,30,0,10" />
-                    <Label Name= "patientID" FontSize="24" Margin="129,-4,490,32" Content=""/>
-                    <Label Name= "address" FontSize="24" Margin="129,32,510,10" Content=""/>
+                    <Label Name= "patientID_Lbl" FontSize="24" Margin="129,-4,490,32" Content=""/>
+                    <Label Name= "address_Lbl" FontSize="24" Margin="129,32,510,10" Content=""/>
 
                 </Grid>
 
-                <Grid Grid.Row="3" Name="PrescriptionDataGridParent">
-                    <Label Content="Percriptions" FontSize="24" VerticalAlignment="Center" Height="134" Margin="300,-38,427,54"/>
-                    <DataGrid Margin="15,10,15,15" AutoGenerateColumns="False" FontSize="20">
+                <Grid Grid.Row="3">
+                    <Label Content="Prescriptions" FontSize="24" VerticalAlignment="Center" Height="134" Margin="300,-38,427,54"/>
+                    <DataGrid Margin="15,10,15,15" AutoGenerateColumns="False" FontSize="20" Name="Prescription_Dg">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Id" Width="150" CanUserResize="False" Binding="{Binding PrescriptionID, Mode=OneWay}"/>
                             <DataGridTextColumn Header="Name" Width="150" CanUserResize="False" Binding="{Binding PrescriptionName, Mode=OneWay}" />
@@ -135,9 +135,9 @@
                     <Label Content="Prescription Name:" FontSize="24" Margin="0,35,0,0"/>
                     <Label Content="Prescription Notes:" FontSize="24" Margin="0,65,0,0"/>
                     <Label Content="Prescription Refills:" FontSize="24" Margin="0,100,0,0"/>
-                    <TextBox Name="PrescriptionName_Text" Margin="225,35,345,85" FontSize="24" MaxLength="25"/>
-                    <TextBox Name="PrescriptionNotes_Text" Margin="225,70,345,50" FontSize="24" MaxLength="50"/>
-                    <TextBox Name="PrescriptionRefills_Text" Margin="225,105,345,15" FontSize="24" MaxLength="1"/>
+                    <TextBox Name="PrescriptionName_Tb" Margin="225,35,345,85" FontSize="24" MaxLength="25"/>
+                    <TextBox Name="PrescriptionNotes_Tb" Margin="225,70,345,50" FontSize="24" MaxLength="50"/>
+                    <TextBox Name="PrescriptionRefills_Tb" Margin="225,105,345,15" FontSize="24" MaxLength="1"/>
                     <Button Margin="588,45,108,50" Content="Add" FontSize="32" Click="AddPerscription_Click"/>
 
                 </Grid>

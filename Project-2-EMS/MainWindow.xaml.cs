@@ -21,8 +21,8 @@ namespace Project_2_EMS {
       Hide();
     }
 
-    private void MoveToReceptionView() {
-      Window receptionWindow = new ReceptionistView(this);
+    private void MoveToReceptionView(StaffMember staffMember) {
+      Window receptionWindow = new ReceptionistView(this, staffMember.FirstName);
       receptionWindow.Show();
       Hide();
     }
@@ -76,7 +76,7 @@ namespace Project_2_EMS {
             if (staffMember.Password.Equals(password)) {
               switch (staffMember.AccessLevel) {
                 case 1:
-                  MoveToReceptionView();
+                  MoveToReceptionView(staffMember);
                   break;
                 case 2:
                   MoveToNurseView();
