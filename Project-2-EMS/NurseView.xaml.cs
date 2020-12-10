@@ -53,6 +53,18 @@ namespace Project_2_EMS {
       PopulateDataGrid(appointmentDataGrid, "AppointmentLookup", patient);
     }
     
+    private void Lookup_Dg_Appointments_OnSelectionChanged(object sender, SelectionChangedEventArgs e) {
+      PatientAppointment appointment = (PatientAppointment) Lookup_Dg_Appointments.SelectedItem;
+
+      ReceptNote_TA.Text = appointment.ReceptNote;
+      NurseNoteTb.Text = appointment.NurseNote;
+      DoctorNote_TA.Text = appointment.DoctorNote;
+    }
+
+    private void Save_Changes_Button_OnClick(object sender, RoutedEventArgs e) {
+      throw new NotImplementedException();
+    }
+
     private void PopulateDataGrid(DataGrid dataGrid, String filter, Patient patient = null) {
       SqlConnection connection = _dbConnMgr.ConnectToDatabase();
       SqlCommand cmd = new SqlCommand {Connection = connection};
@@ -64,7 +76,7 @@ namespace Project_2_EMS {
           if (patient == null) {
             throw new Exception("No Patient Selected");
           }
-          cmd.CommandText = _sharedSqlHandler.AppointmentQuerier("PatientID");
+          cmd.CommandText = _sharedSqlHandler.AppointmentQuerier("PatientId");
           cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = patient.PatientId;
 
           connection.Open();
@@ -118,6 +130,7 @@ namespace Project_2_EMS {
           throw new Exception("This shouldn't be possible.");
       }
     }
+
 
     
   }
