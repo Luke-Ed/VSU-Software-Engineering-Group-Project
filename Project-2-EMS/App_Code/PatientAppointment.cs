@@ -28,5 +28,13 @@ namespace Project_2_EMS.App_Code
             NurseNote = nurseNote;
             DoctorNote = doctorNote;
         }
+        public override string ToString()
+        {
+            return "Date: " + ApptDate +
+                   "\n Cost: $" + Cost +
+                   "\n Receptionist Notes: " + ReceptNote +
+                   "\n Nurse Notes: " + NurseNote +
+                   "\n Doctor Notes: " + DoctorNote + "\n\n\n";
+        }
     }
 }

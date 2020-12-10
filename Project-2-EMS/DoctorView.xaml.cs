@@ -218,7 +218,7 @@ namespace Project_2_EMS {
         cmd.Parameters.Add("@patientID", SqlDbType.Int).Value = prescription.PatientID;
         cmd.Parameters.Add("@visitID", SqlDbType.Int).Value = prescription.VisitID;
         cmd.Parameters.Add("@prescriptionName", SqlDbType.Text).Value = prescription.PrescriptionName;
-        cmd.Parameters.Add("@prescriptionNotes", SqlDbType.Text).Value = prescription.PresciprtionNotes;
+        cmd.Parameters.Add("@prescriptionNotes", SqlDbType.Text).Value = prescription.PrescriptionNotes;
         cmd.Parameters.Add("@refills", SqlDbType.TinyInt).Value = prescription.Refills;
         
         try {
