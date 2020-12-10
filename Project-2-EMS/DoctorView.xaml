@@ -75,7 +75,7 @@
             </DataGrid>
 
             <Grid Grid.Row="3">
-                <Button  Content="View" Width="80" Height="30" FontSize="24" Click="ViewPatient_Click"/>
+                <Button  Content="View" Width="80" Height="40" FontSize="24" Click="ViewPatient_Click"/>
             </Grid>
 
         </Grid>
@@ -99,8 +99,8 @@
                 <Grid Grid.Row="1">
                     <Label Content="First Name:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="24" Height="43" Margin="0,5,0,50"/>
                     <Label Content="Last Name:" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="24" Height="36" Margin="0,30,0,10"/>
-                    <Label Name= "firstName" FontSize="24" Margin="129,-4,490,32" Content="Name here"/>
-                    <Label Name= "lastName" FontSize="24" Margin="129,32,510,10" Content="Name here"/>
+                    <Label Name= "firstName" FontSize="24" Margin="129,-4,490,32" Content=""/>
+                    <Label Name= "lastName" FontSize="24" Margin="129,32,510,10" Content=""/>
 
 
 
@@ -110,8 +110,8 @@
                 <Grid Grid.Row="2">
                     <Label Content="Patient ID:" FontSize="24" Margin="0,0,0,0"  />
                     <Label Content="Address:" FontSize="24" Margin="0,30,0,10" />
-                    <Label Name= "patientID" FontSize="24" Margin="129,-4,490,32" Content="Name here"/>
-                    <Label Name= "address" FontSize="24" Margin="129,32,510,10" Content="Name here"/>
+                    <Label Name= "patientID" FontSize="24" Margin="129,-4,490,32" Content=""/>
+                    <Label Name= "address" FontSize="24" Margin="129,32,510,10" Content=""/>
 
                 </Grid>
 

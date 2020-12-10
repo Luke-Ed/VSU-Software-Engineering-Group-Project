@@ -27,6 +27,7 @@ namespace Project_2_EMS
     public partial class DoctorView : Window
     {
         private List<Patient> patients = new List<Patient>();
+        private Patient patient;
 
         private readonly Window _parentWindow;
 
@@ -118,12 +119,31 @@ namespace Project_2_EMS
 
         }
 
+
+
         private void ViewPatient_Click(object sender, RoutedEventArgs e)
         {
             if (IsPatientSelected())
             {
                 Patient_Information_Grid.Visibility = Visibility.Hidden;
                 ViewPatientInformation_Grid.Visibility = Visibility.Visible;
+ 
+
+                DataGrid dataGrid = new DataGrid();
+                foreach (UIElement child in Patient_Information_Grid.Children)
+                {
+                    if (child as DataGrid != null)
+                    {
+                        dataGrid = child as DataGrid;
+                    }
+                }
+                patient = (Patient)dataGrid.SelectedItem;
+                firstName.Content = patient.FirstName;
+                lastName.Content = patient.LastName;
+                address.Content = patient.Address;
+                patientID.Content = patient.PatientId;
+
+
 
 
             }
@@ -137,6 +157,44 @@ namespace Project_2_EMS
 
 
 
+        }
+
+        private void PopulatePrecirptionDataGrid(int pID)
+        {
+            DoctorSqlHandler doctorSqlHandler = new DoctorSqlHandler();
+            String query = doctorSqlHandler.PerscriptionQuerier();
+
+            DatabaseConnectionManager dbConn = new DatabaseConnectionManager();
+
+            using (SqlConnection connection = dbConn.ConnectToDatabase())
+            {
+                SqlCommand cmd = new SqlCommand { Connection = connection, CommandText = query };
+                cmd.Parameters.Add("@patientID", SqlDbType.Int).Value = pID;
+                
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader dataReader = cmd.ExecuteReader();
+
+                    while (dataReader.Read())
+                    {
+                        int prescriptionID = dataReader.GetInt32(0);
+                        int patientId = dataReader.GetInt32(1);
+                        int visitID = dataReader.GetInt32(2);
+                        string prescriptionName = dataReader.GetString(3);
+                        string prescriptionNotes = dataReader.GetString(4);
+                        int refills = dataReader.GetInt32(5);
+
+                        
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error reading from database.");
+                }
+            }
         }
     }
 }
